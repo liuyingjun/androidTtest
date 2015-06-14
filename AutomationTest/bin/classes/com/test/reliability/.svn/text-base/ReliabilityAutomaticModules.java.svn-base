@@ -1,0 +1,2701 @@
+
+package com.test.reliability;
+
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.module.alarm.*;
+import com.module.calendar.*;
+import com.module.camera.AbstractCameraFactory;
+import com.module.camera.CameraFactory;
+import com.module.camera.ICamera;
+import com.module.album.AlbumFactory;
+import com.module.album.IAlbum;
+import com.module.common.CommonModule;
+import com.module.email.AbstractEmailFactory;
+import com.module.email.IEmail;
+import com.module.email.EmailFactory;
+import com.module.email.IEmail;
+import com.module.media.IMedia;
+import com.module.media.MediaFactory;
+import com.module.messaging.*;
+import com.module.telephony.AbstractTelephonyFactory;
+import com.module.telephony.ITelephony;
+import com.module.telephony.TelephonyFactory;
+import com.module.contacts.IContacts;
+import com.module.contacts.ContactsFactory;
+import com.module.walkman.*;
+import com.parents.GroupFactories;
+import com.parser.cases.TestDataExtract;
+import com.parser.data.ModuleData;
+import com.parser.data.ModuleDataParser;
+import com.parser.module.PropertyNotFoundException;
+import com.sonyericsson.test.acceptancetest.AcceptanceTestCase;
+import com.test.reliability.BasicUtils;
+import com.utils.CommandConstantsUtils;
+import com.utils.ErrorInfoUtils;
+import com.utils.TestUIWatcher;
+
+import org.xmlpull.v1.XmlPullParserException;
+
+import android.content.ComponentName;
+import android.content.Intent;
+import android.hardware.Camera;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Environment;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
+
+public class ReliabilityAutomaticModules {
+
+    private AcceptanceTestCase testCase;
+
+    private CommonModule commonModule;
+
+    private BasicUtils basicUtils;
+
+    ITelephony telephonyModule;
+
+    ICamera camera;
+
+    IMessaging IMessaging;
+
+    IMedia IMedia;
+
+    IAlarm IAlarm;
+
+    ICalendar ICalendar;
+
+    IWalkman IWalkman;
+
+    IAlbum IAlbum;
+
+    IContacts IContacts;
+
+    IEmail IEmail;
+
+    public String cameraFilePath = Environment.getExternalStorageDirectory().getPath()
+            + "/DCIM/100ANDRO/";
+
+    public String xperiaFilePath = Environment.getExternalStorageDirectory().getPath()
+            + "/DCIM/XPERIA/";
+
+    public static String TAG = "Reliability";
+
+    public String testloops;
+
+    public int runFlag;
+
+    public boolean isCatch;
+
+    private long time1;
+
+    private long time2;
+
+    private long time4;
+
+    private int realTimes = 0;
+
+    private String callNumber;
+
+    private static String callNumber2;
+
+    private static String callNumber3;
+
+    private static String selNumber;
+
+    private static String test_emailaccount;
+
+    private static String test_emailpassword;
+
+    private static String test_email2account;
+
+    private static String test_email2password;
+
+    private static String test_facebookaccount;
+
+    private static String test_facebookpassword;
+
+    private static String test_facebookname;
+
+    private static String test_wifi;
+
+    private static String test_wifipassword;
+
+    private static String test_partnerskypeaccount;
+
+    private static String test_skypeaccount;
+
+    private static String test_skypepassword;
+
+    private static String test_sipaccount;
+
+    private static String test_sippassword;
+
+    private static String partner_sipaccount;
+
+    private static String test_EASaccount;
+
+    private static String test_EASpassword;
+
+    private static String test_serveremail;
+
+    private static String test_gmailaccount;
+
+    private static String test_gmailpassword;
+
+    public ReliabilityAutomaticModules(AcceptanceTestCase testCase)
+            throws PropertyNotFoundException, UiObjectNotFoundException, IOException, XmlPullParserException {
+        ModuleDataParser dataParser = new ModuleDataParser();
+        dataParser.parse();
+
+        this.testCase = testCase;
+        this.commonModule = new CommonModule(testCase);
+        camera = ((AbstractCameraFactory)GroupFactories.createFactory(testCase, "camera")).create();
+        this.IMessaging = MessagingFactory.getMessagingModule(testCase);
+        telephonyModule = ((AbstractTelephonyFactory)GroupFactories.createFactory(testCase, "telephony")).create();
+        this.IMedia = MediaFactory.create(testCase);
+        this.IAlarm = AlarmFactory.getCameraModule(testCase);
+        this.ICalendar = CalendarFactory.getCalendarModule(testCase);
+        this.IWalkman = ((AbstractWalkmanFactory)GroupFactories.createFactory(testCase, "walkman")).create();
+        this.IAlbum = AlbumFactory.getAlbumModule(testCase);
+        this.IContacts = ContactsFactory.getContactsModule(testCase);
+        this.IEmail = ((AbstractEmailFactory)GroupFactories.createFactory(testCase, "email")).create();
+        basicUtils = new BasicUtils();
+
+        getAccounts();
+        TestUIWatcher UIWatcher = new TestUIWatcher();
+        UIWatcher.watch();
+
+        Log.d(TAG, "Send email account to server");
+        IMessaging.remoteSendMessageToDUT("MUT_Email_Account:" + test_emailaccount, callNumber);
+        IMessaging.remoteSendMessageToDUT("MUT_Facebook_Name:" + test_facebookname, callNumber);
+    }
+
+    public void getAccounts() {
+        callNumber = TestDataExtract.callNumber;
+        callNumber2 = TestDataExtract.callNumber2;
+        callNumber3 = TestDataExtract.callNumber3;
+
+        test_emailaccount = TestDataExtract.test_emailaccount;
+        test_emailpassword = TestDataExtract.test_emailpassword;
+        // test_googleaccount = TestDataExtract.test_googleaccount;
+        // test_googlepassword = TestDataExtract.test_googlepassword;
+        test_facebookaccount = TestDataExtract.test_facebookaccount;
+        test_facebookpassword = TestDataExtract.test_facebookpassword;
+        test_facebookname = TestDataExtract.test_facebookname;
+        // test_serveremail = TestDataExtract.test_serveremail;
+        test_partnerskypeaccount = TestDataExtract.test_partnerskypeaccount;
+        test_skypeaccount = TestDataExtract.test_skypeaccount;
+        test_skypepassword = TestDataExtract.test_skypepassword;
+        test_sipaccount = TestDataExtract.test_sipaccount;
+        test_sippassword = TestDataExtract.test_sippassword;
+        partner_sipaccount = TestDataExtract.partner_sipaccount;
+        test_email2account = TestDataExtract.test_email2account;
+        test_email2password = TestDataExtract.test_email2password;
+        test_EASaccount = TestDataExtract.test_EASaccount;
+        test_EASpassword = TestDataExtract.test_EASpassword;
+        test_serveremail = TestDataExtract.test_serveremail;
+        test_gmailaccount = TestDataExtract.test_gmailaccount;
+        test_gmailpassword = TestDataExtract.test_gmailpassword;
+
+        test_wifi = TestDataExtract.test_wifi;
+        test_wifipassword = TestDataExtract.test_wifipassword;
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 735922 RELA_Camera_Take
+     * many videos
+     */
+    @SuppressWarnings("static-access")
+    public void Make_Long_Call_With_Loudspeaker(String casename, HashMap<String, String> paras)
+            throws Exception {
+        try {
+
+            telephonyModule.makeMOCallAndAnswered(callNumber);
+
+            telephonyModule.tapLouderSpeakerIcon();
+
+            // call during and verify
+            int callDuring = Integer.valueOf(paras.get("durations"));
+
+            telephonyModule.verifyCallOngoingWithinSpecifiedTime(callDuring);
+
+            telephonyModule.endCall();
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            System.out.println("in finally");
+            telephonyModule.endCall();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+        }
+
+    }
+
+    public void Make_Long_Time_Conference_Call(String casename, HashMap<String, String> paras)
+            throws UiObjectNotFoundException {
+
+        try {
+            int callDuring = Integer.valueOf(paras.get("durations"));
+
+            telephonyModule.makeConferenceCall(callNumber, callNumber2);
+
+            telephonyModule.verifyCallOngoingWithinSpecifiedTime(callDuring);
+
+            telephonyModule.endCall();
+
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            System.out.println("in finally");
+            telephonyModule.endCall();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+        }
+    }
+
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1348858 RELA_Camera_Take
+     * long videos
+     */
+    @SuppressWarnings("static-access")
+    public void Camera_Take_Long_Videos(String casename, HashMap<String, String> paras)
+            throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+
+        String durations = paras.get("durations");
+        int duration = Integer.parseInt(durations);
+
+        try {
+
+            Log.i(TAG, "Take camera video with superior auto");
+            camera.launchCameraPhotoApplication();
+            camera.takePicture();
+            commonModule.wait(3);
+            camera.recordVideo(duration);
+            commonModule.backOutToHomeScreen();
+
+            camera.selectAllAppsAndRecordVideos(duration);
+
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (AssertionFailedError e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (Error e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } finally {
+            commonModule.delete(cameraFilePath);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            commonModule.clearData("Camera");
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+
+    }
+
+    public void RELIA_Messaging_SMS_Send_Receive_Forword_Delete_Multiple_SMS(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        try {
+            String RAMStatus = paras.get("RAMStatus");
+            int sendSMSNum = Integer.parseInt(paras.get("sendSMSNum"));
+            int receiveSMSNum = Integer.parseInt(paras.get("receiveSMSNum"));
+            int forwordSMSNum = Integer.parseInt(paras.get("forwordSMSNum"));
+            int deleteSMSNum = Integer.parseInt(paras.get("deleteSMSNum"));
+
+            IMessaging.startMessagingFromMenu();
+            if (!IMessaging.isMessageListEmpty()) {
+                IMessaging.removeAllMessages();
+            } else {
+                Log.v(TAG, "There is no message in message folder");
+            }
+
+            IMessaging.sendMultiSMSToOneNumber(CommandConstantsUtils.SMS_CONTENT_LONG_OUT,
+                    callNumber, sendSMSNum);
+            commonModule.backOutToHomeScreen();
+
+            for (int i = 0; i < receiveSMSNum; i++) {
+                // Receive sms, and the phone number need set to partner phone
+                // number.
+                IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_SMS, callNumber);
+                IMessaging.openReceiveMessage(CommandConstantsUtils.SMS_CONTENT_RECEIVE);
+                commonModule.backOutToHomeScreen();
+            }
+
+            IMessaging.startMessagingFromMenu();
+
+            for (int i = 0; i < forwordSMSNum; i++) {
+                IMessaging
+                        .forwordSMSMessage(CommandConstantsUtils.SMS_CONTENT_RECEIVE, callNumber2);
+            }
+
+            for (int i = 0; i < deleteSMSNum; i++) {
+                IMessaging.deleteMessageWithText(CommandConstantsUtils.SMS_CONTENT_RECEIVE);
+                commonModule.pressKey(KeyEvent.KEYCODE_BACK);
+            }
+
+            IMessaging.removeAllMessages();
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            time4 = basicUtils.getCurrTime();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1344169
+     * RELIA_Messaging_MMS_Send and receive multiple MMS-Parameter
+     */
+    public void RELIA_Messaging_MMS_Send_Receive_Forword_Delete_Multiple_MMS(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        try {
+            String RAMStatus = paras.get("RAMStatus");
+            int sendMMSNum = Integer.parseInt(paras.get("sendMMSNum"));
+            int receiveMMSNum = Integer.parseInt(paras.get("receiveMMSNum"));
+            int forwordMMSNum = Integer.parseInt(paras.get("forwordMMSNum"));
+            int deleteMMSNum = Integer.parseInt(paras.get("deleteMMSNum"));
+
+            camera.launchCameraPhotoApplication();
+            camera.takePicture();
+
+            IMessaging.startMessagingFromMenu();
+            if (!IMessaging.isMessageListEmpty()) {
+                IMessaging.removeAllMessages();
+            } else {
+                Log.v(TAG, "There is no message in message folder");
+            }
+
+            for (int i = 0; i < sendMMSNum; i++) {
+                IMessaging.sendMMSWithImage(CommandConstantsUtils.SMS_CONTENT_LONG_OUT, callNumber, true);
+            }
+
+            commonModule.backOutToHomeScreen();
+
+            for (int i = 0; i < receiveMMSNum; i++) {
+                // Receive sms, and the phone number need set to partner phone
+                // number.
+                IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_MMS, callNumber);
+                commonModule.wait(120);
+                Assert.assertTrue("Receive mms timeout.",
+                        IMessaging.checkReceiveSMS(callNumber, 280 * 1000));
+            }
+
+            IMessaging.startMessagingFromMenu();
+
+            for (int i = 0; i < forwordMMSNum; i++) {
+                IMessaging
+                        .forwordMMSMessage(CommandConstantsUtils.MMS_CONTENT_RECEIVE, callNumber2);
+            }
+
+            for (int i = 0; i < deleteMMSNum; i++) {
+                IMessaging.deleteMMSWithText(CommandConstantsUtils.MMS_CONTENT_RECEIVE);
+                commonModule.pressKey(KeyEvent.KEYCODE_BACK);
+            }
+
+            IMessaging.removeAllMessages();
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            time4 = basicUtils.getCurrTime();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1344170
+     * RELIA_Messageing_Send and receive messages under heavy load-Parameter
+     */
+    public void RELIA_Messaging_Send_Receive_Message_Under_Heavy_Load(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        try {
+            String RAMStatus = paras.get("RAMStatus");
+
+            IMessaging.startMessagingFromMenu();
+            if (!IMessaging.isMessageListEmpty()) {
+                IMessaging.removeAllMessages();
+            } else {
+                Log.v(TAG, "There is no message in message folder");
+            }
+            // Send sms under this <<RAM Status>>
+            IMessaging.sendSMS(CommandConstantsUtils.SMS_CONTENT_LONG_OUT, callNumber);
+
+            // Send sms under this <<RAM Status>>
+            IMessaging.sendSMS(CommandConstantsUtils.SMS_CONTENT_LONG_OUT, callNumber);
+
+            commonModule.backOutToHomeScreen();
+
+            // Receive MMS under this <<RAM Status>>
+            IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_MMS, callNumber);
+            commonModule.wait(120);
+            Assert.assertTrue("Receive mms timeout .",
+                    IMessaging.checkReceiveSMS(callNumber, 280 * 1000));
+
+            // Receive MMS under this <<RAM Status>>
+            IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_MMS, callNumber);
+            commonModule.wait(120);
+            Assert.assertTrue("Receive mms timeout.",
+                    IMessaging.checkReceiveSMS(callNumber, 280 * 1000));
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            time4 = basicUtils.getCurrTime();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1344171-1
+     * RELIA_Messaging_Interaction events when sending message-Parameter__incoming_call
+     */
+
+    public void RELIA_Messaging_Interaction_Events_When_Sending_Message__incoming_call(
+            String casename, HashMap<String, String> paras) throws Exception {
+
+        String[] smsType = new String[] {
+                "SMS", "MMS"
+        };
+        String[] callType = new String[] {
+                "answerCall", "hangUpCall", "ignoreCall", "rejectWithSMS_busy",
+                "rejectWithSMS_meeting", "rejectWithSMS_driving", "rejectWithSMS_eating",
+                "rejectWithSMS_antherCall"
+        };
+        try {
+            IMessaging.startMessagingFromMenu();
+            if (!IMessaging.isMessageListEmpty()) {
+                IMessaging.removeAllMessages();
+            } else {
+                Log.v(TAG, "There is no message in message folder");
+            }
+
+            for (int j = 0; j < smsType.length; j++) {
+
+ 	              for (int i = 0; i < callType.length; i++) {
+ 	                   IMessaging.prepareSMSMessage(CommandConstantsUtils.SMS_CONTENT_RECEIVE,
+ 	                                callNumber);
+ 	                   IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_CALL, callNumber);
+ 	                   if (smsType[j] == "SMS") {
+ 	                       commonModule.wait(8);}
+ 	                   if (smsType[j] == "MMS") {
+ 	                       IMessaging.InsertImageForMMS();
+ 	                   commonModule.wait(5);}
+
+ 	                   if(commonModule.waitForText("Incoming call", 30*1000)){
+ 	                	   Log.i(TAG, "call coming");
+ 	                   }
+ 	                   Log.d(TAG, "Receive a incoming call during edit sms");
+ 	                   if (callType[i] == "answerCall") {
+ 	                        telephonyModule.answerIncomingCall();
+ 	                        commonModule.wait(10);// Wait for incoming call
+ 	                        telephonyModule.endCall();}
+
+ 	                   if (callType[i] == "hangUpCall") {
+ 	                        telephonyModule.hangUpIncomingCall();}
+
+ 	                   if (callType[i] == "ignoreCall") {
+ 	                	   			commonModule.waitForTextGone("Incoming call", 100*1000);}
+
+ 	                   if (callType[i] == "rejectWithSMS_busy") {
+ 	                        telephonyModule.rejectIncomingCallWithMessage("I'm busy. I'll call you back later.");}
+
+ 	                   if (callType[i] == "rejectWithSMS_meeting") {
+ 	                        telephonyModule.rejectIncomingCallWithMessage("I'm in a meeting. I'll call you back later.");}
+
+ 	                   if (callType[i] == "rejectWithSMS_driving") {
+ 	                        telephonyModule.rejectIncomingCallWithMessage("I'm driving. I'll call you back later.");}
+
+ 	                   if (callType[i] == "rejectWithSMS_eating") {
+ 	                        telephonyModule.rejectIncomingCallWithMessage("I'm eating. I'll call you back later.");}
+
+ 	                   if (callType[i] == "rejectWithSMS_antherCall") {
+ 	                        telephonyModule.rejectIncomingCallWithMessage("I'm on another phone call. I'll call you back later.");}
+
+ 	                   commonModule.wait(2);
+ 	                   testCase.clickId("conversation_send_button");
+ 	                   IMessaging.waitMessageSendSuccessfully();
+ 	                    }
+ 	                }
+
+
+            } catch (Exception ex) {
+                commonModule.takeScreenShot(casename);
+                throw ex;
+            } catch (AssertionFailedError ex) {
+                commonModule.takeScreenShot(casename);
+                throw ex;
+            } catch (Error ex) {
+                commonModule.takeScreenShot(casename);
+                throw ex;
+            } finally {
+                time4 = basicUtils.getCurrTime();
+                telephonyModule.endCall();
+                commonModule.unLockScreen();
+                commonModule.backOutToHomeScreen();
+
+                if (!isCatch) {
+                    this.runFlag = 1;
+                }
+                basicUtils.destroyResource();
+                Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+            }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1344171-2
+     * RELIA_Messaging_Interaction events when sending
+     * message-Parameter__incoming_messgae
+     */
+
+    @SuppressWarnings("static-access")
+	public void RELIA_Messaging_Interaction_Events_When_Sending_Message__incoming_messgae(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        String[] smsType = new String[] {
+       		 "SMS","MMS" };
+
+        int concurrent_SMS = Integer.parseInt(paras.get("concurrent_SMS"));
+        int concurrent_MMS = Integer.parseInt(paras.get("concurrent_MMS"));
+
+    	try{
+            IMessaging.startMessagingFromMenu();
+            if (!IMessaging.isMessageListEmpty()) {
+                IMessaging.removeAllMessages();
+            } else {
+                Log.v(TAG, "There is no message in message folder");
+            }
+
+            for (int j = 0; j < smsType.length; j++) {
+
+                Log.d(TAG, "Receive SMS during edit message");
+                if (concurrent_SMS == 1) {
+                    IMessaging.prepareSMSMessage(CommandConstantsUtils.SMS_CONTENT_REPLY,
+                            callNumber);
+                    if (smsType[j] == "MMS") {
+                        IMessaging.InsertImageForMMS();
+                    }
+
+                    IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_SMS, callNumber);
+                    commonModule.wait(5);
+                    IMessaging.openReceiveMessage(CommandConstantsUtils.SMS_CONTENT_RECEIVE);
+                    Assert.assertTrue("There is no input text message.",
+                            testCase.isViewWithTextPresent(CommandConstantsUtils.SMS_CONTENT_REPLY));
+
+                    commonModule.wait(2);
+                    testCase.clickId("conversation_send_button");
+                    IMessaging.waitMessageSendSuccessfully();
+                    commonModule.backOutToHomeScreen();
+                }
+
+                if (concurrent_MMS == 1) {
+                    IMessaging.prepareSMSMessage(CommandConstantsUtils.SMS_CONTENT_REPLY,
+                            callNumber);
+                    if (smsType[j] == "MMS") {
+                        IMessaging.InsertImageForMMS();
+                    }
+
+                    IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_MMS, callNumber);
+                    commonModule.wait(80);// Wait for partner phone send mms to
+                                          // mian phone.
+                    IMessaging.openReceiveMessage(callNumber);
+                    testCase.assertTrue("There is no input text message.",
+                            testCase.isViewWithTextPresent(CommandConstantsUtils.SMS_CONTENT_REPLY));
+
+                    commonModule.wait(2);
+                    testCase.clickId("conversation_send_button");
+                    IMessaging.waitMessageSendSuccessfully();
+                }
+            }
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            time4 = basicUtils.getCurrTime();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1344171-3
+     * RELIA_Messaging_Interaction events when sending
+     * message-Parameter__incoming_email
+     */
+
+    public void RELIA_Messaging_Interaction_Events_When_Sending_Message__incoming_email(
+            String casename, HashMap<String, String> paras) throws Exception {
+
+        String[] smsType = new String[] {
+                "SMS", "MMS"
+        };
+
+        try {
+            IMessaging.startMessagingFromMenu();
+            if (!IMessaging.isMessageListEmpty()) {
+                IMessaging.removeAllMessages();
+            } else {
+                Log.v(TAG, "There is no message in message folder");
+            }
+
+            for (int j = 0; j < smsType.length; j++) {
+                IMessaging.prepareSMSMessage(CommandConstantsUtils.SMS_CONTENT_RECEIVE, callNumber);
+                if (smsType[j] == "MMS") {
+                    IMessaging.InsertImageForMMS();
+                }
+
+                Log.d(TAG, "Receive Email during edit message");
+                commonModule.clearStatusBar();
+                IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_EMAIL, callNumber);
+
+                Assert.assertTrue("There is no input text message.",
+                        IMessaging.checkReceiveSMS(test_emailaccount, 10 * 60 * 1000));
+
+                //commonModule.pressKey(KeyEvent.KEYCODE_BACK);
+                commonModule.wait(2);
+                testCase.clickId("conversation_send_button");
+                IMessaging.waitMessageSendSuccessfully();
+            }
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            time4 = basicUtils.getCurrTime();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1344171-4
+     * RELIA_Messaging_Interaction events when sending
+     * message-Parameter__background_media
+     */
+
+    public void RELIA_Messaging_Interaction_Events_When_Sending_Message__background_media(
+            String casename, HashMap<String, String> paras) throws Exception {
+
+        String[] smsType = new String[] {
+                "SMS", "MMS"
+        };
+
+        int concurrent_music = Integer.parseInt(paras.get("concurrent_music"));
+        int concurrent_radio = Integer.parseInt(paras.get("concurrent_radio"));
+
+        try {
+            IMessaging.startMessagingFromMenu();
+            if (!IMessaging.isMessageListEmpty()) {
+                IMessaging.removeAllMessages();
+            } else {
+                Log.v(TAG, "There is no message in message folder");
+            }
+
+            if (concurrent_music == 1) {
+                IWalkman.playMusicOnBackground();// Play music on background.
+                for (int j = 0; j < smsType.length; j++) {
+                    IMessaging.prepareSMSMessage(CommandConstantsUtils.SMS_CONTENT_RECEIVE,
+                            callNumber);
+                    if (smsType[j] == "MMS") {
+                        IMessaging.InsertImageForMMS();
+                    }
+                    commonModule.wait(2);
+                    testCase.clickId("conversation_send_button");
+                    IMessaging.waitMessageSendSuccessfully();
+                    commonModule.backOutToHomeScreen();
+                }
+            }
+            IWalkman.stopMusicFromStatusBar();
+
+            if (concurrent_radio == 1) {
+                IMedia.playRadioOnBackground(); // Play radio on background.
+                for (int j = 0; j < smsType.length; j++) {
+                    IMessaging.prepareSMSMessage(CommandConstantsUtils.SMS_CONTENT_RECEIVE,
+                            callNumber);
+                    if (smsType[j] == "MMS") {
+                        IMessaging.InsertImageForMMS();
+                    }
+
+                    commonModule.wait(2);
+                    testCase.clickId("conversation_send_button");
+                    IMessaging.waitMessageSendSuccessfully();
+                    commonModule.backOutToHomeScreen();
+                }
+            }
+
+            IMedia.stopRadio();
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            time4 = basicUtils.getCurrTime();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            IWalkman.stopMusicFromStatusBar();
+            IMedia.stopRadio();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1344171-5
+     * RELIA_Messaging_Interaction events when sending message-Parameter__alarm
+     */
+
+    @SuppressWarnings({
+            "static-access", "deprecation"
+    })
+    public void RELIA_Messaging_Interaction_Events_When_Sending_Message__alarm(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        String[] smsType = new String[] {
+                "SMS", "MMS"
+        };
+
+        int concurrent_alarm = Integer.parseInt(paras.get("concurrent_alarm"));
+        int concurrent_calendar = Integer.parseInt(paras.get("concurrent_calendar"));
+
+        time1 = commonModule.getCurrTime();
+        long startMillis = 0;
+        String calendarTitle1 = "Relibility test";
+        String description = "This is an aging test";
+
+        try {
+            IMessaging.startMessagingFromMenu();
+            if (!IMessaging.isMessageListEmpty()) {
+                IMessaging.removeAllMessages();
+            } else {
+                Log.v(TAG, "There is no message in message folder");
+            }
+
+            for (int j = 0; j < smsType.length; j++) {
+                if (concurrent_alarm == 1) {
+                    IAlarm.setNewAlarmOneMinuteFromNow();
+                    IMessaging.prepareSMSMessage(CommandConstantsUtils.SMS_CONTENT_RECEIVE,
+                            callNumber);
+                    if (smsType[j] == "MMS") {
+                        IMessaging.InsertImageForMMS();
+                    }
+
+                    Assert.assertTrue("Can not receive the alarm in 2 minutes.",
+                            IAlarm.snoozeAlarm(2 * 60 * 1000));
+                    commonModule.wait(2);
+
+                    testCase.clickId("conversation_send_button");
+                    IMessaging.waitMessageSendSuccessfully();
+
+                    commonModule.backOutToHomeScreen();
+                    IAlarm.deleteAllAlarms();
+                } // Set a alarm
+
+                if (concurrent_calendar == 1) {
+                    startMillis = commonModule.getCurrTime() + 1000 * 60 * 12;
+                    ICalendar.addNewCalendarEventAPI(startMillis, calendarTitle1, description,
+                            "UTC/GMT +2:00", true); // Set a calendar alarm
+                    IMessaging.prepareSMSMessage(CommandConstantsUtils.SMS_CONTENT_RECEIVE,
+                            callNumber);
+                    if (smsType[j] == "MMS") {
+                        IMessaging.InsertImageForMMS();
+                    }
+                    commonModule.wait(2);
+                    testCase.assertTrue("Can not receive the reminder in 2 minutes.",
+                            ICalendar.waitForCalendarAlarm(calendarTitle1, 3 * 60 * 1000));
+
+                    //commonModule.pressKey(KeyEvent.KEYCODE_BACK);
+                    testCase.clickId("conversation_send_button");
+                    IMessaging.waitMessageSendSuccessfully();
+                    commonModule.backOutToHomeScreen();
+                }
+
+            }
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            time4 = basicUtils.getCurrTime();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1344171-6
+     * RELIA_Messaging_Interaction events when sending message-Parameter__chat
+     */
+
+    public void RELIA_Messaging_Interaction_Events_When_Sending_Message__chat(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        String[] smsType = new String[] {
+                "SMS", "MMS"
+        };
+
+        int concurrent_facebook = Integer.parseInt(paras.get("concurrent_facebook"));
+        int concurrent_wechat = Integer.parseInt(paras.get("concurrent_wechat"));
+        int concurrent_weibo = Integer.parseInt(paras.get("concurrent_weibo"));
+
+        try {
+            IMessaging.startMessagingFromMenu();
+            if (!IMessaging.isMessageListEmpty()) {
+                IMessaging.removeAllMessages();
+            } else {
+                Log.v(TAG, "There is no message in message folder");
+            }
+
+            for (int j = 0; j < smsType.length; j++) {
+                IMessaging.prepareSMSMessage(CommandConstantsUtils.SMS_CONTENT_RECEIVE, callNumber);
+                if (smsType[j] == "MMS") {
+                    IMessaging.InsertImageForMMS();
+                }
+                if (concurrent_facebook == 1) {
+                    IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_FACEBOOK, callNumber);
+                    Assert.assertTrue("There is no input text message.", IMessaging
+                            .checkReceiveSMS("This is for Reliability facebook test", 300*1000));
+                }
+                if (concurrent_wechat == 1) {
+
+                    // TODO: Add partner phone method to send Wechat message.
+                    IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_FACEBOOK, callNumber);
+                    Assert.assertTrue("There is no input text message.", IMessaging
+                            .checkReceiveSMS("This is for Reliability wechat test", 10 * 60));
+                }
+
+                commonModule.wait(2);
+                testCase.clickId("conversation_send_button");
+                IMessaging.waitMessageSendSuccessfully();
+            }
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            time4 = basicUtils.getCurrTime();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1325563 RELIA_Camera_Take
+     * multiple pictures with creative effort-Parameter
+     *
+     * @throws Exception
+     */
+    @SuppressWarnings("static-access")
+    public void RELIA_Camera_Take_Multiple_Picture_With_Creative_Effort(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        int times = Integer.parseInt(paras.get("times"));
+        try {
+            commonModule.backOutToHomeScreen();
+
+            Log.i(TAG, "Launch camera");
+            camera.launchCameraPhotoApplication();
+            commonModule.wait(3);
+
+            for (int j = 0; j < times; j++) {
+                camera.selectOneEffectFromCameraSettings("Creative effect");
+
+                camera.selectAllCreativeEffectAndTakePictures();
+
+                Log.i(TAG, "Change Preview mode");
+                camera.selectAllPreviewModeAndTakePictures();
+            }
+
+            Log.i(TAG, "Check the pictures");
+            camera.checkPictures(times * 24);
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.backOutToHomeScreen();
+            commonModule.clearData("Creative effect");
+            commonModule.delete(cameraFilePath);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1335160 RELA_Camera_Take
+     * many videos
+     */
+    @SuppressWarnings("static-access")
+    public void Camera_Take_Multiple_Video_Clips_With_Timeshift_Video_Mode(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        int cameraCount = Camera.getNumberOfCameras();
+        int recordingTime = 10;
+        boolean switchFlag = false;
+        try {
+            camera.launchCameraByMode("Timeshift video");
+            for (int i = 0; i < Integer.parseInt(paras.get("times")); i++) {
+                Log.d(TAG, "Recording Timeshift video mode for " + (i + 1) + " times");
+                camera.switchMicrophoneOnTimeshiftMode();
+                camera.recordVideoOnTimeshiftMode(recordingTime);
+                commonModule.wait(1);
+                commonModule.pressKeyForMultipleTimes(KeyEvent.KEYCODE_BACK, 1);
+                commonModule.wait(3);
+
+            }
+            commonModule.backOutToHomeScreen();
+
+            Log.d(TAG, "Take and view a picture via camera");
+            camera.launchCameraPhotoApplication();
+            camera.takePicture();
+            camera.openLatestPictureInCamera();
+
+            commonModule.wait(1);
+            commonModule.pressKeyForMultipleTimes(KeyEvent.KEYCODE_BACK, 1);
+            commonModule.wait(3);
+
+            Log.d(TAG, "Take and view a video via camera");
+            camera.recordVideo(recordingTime);
+            camera.openLatestVideoInCamera();
+            commonModule.wait(recordingTime);
+
+            if (cameraCount == 2) {
+                commonModule.backOutToHomeScreen();
+                camera.launchCameraPhotoApplication();
+                Log.i(TAG, "Switch camera");
+                commonModule.wait(3);
+                camera.switchCamera();
+                switchFlag = true;
+                Log.i(TAG, "Take camera video with front camera");
+                commonModule.wait(3);
+                camera.takePicture();
+            }
+
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (AssertionFailedError e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (Error e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } finally {
+            time4 = basicUtils.getCurrTime();
+            if (switchFlag) {
+                camera.launchCameraPhotoApplication();
+                Log.i(TAG, "Switch camera");
+                camera.switchCamera();
+            }
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            commonModule.delete(xperiaFilePath);
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+
+    }
+
+    @SuppressWarnings("static-access")
+    public void Camera_Take_Multiple_Video_Clips_With_Superior_Auto_Mode(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        int cameraCount = Camera.getNumberOfCameras();
+        boolean switchFlag = false;
+
+        int recordingTime = 10;
+        try {
+            camera.launchCameraByMode("Superior auto");
+            for (int i = 0; i < Integer.parseInt(paras.get("times")); i++) {
+                Log.d(TAG, "Recording superior auto mode for " + (i + 1) + " times");
+                commonModule.wait(3);
+                camera.recordVideo(recordingTime);
+
+            }
+            Log.d(TAG, "Take and view a picture via camera");
+            camera.takePicture();
+            camera.openLatestPictureInCamera();
+
+            commonModule.wait(1);
+            commonModule.pressKeyForMultipleTimes(KeyEvent.KEYCODE_BACK, 1);
+            commonModule.wait(3);
+
+            Log.d(TAG, "Take and view a video via camera");
+            camera.recordVideo(recordingTime);
+            camera.openLatestVideoInCamera();
+            commonModule.wait(recordingTime);
+
+            if (cameraCount == 2) {
+                commonModule.backOutToHomeScreen();
+                camera.launchCameraPhotoApplication();
+                Log.i(TAG, "Switch camera");
+                commonModule.wait(3);
+                camera.switchCamera();
+                switchFlag = true;
+                Log.i(TAG, "Take camera video with front camera");
+                commonModule.wait(3);
+                camera.takePicture();
+            }
+
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (AssertionFailedError e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (Error e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } finally {
+            if (switchFlag) {
+                camera.launchCameraPhotoApplication();
+                Log.i(TAG, "Switch camera");
+                camera.switchCamera();
+            }
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            commonModule.delete(cameraFilePath);
+
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1325564 RELIA_Camera_Take
+     * multiple pictures with AR effort-Parameter
+     *
+     * @throws Exception
+     */
+    @SuppressWarnings("static-access")
+    public void RELIA_Camera_Take_Multiple_Picture_With_AR_Effort(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        int times = Integer.parseInt(paras.get("times"));
+        commonModule.backOutToHomeScreen();
+
+        try {
+
+            for (int i = 0; i < times; i++) {
+                Log.i(TAG, "Launch camera");
+                camera.launchCameraPhotoApplication();
+                commonModule.wait(3);
+
+                camera.selectOneEffectFromCameraSettings("AR effect");
+                int count = camera.selectAllAREffectAndTakePictures();
+
+                Log.i(TAG, "Check the pictures");
+                camera.checkPictures(count);
+                commonModule.backOutToHomeScreen();
+            }
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.backOutToHomeScreen();
+            commonModule.delete(xperiaFilePath);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1325568 RELIA_Camera_Take
+     * multiple pictures with Background defocus-Parameter
+     *
+     * @throws Exception
+     */
+    @SuppressWarnings("static-access")
+    public void RELIA_Camera_Take_Multiple_Pictures_With_Background_Defocus(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        int times = Integer.parseInt(paras.get("times"));
+        commonModule.backOutToHomeScreen();
+
+        try {
+            Log.i(TAG, "Launch camera");
+            camera.launchCameraPhotoApplication();
+            commonModule.wait(3);
+
+            camera.selectOneEffectFromCameraSettings("Background defocus");
+            for (int i = 0; i < times; i++) {
+                camera.takePicturesWithBackgroundDefocusMode();
+            }
+
+            Log.i(TAG, "Check the pictures");
+            camera.checkPictures(times);
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.backOutToHomeScreen();
+            commonModule.delete(cameraFilePath);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1335262 RELIA_Camera_Take
+     * multiple pictures with superior auto mode-Parameter
+     *
+     * @throws Exception
+     */
+    @SuppressWarnings("static-access")
+    public void RELIA_Camera_Take_Multiple_Pictures_With_Supserior_Auto_Mode(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        try {
+            int times = Integer.parseInt(paras.get("times"));
+            commonModule.backOutToHomeScreen();
+
+            Log.i(TAG, "Launch camera");
+            camera.launchCameraPhotoApplication();
+            commonModule.wait(3);
+
+            camera.selectOneEffectFromCameraSettings("Superior auto");
+
+            for (int i = 0; i < times; i++) {
+                camera.takePicture();
+            }
+
+            Log.i(TAG, "Check the pictures");
+            camera.checkPictures(times);
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.backOutToHomeScreen();
+            commonModule.delete(cameraFilePath);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1336665 RELIA_Camera_Take
+     * multiple pictures with Geo tag-Parameter
+     *
+     * @throws Exception
+     */
+    @SuppressWarnings("static-access")
+    public void RELIA_Camera_Take_Multiple_Pictures_With_Geo_Tag(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+
+        int times = Integer.parseInt(paras.get("times"));
+        commonModule.backOutToHomeScreen();
+
+        try {
+            Log.i(TAG, "Set location service.");
+            commonModule.activeGPSServiceFromSettings();
+
+            Log.i(TAG, "Set Geo tag.");
+            camera.activeGeoTagFromCameraSettings();
+
+            for (int i = 0; i < times; i++) {
+                camera.takePicture();
+                commonModule.wait(2);
+            }
+
+            Log.i(TAG, "Check the pictures");
+            camera.checkPictures(times);
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.backOutToHomeScreen();
+            commonModule.delete(cameraFilePath);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    @SuppressWarnings("static-access")
+    public void Camera_HDR_Take_Pictures_Under_Very_Light_And_Very_Dark_Areas(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+
+        try {
+            camera.launchCameraByMode("Manual");
+            camera.openHDR();
+            Log.w(TAG,
+                    "---------------------Put DUT in a very light areas! Wait 1 mins----------------------------");
+            commonModule.wait(5);
+            for (int i = 0; i < Integer.parseInt(paras.get("photos")); i++) {
+                Log.d(TAG, "Take pictures in light area for " + (i + 1) + " times");
+                camera.takePicture();
+                commonModule.wait(3);
+
+            }
+            Log.w(TAG,
+                    "---------------------Put DUT in a very dark areas! Wait 1 mins----------------------------");
+            commonModule.wait(5);
+            for (int i = 0; i < Integer.parseInt(paras.get("photos")); i++) {
+                Log.d(TAG, "Take pictures in dark area for " + (i + 1) + " times");
+                camera.takePicture();
+                commonModule.wait(3);
+
+            }
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (AssertionFailedError e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (Error e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } finally {
+            time4 = basicUtils.getCurrTime();
+            camera.launchCameraByMode("Superior auto");
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+
+    }
+
+    @SuppressWarnings("static-access")
+    public void Camera_Take_Multiple_4K2K_Pictures(String casename, HashMap<String, String> paras)
+            throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        boolean switchFlag = false;
+        int cameraCount = Camera.getNumberOfCameras();
+        try {
+            camera.launchCameraByMode("Manual");
+            camera.open4K2KPictureMode();
+            commonModule.wait(5);
+            for (int i = 0; i < Integer.parseInt(paras.get("photos")); i++) {
+                Log.d(TAG, "Take pictures in light area for " + (i + 1) + " times");
+                camera.takePicture();
+                commonModule.wait(3);
+
+            }
+            if (cameraCount == 2) {
+                commonModule.backOutToHomeScreen();
+                camera.launchCameraPhotoApplication();
+                Log.i(TAG, "Switch camera");
+                commonModule.wait(3);
+                camera.switchCamera();
+                switchFlag = true;
+                Log.i(TAG, "Take camera video with front camera");
+                commonModule.wait(3);
+                camera.takePicture();
+            }
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (AssertionFailedError e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (Error e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } finally {
+            if (switchFlag) {
+                camera.launchCameraPhotoApplication();
+                Log.i(TAG, "Switch camera");
+                camera.switchCamera();
+            }
+            commonModule.backOutToHomeScreen();
+            camera.launchCameraByMode("Superior auto");
+            commonModule.wait(3);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            commonModule.delete(cameraFilePath);
+
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+
+    }
+
+    @SuppressWarnings("static-access")
+    public void Camera_Take_Multiple_4K2K_Video_Clips(String casename, HashMap<String, String> paras)
+            throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        boolean switchFlag = false;
+        int cameraCount = Camera.getNumberOfCameras();
+        Random random = new Random();
+        try {
+            camera.launchCameraByMode("4K video");
+            commonModule.wait(3);
+            for (int i = 0; i < Integer.parseInt(paras.get("times")); i++) {
+                int j = random.nextInt(2);
+                int k = random.nextInt(3);
+                commonModule.disappearAlertNote();
+                Log.d(TAG, "Take 4k video for " + (i + 1) + " times");
+                camera.change4KVideoSetting(j, k);
+                commonModule.wait(3);
+                camera.recordVideoOn4KMode(5);
+                commonModule.wait(2);
+
+            }
+            if (cameraCount == 2) {
+                commonModule.backOutToHomeScreen();
+                camera.launchCameraPhotoApplication();
+                Log.i(TAG, "Switch camera");
+                commonModule.wait(3);
+                camera.switchCamera();
+                switchFlag = true;
+                Log.i(TAG, "Take camera video with front camera");
+                commonModule.wait(3);
+                camera.takePicture();
+            }
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (AssertionFailedError e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } catch (Error e) {
+            commonModule.takeScreenShot(casename);
+            throw e;
+
+        } finally {
+            if (switchFlag) {
+                camera.launchCameraPhotoApplication();
+                Log.i(TAG, "Switch camera");
+                camera.switchCamera();
+            }
+            commonModule.wait(3);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            commonModule.delete(cameraFilePath);
+
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+
+    }
+
+    public void Make_Long_Time_Calls_in_Various_Network_Mode(String casename,
+            HashMap<String, String> paras) {
+        try {
+
+            String networkmode = paras.get("networkmode");
+
+            int during = Integer.valueOf(paras.get("durations"));
+
+            if (networkmode.contains(",")) {
+                // test multi network mode
+                String[] modes = networkmode.split(",");
+
+                for (int i = 0; i < modes.length; i++) {
+                    telephonyModule.changeNetworkMode(modes[i]);
+
+                    // MO call
+                    telephonyModule.makeMOCallAndAnswered(callNumber);
+
+                    telephonyModule.verifyCallOngoingWithinSpecifiedTime(during);
+
+                    telephonyModule.endCall();
+
+                    // MT call
+
+                    telephonyModule.answerMTCall(callNumber);
+
+                    telephonyModule.verifyCallOngoingWithinSpecifiedTime(during);
+
+                    telephonyModule.endCall();
+
+                }
+            } else {
+                telephonyModule.changeNetworkMode(networkmode);
+
+                // MO call
+                telephonyModule.makeMOCallAndAnswered(callNumber);
+
+                telephonyModule.verifyCallOngoingWithinSpecifiedTime(during);
+
+                telephonyModule.endCall();
+
+                // MT call
+
+                telephonyModule.answerMTCall(callNumber);
+
+                telephonyModule.verifyCallOngoingWithinSpecifiedTime(during);
+
+                telephonyModule.endCall();
+            }
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            System.out.println("in finally");
+            telephonyModule.endCall();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            telephonyModule.changeNetworkMode("4g prefer");
+        }
+    }
+
+    public void Make_Long_Time_Call_With_PHF_Parameter(String casename,
+            HashMap<String, String> paras) {
+        try {
+            int duration = Integer.valueOf(paras.get("durations"));
+
+            telephonyModule.makeMOCallAndAnswered(callNumber);
+
+            telephonyModule.verifyCallOngoingWithinSpecifiedTime(duration);
+
+            telephonyModule.endCall();
+
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            System.out.println("in finally");
+            telephonyModule.endCall();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1348081 RELIA_Camera_Take
+     * multiple pictures with different scenes-Parameter
+     *
+     * @throws Exception
+     */
+    @SuppressWarnings("static-access")
+    public void RELIA_Camera_Take_Multiple_Pictures_With_Different_Scenes(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+
+        int times = Integer.parseInt(paras.get("times"));
+        commonModule.backOutToHomeScreen();
+
+        try {
+            for (int i = 0; i < times; i++) {
+                commonModule.clearData("Camera");
+
+                Log.i(TAG, "Launch camera");
+                camera.launchCameraPhotoApplication();
+                commonModule.wait(3);
+
+                camera.selectOneEffectFromCameraSettings("Manual");
+
+                camera.selectAllScenesAndTakePictures();
+                // for (int j = 0; j < 18; j++) {
+                // if (j == 0) {
+                // camera.changeScenesByCoordinate(390);
+                // } else if (j == 1) {
+                // camera.changeScenesByCoordinate(560);
+                // } else if (j == 15) {
+                // camera.changeScenesByCoordinate(900);
+                // } else if (j == 16) {
+                // camera.changeScenesByCoordinate(1070);
+                // } else if (j == 17) {
+                // camera.changeScenesByCoordinate(1240);
+                // } else {
+                // camera.changeScenesByCoordinate(730);
+                // }
+                // camera.takePicture();
+                // }
+            }
+
+            Log.i(TAG, "Check the pictures");
+            camera.checkPictures(times * 18);
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.backOutToHomeScreen();
+            commonModule.clearData("Camera");
+            commonModule.delete(cameraFilePath);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1325564 RELIA_Camera_Take
+     * multiple video clips with AR effort-Parameter
+     *
+     * @throws Exception
+     */
+    @SuppressWarnings("static-access")
+    public void RELIA_Camera_Take_Multiple_Video_Clips_With_AR_Effort(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        int times = Integer.parseInt(paras.get("times"));
+        int recordingTime = 10;
+        commonModule.backOutToHomeScreen();
+
+        try {
+
+            for (int i = 0; i < times; i++) {
+                commonModule.backOutToHomeScreen();
+
+                Log.i(TAG, "Launch camera");
+                camera.launchCameraPhotoApplication();
+                commonModule.wait(3);
+
+                camera.selectOneEffectFromCameraSettings("AR effect");
+                int count = camera.selectAllAREffectAndRecordVideos(recordingTime);
+
+                Log.i(TAG, "Check the videos");
+                camera.checkVideos(count);
+            }
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.backOutToHomeScreen();
+            commonModule.delete(xperiaFilePath);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void Make_MO_and_MT_Call_Uner_Various_RAM_Status(String casename,
+            HashMap<String, String> paras) throws UiObjectNotFoundException {
+        try {
+            // MO Call
+            telephonyModule.makeMOCallAndAnswered(callNumber);
+            commonModule.wait(10);
+            telephonyModule.endCall();
+
+            // MT Call
+            telephonyModule.answerMTCall(callNumber);
+            commonModule.wait(10);
+            telephonyModule.endCall();
+
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            telephonyModule.endCall();
+            commonModule.backOutToHomeScreen();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1325326
+     * RELIA_Telephony_Repeat to multiple many calls in various network
+     * mode-Parameters
+     *
+     * @throws Exception
+     */
+    @SuppressWarnings("static-access")
+    public void RELIA_Telephony_Repeat_To_Multiple_Many_Calls_In_Various_Network_Mode(
+            String casename, HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+
+        try {
+
+            int times = Integer.parseInt(paras.get("times"));
+            String networkmode = paras.get("networkmode");
+            commonModule.backOutToHomeScreen();
+
+            if (networkmode.contains(",")) {
+                // test multi network mode
+                String[] modes = networkmode.split(",");
+
+                for (int i = 0; i < modes.length; i++) {
+                    telephonyModule.changeNetworkMode(modes[i]);
+
+                    // MO call
+                    for (int j = 0; j < times; j++) {
+                        telephonyModule.makeMOCallAndAnswered(callNumber);
+
+                        telephonyModule.tapLouderSpeakerIcon();
+
+                        telephonyModule.endCall();
+                    }
+
+                    // MT call
+                    for (int k = 0; k < times; k++) {
+                        telephonyModule.answerMTCall(callNumber);
+
+                        telephonyModule.tapLouderSpeakerIcon();
+
+                        telephonyModule.endCall();
+                    }
+
+                }
+            } else {
+                telephonyModule.changeNetworkMode(networkmode);
+
+                // MO call
+                for (int j = 0; j < times; j++) {
+                    telephonyModule.makeMOCallAndAnswered(callNumber);
+
+                    telephonyModule.tapLouderSpeakerIcon();
+
+                    telephonyModule.endCall();
+                }
+
+                // MT call
+                for (int k = 0; k < times; k++) {
+                    telephonyModule.answerMTCall(callNumber);
+
+                    telephonyModule.tapLouderSpeakerIcon();
+
+                    telephonyModule.endCall();
+                }
+            }
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            System.out.println("in finally");
+            telephonyModule.endCall();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            telephonyModule.changeNetworkMode("4g prefer");
+        }
+    }
+
+    /**
+     * Case in Sony ALM: Domain: PSV Project: PSV ID: 1335048
+     * RELIA_Telephony_Long time call with BTH-Parameters
+     *
+     * @throws Exception
+     */
+    @SuppressWarnings("static-access")
+    public void RELIA_Telephony_Long_Time_Call_With_BTH(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+
+        int period = Integer.parseInt(paras.get("durations"));
+        commonModule.backOutToHomeScreen();
+
+        try {
+            commonModule.bluetoothOnOrOff("ON");
+
+            // MO call
+
+            telephonyModule.makeMOCallAndAnswered(callNumber);
+
+            telephonyModule.verifyCallThroughBluetoothDevice(period);
+
+            telephonyModule.endCall();
+
+        } catch (Exception e) {
+            commonModule.takeScreenShot(casename);
+
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            System.out.println("in finally");
+            telephonyModule.endCall();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            commonModule.bluetoothOnOrOff("OFF");
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+        }
+    }
+
+	    @SuppressWarnings("static-access")
+    public void RELIA_Telephony_Long_Time_VOIP_Call(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+
+        commonModule.backOutToHomeScreen();
+        int duration = Integer.valueOf(paras.get("durations"));
+        try {
+        			commonModule.connect2Wifi(test_wifi);
+        			telephonyModule.launchSkype();
+        			telephonyModule.verifySkypeLaunched(20);
+        			telephonyModule.loginSkype(test_skypeaccount, test_skypepassword);
+        			telephonyModule.makeSkypeCallAndAnswered(test_partnerskypeaccount);
+        			commonModule.wait(duration);
+//        			long currenttime = System.currentTimeMillis();
+//            long browsingtime = currenttime +duration*1000L;
+//            while(System.currentTimeMillis()< browsingtime){
+//        					telephonyModule.verifySkypeInCallStatus();
+//        					commonModule.wait(10);
+//        		}
+        			telephonyModule.endSkypeCall();
+
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.backOutToHomeScreen();
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Telephony_Long_Time_SIP_Call(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        int durations = Integer.valueOf(paras.get("durations"));
+        String callSetting[] = {"Use SIP with network access", "Only to SIP address"};
+
+        try {
+        	commonModule.sendSMSCommand(callNumber, CommandConstantsUtils.COMMAND_SIP_INTERNET_ADDRESS);
+         commonModule.connect2Wifi(test_wifi);
+        	telephonyModule.configSipSetting(callSetting[0]);
+        	telephonyModule.addSipAccount(test_sipaccount, test_sippassword,"192.168.65.6");
+
+        	telephonyModule.makeMOCallAndAnswered(partner_sipaccount);
+        	telephonyModule.verifyCallOngoingWithinSpecifiedTime(durations);
+        	telephonyModule.endCall();
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.sendSMSCommand(callNumber, CommandConstantsUtils.COMMAND_SIP_ADDRESS);
+            telephonyModule.configSipSetting(callSetting[1]);
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+    public void RELIA_Video_Player_Play_Large_Size_Video_File(String casename,
+            HashMap<String, String> paras) throws Exception {
+    	String videoName = String.valueOf(paras.get("videoname"));
+
+        try {
+
+        	IMedia.launchVideoPlayer();
+        	IMedia.playVideo(videoName);
+        	int i = 0;
+        	while(i<50){
+        	IMedia.fastForwardAndRewind(videoName);
+        	i++;
+        	}
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_MM_System_Capability_For_Video_Playing(String casename,
+            HashMap<String, String> paras) throws Exception {
+    	String videoName = String.valueOf(paras.get("videoname"));
+    	int repeat = Integer.valueOf(paras.get("repeattime"));
+
+        try {
+
+        	IMedia.launchVideoPlayer();
+
+        	int i = 0;
+        	while(i<repeat){
+        	IMedia.playVideo(videoName);
+        	IMedia.waitVideoPlaying();
+        	IMedia.verifyVideoPlayerState();
+        	i++;
+        	}
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Album_View_Pictures_Under_Various_RAM_Status(String casename,
+            HashMap<String, String> paras) throws Exception {
+    			 String RAMStatus = paras.get("RAMStatus");
+
+        try {
+
+        	IAlbum.startAlbum();
+
+        	IAlbum.viewPictureInAlbum(20);
+
+        	commonModule.backOutToHomeScreen();
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Album_Repeat_To_Play_delete_Images_For_Many_Times(String casename,
+            HashMap<String, String> paras) throws Exception {
+    			 int times = Integer.valueOf(paras.get("times"));
+
+        try {
+
+        	for(int i=0;i<times;i++){
+		        	IAlbum.startAlbum();
+
+		        	IAlbum.deletePictureInAlbum();
+
+		        	commonModule.backOutToHomeScreen();
+        	}
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_MM_System_Capability_For_Playing_Streaming_Videos(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+    			 String videoFolder = paras.get("streamingvideo");
+        try {
+        			commonModule.backOutToHomeScreen();
+        			IMedia.launchVideoPlayerOneByOne(videoFolder);
+
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_MM_System_Capability_For_Playing_DRM_Videos(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+    			 String videoFolder = paras.get("DRMvideo");
+        try {
+        			commonModule.backOutToHomeScreen();
+        			IMedia.launchVideoPlayerOneByOne(videoFolder);
+
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Music_Player_Playback_Large_Music_File(String casename,
+            HashMap<String, String> paras) throws Exception {
+    			String musicName = paras.get("musicName");
+        try {
+        			commonModule.backOutToHomeScreen();
+        			IWalkman.playMusic(musicName);
+        			commonModule.wait(3600);
+        			IWalkman.playNextMusic();
+        			IWalkman.verifyMusicPlaying();
+        			IWalkman.stopMusicFromStatusBar();
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+
+            commonModule.unLockScreen();
+            IWalkman.stopMusicFromStatusBar();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Music_Player_Long_Time_Music_Play_Under_Different_Mode(String casename,
+            HashMap<String, String> paras) throws Exception {
+    			String playMode = paras.get("play_mode");
+
+
+        try {
+								commonModule.backOutToHomeScreen();
+								IWalkman.playMusic();
+								if (playMode.contains(",")) {
+									// test multi play mode
+									String[] modes = playMode.split(",");
+
+									for (int i = 0; i < modes.length; i++) {
+										Log.i(TAG,"Switch mode to "+modes[i]);
+										IWalkman.setPlayMode(modes[i]);
+										Log.i(TAG,"Switch mode to "+modes[i]+" done");
+										commonModule.wait(10);
+									}
+								} else {
+									IWalkman.setPlayMode(playMode);
+									commonModule.wait(10);
+								}
+								commonModule.backOutToHomeScreen();
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+
+            commonModule.unLockScreen();
+            IWalkman.stopMusicFromStatusBar();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Music_Player_Long_Time_Play_Different_Format_Files(String casename,
+            HashMap<String, String> paras) throws Exception {
+    			int duration = Integer.valueOf(paras.get("duration"));
+    			String music = paras.get("music_list");
+
+
+        try {
+								commonModule.backOutToHomeScreen();
+								long currenttime = System.currentTimeMillis();
+								long browsingtime = currenttime +duration*1000L;
+
+								for(int i=0;i<1000;i++){
+            		IWalkman.launchMusicUrl(music);
+		            if(System.currentTimeMillis()> browsingtime){
+		            	break;
+		    			            	}
+                     }
+								commonModule.backOutToHomeScreen();
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.unLockScreen();
+            IWalkman.stopMusicFromStatusBar();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_TrackID_Search_Songs_Under_Different_RAM_Status(String casename,
+            HashMap<String, String> paras) throws Exception {
+        try {
+        			commonModule.sendSMSCommand(callNumber, CommandConstantsUtils.COMMAND_PLAY_MUSIC);
+        			commonModule.wait(30);
+        			IMedia.launchTrackID();
+        			IMedia.searchSongs("Mambo Italiano");
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_MM_Play_Different_Format_Video_For_Multiple_Times(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+							 String videoFolder = paras.get("videoFolder");
+							 int repeat = Integer.valueOf(paras.get("times"));
+		    		        try {
+		    		        	for(int i=0;i<repeat;i++){
+		    		        			commonModule.backOutToHomeScreen();
+		    		        			IMedia.launchVideoPlayerOneByOne(videoFolder);
+			        	}
+
+			        	commonModule.backOutToHomeScreen();
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_MM_System_Capability_For_Operate_Video_Playing(String casename,
+            HashMap<String, String> paras) throws Exception {
+		    	String videoName = paras.get("videoName");
+				 int repeat = Integer.valueOf(paras.get("repeatTime"));
+					try {
+			        	IMedia.launchVideoPlayer();
+			        	IMedia.playVideo(videoName);
+									for(int i=0;i<repeat;i++){
+						        	IMedia.fastForwardAndRewind(videoName);
+
+						        	}
+									commonModule.backOutToHomeScreen();
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Music_Player_Long_Time_Play_DRM_Files(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+			   int times = Integer.valueOf(paras.get("times"));
+					String music = paras.get("music_list");
+					try {
+						for(int i=0;i<times;i++){
+								commonModule.backOutToHomeScreen();
+
+								String dir = Environment.getExternalStorageDirectory().getPath() + "/"
+										+ music + "/";
+								Log.i(TAG, "Play music: "+dir);
+								File testFolder = new File(dir);
+								String[] testMusic = testFolder.list();
+								Log.i(TAG, "Play music: " + testMusic.length);
+								if(testMusic.length>0){
+									for (int j = 0; j < testMusic.length; j++) {
+										IWalkman.playMusicURL(dir,testMusic[j]);
+										commonModule.wait(3);
+										IWalkman.verifyMusicPlaying();
+										IWalkman.waitPlayingMusic();
+								}
+								}else{
+									AcceptanceTestCase.assertTrue("The given music folder is empty, please help to check", false);
+								}
+
+								commonModule.backOutToHomeScreen();
+						}
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+            IWalkman.stopMusicFromStatusBar();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Phonebook_Add_New_Contact_When_Call(String casename,
+            HashMap<String, String> paras) throws Exception {
+    			int times = Integer.valueOf(paras.get("times"));
+					try {
+								for(int i=0;i<times;i++){
+											commonModule.backOutToHomeScreen();
+											IMessaging.remoteSendMessageToDUT(CommandConstantsUtils.COMMAND_CALL, callNumber);
+											telephonyModule.answerIncomingCall();
+											telephonyModule.verifyCallAnswered();
+											commonModule.backOutToHomeScreen();
+
+											IContacts.addContacts(1);
+											telephonyModule.launchPhone();
+											telephonyModule.verifyCallAnswered();
+											telephonyModule.endCall();
+								}
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Phonebook_Export_Contacts_To_Different_Storage(String casename,
+            HashMap<String, String> paras) throws Exception {
+		    	int contactNumber = Integer.valueOf(paras.get("contactNumber"));
+		    	String storage = paras.get("storage");
+					try {
+						for(int i=0;i<contactNumber;i++){
+							IContacts.createContactsURI("Lee"+i, "1569900"+i);
+						}
+						if (storage.contains(",")) {
+									// export storage
+									String[] storages = storage.split(",");
+									for(int j=0;j<storages.length;j++){
+
+											IContacts.startPhonebook();
+											IContacts.exportContacts(storages[j]);
+											commonModule.backOutToHomeScreen();
+									}
+
+						}else{
+										IContacts.startPhonebook();
+										IContacts.exportContacts(storage);
+										commonModule.backOutToHomeScreen();
+						}
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Phonebook_Import_Contacts_From_Different_Storage_Under_Various_RAM_Status
+    						(String casename,HashMap<String, String> paras) throws Exception {
+		    	String storage = paras.get("storage");
+					try {
+
+						if (storage.contains(",")) {
+									// import storage
+									String[] storages = storage.split(",");
+									for(int i=0;i<storages.length;i++){
+											IContacts.startPhonebook();
+											IContacts.importContacts(storages[i]);
+											commonModule.backOutToHomeScreen();
+									}
+
+						}else{
+										IContacts.startPhonebook();
+										IContacts.importContacts(storage);
+										commonModule.backOutToHomeScreen();
+						}
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+
+            if (!isCatch) {
+                this.runFlag = 1;
+            }
+            basicUtils.destroyResource();
+            Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|" + basicUtils.sCurrLoop);
+        }
+    }
+
+    public void RELIA_Phonebook_Multiple_Times_Settings(String casename, HashMap<String, String> paras) throws Exception {
+
+						try {
+							IContacts.startPhonebook();
+							IContacts.addAccount(test_email2account, test_email2password);
+							IContacts.importContacts("Internal storage");
+							IContacts.exportContacts("Internal storage");
+							IContacts.filterContact();
+							IContacts.findLinkCandidates();
+							IContacts.markSeveral(callNumber);
+							commonModule.backOutToHomeScreen();
+
+
+						} catch (Exception ex) {
+							commonModule.takeScreenShot(casename);
+							throw ex;
+						} catch (AssertionFailedError ex) {
+							commonModule.takeScreenShot(casename);
+							throw ex;
+						} catch (Error ex) {
+							commonModule.takeScreenShot(casename);
+							throw ex;
+						} finally {
+							commonModule.unLockScreen();
+							commonModule.backOutToHomeScreen();
+
+							if (!isCatch) {
+								this.runFlag = 1;
+							}
+							basicUtils.destroyResource();
+							Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|"
+									+ basicUtils.sCurrLoop);
+						}
+					}
+
+    public void RELIA_Email_Send_Receive_Different_Protocol_Emails(String casename, HashMap<String, String> paras) throws Exception {
+
+						try {
+							//EAS
+							IEmail.launchEmail();
+							IEmail.sendEmail(test_EASaccount,test_serveremail, true);
+
+							//IMAP
+							IEmail.launchEmail();
+							IEmail.sendEmail(test_gmailaccount,test_serveremail, true);
+
+							//POP3
+							IEmail.launchEmail();
+							IEmail.sendEmail(test_emailaccount,test_serveremail, true);
+
+						} catch (Exception ex) {
+							commonModule.takeScreenShot(casename);
+							throw ex;
+						} catch (AssertionFailedError ex) {
+							commonModule.takeScreenShot(casename);
+							throw ex;
+						} catch (Error ex) {
+							commonModule.takeScreenShot(casename);
+							throw ex;
+						} finally {
+							commonModule.unLockScreen();
+							commonModule.backOutToHomeScreen();
+
+							if (!isCatch) {
+								this.runFlag = 1;
+							}
+							basicUtils.destroyResource();
+							Log.d(TAG, "<<<<<<<<<<<<<<<<<<" + casename + "|"
+									+ basicUtils.sCurrLoop);
+						}
+					}
+}

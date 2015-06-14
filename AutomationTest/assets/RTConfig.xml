@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- modle is how many network status will be tested 1 means 2g only ,2 means 2g and 3g , 3 means test all  4 mean 3G only         network   1 means ete 2 mean cdma-->
+
+<Config mode="4" network= '1' loops = "1" varient="Gina" testtype="Reliability">
+	<common-data name="test0_Precondition">
+   
+        <!-- Server phone number (Listener Control Server)   -->
+		<partner_phonenumber>15699000655</partner_phonenumber> 
+		<!-- Server phone number (Music Resource Server) -->
+		<partner_phonenumber2>15699000488</partner_phonenumber2>       
+        <partner_phonenumber3>1341020998</partner_phonenumber3>
+        <sel_phonenumber>15699001134</sel_phonenumber>
+        <test_skypeaccount>test001748</test_skypeaccount>
+		<test_skypepassword>Beijing00</test_skypepassword>
+		<test_emailaccount>agingtestnew002@gmail.com</test_emailaccount>
+		<test_emailpassword>Beijing00</test_emailpassword>
+        <test_email2account>agingtest005@gmail.com</test_email2account>
+        <test_email2password>Beijing00</test_email2password>
+        <test_EASaccount>validation01@eas.cn.gte.nu</test_EASaccount>
+        <test_EASpassword>Beijing123</test_EASpassword>
+        <test_gmailaccount>agingtestnew002@gmail.com</test_gmailaccount>
+		<test_gmailpassword>Beijing00</test_gmailpassword>
+	    <test_facebookaccount>cienetcv@gmail.com</test_facebookaccount>
+		<test_facebookpassword>beijing123</test_facebookpassword>
+		<test_partnerskypeaccount>test01980</test_partnerskypeaccount>
+		<test_sipaccount>9013</test_sipaccount>
+		<test_sippassword>9013</test_sippassword>
+		<partner_sipaccount>9012</partner_sipaccount>
+		<partner_sippassword>9012</partner_sippassword>
+				<test_vpnusername>xperiavpn</test_vpnusername>
+		<test_vpnpassword>uytrewq</test_vpnpassword>
+		
+		<test_talkccount>gpvpower@gmail.com</test_talkccount>
+		<test_talkpassword>beijing1234</test_talkpassword>
+		<test_serveremail>agingtest001@gmail.com</test_serveremail>
+		
+		<!--      pbgwpla   icanseeit  -->
+		<wifi_name>GTE</wifi_name>
+		<wifi_password>power123</wifi_password>
+        <video_clip_number>3</video_clip_number>
+        <network_Type_2G>GSM only</network_Type_2G>
+        <network_Type_3G>WCDMA only</network_Type_3G>
+        <network_Type_4G>LTE only</network_Type_4G>
+        <network_Type_CDMA>CDMA only</network_Type_CDMA>
+        <network_Type_EVDO>EvDo only</network_Type_EVDO>
+        <network_Type_3G_PREFER>WCDMA (preferred)/GSM</network_Type_3G_PREFER>
+        <network_Type_4G_PREFER>LTE (preferred)/WCDMA/GSM</network_Type_4G_PREFER>
+
+	</common-data>
+		
+<!-- begin Test case  -->
+<!--FIRST PART-->
+
+    <!-- case id 1182446  -->  
+    <testcase name="RT_COMM_Startup_First_Launch_All_Application">
+        <type>Test</type>
+		<snarioname>1182446</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    
+    <!-- case id 1173386  -->  
+    <testcase name="RT_COMM_PIM_Contacts_Edit_Number_Before_Call">
+        <type>Test</type>
+		<snarioname>1173386</snarioname>
+        <caseloops>1</caseloops>
+    </testcase> 
+    
+    <!-- case id 1173443  -->  
+    <testcase name="RT_COMM_Call_Voice_Call_Use_Basic_Features_During_An_Ongoing_Call">
+        <type>Test</type>
+		<snarioname>1173443</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173444  --> 
+    <testcase name="RT_COMM_Call_Dialer_Conference_Call_with_PHF">
+        <type>Test</type>
+		<snarioname>1173444</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173361  -->  
+    <testcase name="RT_COMM_Settings_Date_Time_Change_Date_Format">
+        <type>Test</type>
+		<snarioname>1173361</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173434  -->  
+    <testcase name="RT_COMM_FBI_Music_Your_Friends_Music">
+        <type>Test</type>
+		<snarioname>1173434</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_FBI_Music_Your_Own_Music">
+        <type>Test</type>
+		<snarioname>1173434</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+
+        
+    <!-- case id 1294017  -->  
+    <testcase name="RT_COMM_Call_Settings">
+        <type>Test</type>
+		<snarioname>1294017</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+
+    
+    <!-- case id 1173599  -->  
+    <testcase name="RT_COMM_FBI_Gallery">
+        <type>Test</type>
+		<snarioname>1173599</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+
+    
+    <!-- case id 1173600  -->  
+    <testcase name="RT_COMM_FBI_Calendar_Sync">
+        <type>Test</type>
+		<snarioname>1173600</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173380  -->  
+    <testcase name="Rhine_RT_PIM_Calculator_Basic_Function">
+        <type>Test</type>
+		<snarioname>1173380</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173344  -->  
+    <testcase name="RT_COMM_PIN_Contacts_Favourites_Add_And_Remove">
+        <type>Test</type>
+		<snarioname>1173344</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1225149  -->  
+    <testcase name="RT_COMM_Rhine_Email_Application_Upgrade_reply_email">
+        <type>Test</type>
+		<snarioname>1225149</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Rhine_Email_Application_Upgrade_sync_frequency">
+        <type>Test</type>
+		<snarioname>1225149</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+<!-- SECOND PART -->
+
+    <!-- case id 1178663  -->  
+    <testcase name="RT_COMM_Blue_Xperia_Super_Stamina_Notification_ReceiveIncomingCall">  <!-- Need push files to sdcard  -->  
+        <type>Test</type>
+		<snarioname>1178663</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RT_COMM_Blue_Xperia_Super_Stamina_Notification_ReceiveMessage_and_Reply">  <!-- Need push files to sdcard  -->  
+        <type>Test</type>
+		<snarioname>1178663</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1178622  -->
+    <testcase name="RT_COMM_Sony_united_Music_BasicUIandPlayingCheck_incoming_call">  <!-- Need push files to sdcard  -->  
+        <type>Test</type>
+		<snarioname>1178622</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RT_COMM_Sony_united_Music_BasicUIandPlayingCheck_shuffle_on">  <!-- Need push files to sdcard  -->  
+        <type>Test</type>
+		<snarioname>1178622</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RT_COMM_Sony_united_Music_BasicUIandPlayingCheck_repeat_one">  <!-- Need push files to sdcard  -->  
+        <type>Test</type>
+		<snarioname>1178622</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+
+
+    <!-- case id 1173472  -->  <!-- Need insert PHF  -->  
+    <testcase name="RT_COMM_FM_Radio_Favorites">
+        <type>Test</type>
+		<snarioname>1173472</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173696  -->  <!-- Need insert PHF  -->  
+    <testcase name="RT_COMM_Airplane_Restart_Mode">
+        <type>Test</type>
+		<snarioname>1173696</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173333  -->
+    <testcase name="RT_COMM_OfficeSuite_View">  <!-- Need push files to sdcard  -->  
+        <type>Test</type>
+		<snarioname>1173333</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    
+    <!-- case id 1173358  --> <!-- this 5 cases belong to 1 manual case -->    
+    <testcase name="RT_COMM_Dialer_MMT_Call_log_view_and_delete_busy_call"><!-- Need 2 partner phone -->
+        <type>Test</type>
+		<snarioname>1173358</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Dialer_MMT_Call_log_view_and_delete_invalid_call">
+        <type>Test</type>
+		<snarioname>1173358</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Dialer_MMT_Call_log_view_and_delete_missed_call">
+        <type>Test</type>
+		<snarioname>1173358</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Dialer_MMT_Call_log_view_and_delete_answered_call">
+        <type>Test</type>
+		<snarioname>1173358</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RT_COMM_Dialer_MMT_Call_log_view_and_delete_alarm_coming">
+        <type>Test</type>
+		<snarioname>1173358</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+
+    <!-- case id 1173584  -->
+    <testcase name="RT_COMM_CAM_Video_Scences_Setting">
+        <type>Test</type>
+		<snarioname>1173584</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173408  -->
+    <testcase name="RT_COMM_INTCON_MMS_Data_Switch_On_And_Off_data_off">
+        <type>Test</type>
+		<snarioname>1173408</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_INTCON_MMS_Data_Switch_On_And_Off_data_on">
+        <type>Test</type>
+		<snarioname>1173408</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1178571  -->  
+    <testcase name="RT_COMM_Alarm_Clock_portrait">
+        <type>Test</type>
+		<snarioname>1178571</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Alarm_Clock_landscape">
+        <type>Test</type>
+		<snarioname>1178571</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173568  -->  
+    <testcase name="RT_COMM_CAM_Still_Scences_Setting">
+        <type>Test</type>
+		<snarioname>1173568</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173585  -->  
+    <testcase name="RT_COMM_CAM_Still_GEO_Exif">
+        <type>Test</type>
+		<snarioname>1173585</snarioname>	
+        <caseloops>1</caseloops>
+    </testcase>
+   
+    <!--THIRD PART-->
+    <!-- case id 1178349  -->
+    <testcase name="RT_COMM_Album_Map_Online_View">
+        <type>Test</type>
+		<snarioname>1178349</snarioname>	
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173567  -->  
+    <testcase name="RT_COMM_CAM_Still_White_Balance_Setting">
+        <type>Test</type>
+		<snarioname>1173567</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1178605  -->  
+    <testcase name="RT_COMM_CAM_HDR">
+        <type>Test</type>
+		<snarioname>1178605</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173581  -->  
+    <testcase name="RT_COMM_CAM_Video_Video_Size">
+        <type>Test</type>
+		<snarioname>1173581</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173578  -->  
+    <testcase name="RT_COMM_CAM_Still_Zoom">
+        <type>Test</type>
+		<snarioname>1173578</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    
+    
+    <!-- case id 1173342  -->  
+    <testcase name="RT_COMM_PIM_Contacts_Create_Contact">
+        <type>Test</type>
+		<snarioname>1173342</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RT_COMM_PIM_Contacts_Create_Contact_Email">
+        <type>Test</type>
+		<snarioname>1173342</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+
+	<!-- case id 1173342  -->  
+    <testcase name="RT_COMM_PIM_Contacts_Create_Contact_Remove_All_Info">
+        <type>Test</type>
+		<snarioname>1173342</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+
+    <!-- case id 1173345  -->  
+    <testcase name="RT_COMM_PIM_Contacts_Search_Contact_List">
+        <type>Test</type>
+		<snarioname>1173345</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173391  -->  
+    <testcase name="RT_COMM_PIM_Contacts_Set_Photo_To_Contact_By_Camera">
+        <type>Test</type>
+		<snarioname>1173391</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173424  -->  
+    <testcase name="RT_COMM_PIM_Contacts_Check_Quick_Contact_Function">
+        <type>Test</type>
+		<snarioname>1173424</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+
+
+    <!-- case id 1178665  -->  
+    <testcase name="RT_COMM_Small_Application_Launcher_with_underlaying_app">
+        <type>Test</type>
+		<snarioname>1178665</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Small_Application_Launcher_add_widget">
+        <type>Test</type>
+		<snarioname>1178665</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173437  -->  
+    <testcase name="RT_COMM_Browser_Add_Bookmark">
+        <type>Test</type>
+		<snarioname>1173437</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173477  -->  
+    <testcase name="RT_COMM_Messa_Delete_Conversations_by_number">
+        <type>Test</type>
+		<snarioname>1173477</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Messa_Delete_Conversations_mark_conversation">
+        <type>Test</type>
+		<snarioname>1173477</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Messa_Delete_Conversations_delete_message">
+        <type>Test</type>
+		<snarioname>1173477</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Messa_Delete_Conversations_delete_all_Conversations">
+        <type>Test</type>
+		<snarioname>1173477</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Messa_Delete_Conversations_delete_draft_Conversations">
+        <type>Test</type>
+		<snarioname>1173477</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1178601  -->  
+    <testcase name="RT_COMM_Reject_Call_With_Message_default">
+        <type>Test</type>
+		<snarioname>1178601</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Reject_Call_With_Message_edit_message">
+        <type>Test</type>
+		<snarioname>1178601</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173356  -->  <!-- Need 2 partner phone -->
+    <testcase name="RT_COMM_Call_SIGN_GSM_Call_Waiting_answer_call">
+        <type>Test</type>
+		<snarioname>1173356</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Call_SIGN_GSM_Call_Waiting_busy_call">
+        <type>Test</type>
+		<snarioname>1173356</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Call_SIGN_GSM_Call_Waiting_replace_active_call">
+        <type>Test</type>
+		<snarioname>1173356</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+
+
+    <!-- case id 1173400  -->  
+    <testcase name="RT_COMM_Status_Bar_Message_receive_one_sms">
+        <type>Test</type>
+		<snarioname>1173400</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Status_Bar_Message_receive_more_sms">
+        <type>Test</type>
+		<snarioname>1173400</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Status_Bar_Message_receive_mms">
+        <type>Test</type>
+		<snarioname>1173400</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+<!--FORTH PART-->
+
+    <!-- case id 1173423  -->  
+    <testcase name="RT_COMM_YouTube_FirstStart_search">
+        <type>Test</type>
+		<snarioname>1173423</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_YouTube_FirstStart_playerControl">
+        <type>Test</type>
+		<snarioname>1173423</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>   
+    
+    
+    <!-- case id 1222051  -->  <!-- Need 2 partner phone -->
+    <testcase name="RT_COMM_Answering_Machine_not_accept_incoming_call">
+        <type>Test</type>
+		<snarioname>1222051</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Answering_Machine_accept_incoming_call_during_send_greeting">
+        <type>Test</type>
+		<snarioname>1222051</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Answering_Machine_turn_off_answer_machine">
+        <type>Test</type>
+		<snarioname>1222051</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Answering_Machine_reject_incoming_call_with_answer_machine">
+        <type>Test</type>
+		<snarioname>1222051</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Answering_Machine_accept_incoming_call_during_record_message">
+        <type>Test</type>
+		<snarioname>1222051</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173441  -->  
+    <testcase name="RT_COMM_Dialer_Save_the_number_of_dialer_text_box_into_contact">
+        <type>Test</type>
+		<snarioname>1173441</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1243070  -->  
+    <testcase name="RT_COMM_EAP_SIM">
+        <type>Test</type>
+		<snarioname>1243070</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1178608  -->  
+    <testcase name="RT_COMM_Smart_Connect">
+        <type>Test</type>
+		<snarioname>1178608</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173350   
+    <testcase name="RT_COMM_SECU_SIM_Change_PIN_Code">
+        <type>Test</type>
+		<snarioname>1173350</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    --> 
+    
+    <!-- case id 1173457  -->  
+    <testcase name="RT_COMM_Album_Crop_Rotate_Slideshow">
+        <type>Test</type>
+		<snarioname>1173457</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173460  -->  
+    <testcase name="RT_COMM_Messa_Email_Add_Attachment_picture">
+        <type>Test</type>
+		<snarioname>1173460</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Messa_Email_Add_Attachment_video">
+        <type>Test</type>
+		<snarioname>1173460</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Messa_Email_Add_Attachment_audio">
+        <type>Test</type>
+		<snarioname>1173460</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Messa_Email_Add_Attachment_delete_attach">
+        <type>Test</type>
+		<snarioname>1173460</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+     <!-- case id 1178572  -->  
+    <testcase name="RT_COMM_APN_Usage_With_IPV6">
+        <type>Test</type>
+		<snarioname>1178572</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173480  -->  
+    <testcase name="RT_COMM_Messa_MMS_Save_Attachement_picture">
+        <type>Test</type>
+		<snarioname>1173480</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Messa_MMS_Save_Attachement_sound">
+        <type>Test</type>
+		<snarioname>1173480</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    <testcase name="RT_COMM_Messa_MMS_Save_Attachement_video">
+        <type>Test</type>
+		<snarioname>1173480</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+	
+    <!-- case id 1217702_1  -->  
+    <testcase name="RT_COMM_Call_SIP_VOIP_sip">
+        <type>Test</type>
+		<snarioname>1217702</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+        <!-- case id 1217702_2  -->  
+    <testcase name="RT_COMM_Call_SIP_VOIP_voip">
+        <type>Test</type>
+		<snarioname>1217702</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+	
+	<!-- case id 1173598  -->  
+    <testcase name="RT_COMM_CAM_Fast_Capturing">
+        <type>Test</type>
+		<snarioname>1173598</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173452_2  -->  
+    <testcase name="RT_COMM_VPN_Impropriety_Authentication_L2TP_PSK">
+        <type>Test</type>
+		<snarioname>1173452</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1173452_3  -->  
+    <testcase name="RT_COMM_VPN_Impropriety_Authentication_PPTP">
+        <type>Test</type>
+		<snarioname>1173452</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+	
+    <!-- case id 1173452_1  -->  
+    <testcase name="RT_COMM_VPN_Impropriety_Authentication_L2TP_RSA">
+        <type>Test</type>
+		<snarioname>1173452</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+   
+<!-- Begin Pre-condition test case  -->
+    <testcase name="Set APN">
+        <type>Precondition</type>
+        <caseloops>0</caseloops>
+		<network_Type>3G</network_Type>
+    </testcase>
+
+<!-- End Pre-condition test case  -->
+</Config>
+
+
+
+
+

@@ -1,0 +1,160 @@
+package com.module.officesuite;
+
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.module.common.CommonModule;
+import com.sonyericsson.test.acceptancetest.AcceptanceTestCase;
+
+import android.view.KeyEvent;
+
+public class OfficeSuiteModule implements IOfficeSuite{
+
+    AcceptanceTestCase testCase;
+    CommonModule commonModule;
+
+    public OfficeSuiteModule(AcceptanceTestCase testCase){
+        this.testCase = testCase;
+
+        commonModule = new CommonModule(testCase);
+    }
+
+    @Override
+    public void launchOfficeSuite() {
+        testCase.launchApp("com.mobisystems.office", "com.mobisystems.office.FileBrowser");
+
+        commonModule.wait(2);
+        if(testCase.isViewWithTextPresent("For genuine viewing of your documents download Microsoft Compatibility Font Pack.")){
+            testCase.clickItemWithText("Don't ask again");
+            commonModule.wait(1);
+            testCase.clickItemWithText("Later");
+        }
+    }
+
+    @Override
+    public void openFileFromExternalStorage(String fileName) throws UiObjectNotFoundException{
+
+        launchOfficeSuite();
+
+        if(!testCase.isViewWithTextMatches("Internal storage")){
+            commonModule.clickResourceId("com.mobisystems.office:id/app_icon");
+
+            commonModule.clickText("Internal storage");
+            //commonModule.clickText("Internal storage");
+        }
+
+       /* AcceptanceTestCase.assertTrue("Folder named 'Android' should display",
+                commonModule.waitForText("Android", 5000));*/
+
+        //files are under 'Android' folder as default
+        commonModule.scrollFindText("testresource");
+
+        //commonModule.clickText("Android");
+        commonModule.scrollFindTextNotClick(fileName);
+        AcceptanceTestCase.assertTrue("File named "+ fileName+ " should display",
+                commonModule.waitForText(fileName, 5000));
+
+        commonModule.clickText(fileName);
+        commonModule.wait(2);
+    }
+
+    public void verifyDocFileOpened(){
+        AcceptanceTestCase.assertTrue("doc file open failed",commonModule.waitForResourceId("com.mobisystems.office:id/t_font", 3000)
+                || commonModule.waitForResourceId("com.mobisystems.office:id/t_format_painter", 5000));
+    }
+
+    public void verifyExcelFileOpened(){
+        AcceptanceTestCase.assertTrue("excel file open failed",commonModule.waitForResourceId("com.mobisystems.office:id/excel_tabs", 8000)
+                || commonModule.waitForResourceId("com.mobisystems.office:id/t_font", 5000));
+    }
+
+    public void verifyPdfFileOpened(){
+        AcceptanceTestCase.assertTrue("pdf file open failed",commonModule.waitForResourceId("com.mobisystems.office:id/pdf_goto_page", 8000)
+                );
+    }
+
+    public void verifyPptFileOpened(){
+        AcceptanceTestCase.assertTrue("ppt file open failed",commonModule.waitForResourceId("com.mobisystems.office:id/pp_notes_title", 3000)
+                );
+    }
+
+    public void openSeveralFileTypeAndDoSomeOperation() throws UiObjectNotFoundException{
+        launchOfficeSuite();
+        //open doc file
+        openFileFromExternalStorage("testDoc.doc");
+        verifyDocFileOpened();
+
+        //do word count
+        testCase.pressKey(KeyEvent.KEYCODE_MENU);
+        commonModule.wait(5);
+        commonModule.waitForText("Word count", 3000);
+        testCase.clickItemWithText("Word count");
+
+        testCase.assertTextPresent("Whole document");
+        testCase.assertTextPresent("Words: ");
+        testCase.assertTextPresent("Characters: ");
+
+        commonModule.backOutToHomeScreen();
+
+        launchOfficeSuite();
+
+        //open excel file
+        openFileFromExternalStorage("testExcel.xls");
+        verifyExcelFileOpened();
+
+        //do close file
+        testCase.pressKey(KeyEvent.KEYCODE_MENU);
+        commonModule.waitForText("File", 3000);
+        testCase.clickItemWithText("File");
+
+        commonModule.waitForText("Close", 3000);
+        testCase.clickItemWithText("Close");
+
+        //excel closed and excel file name exist
+        commonModule.waitForText("testExcel.xls", 5000);
+
+        commonModule.backOutToHomeScreen();
+
+        launchOfficeSuite();
+
+        //open excel file
+        openFileFromExternalStorage("testPdf.pdf");
+        verifyPdfFileOpened();
+
+        //do full screen
+        testCase.pressKey(KeyEvent.KEYCODE_MENU);
+        commonModule.waitForText("Full screen", 3000);
+        testCase.clickItemWithText("Full screen");
+
+        AcceptanceTestCase.assertTrue("pdf doesn't goto full scree , some icon still visible",
+                !commonModule.isResourceId("com.mobisystems.office:id/pdf_goto_page"));
+
+        commonModule.backOutToHomeScreen();
+
+        launchOfficeSuite();
+
+        //open ppt file
+        openFileFromExternalStorage("testPpt.pptx");
+        verifyPptFileOpened();
+
+        //do play slide show
+        testCase.pressKey(KeyEvent.KEYCODE_MENU);
+        commonModule.waitForText("Slide show", 3000);
+        testCase.clickItemWithText("Slide show");
+        testCase.assertTextPresent("Advance slides");
+
+        //click 'Start' button
+        commonModule.clickResourceId("android:id/button1");
+        commonModule.wait(2);
+
+        //scroll slide maunlly
+        testCase.scrollLeft();
+        commonModule.wait(1);
+
+        testCase.scrollLeft();
+        commonModule.wait(1);
+
+        commonModule.backOutToHomeScreen();
+
+    }
+
+
+}

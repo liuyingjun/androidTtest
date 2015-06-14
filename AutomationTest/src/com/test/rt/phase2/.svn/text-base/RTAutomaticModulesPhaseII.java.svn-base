@@ -1,0 +1,240 @@
+
+package com.test.rt.phase2;
+
+import android.os.Environment;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+
+import com.module.alarm.AlarmFactory;
+import com.module.alarm.IAlarm;
+import com.module.album.AlbumFactory;
+import com.module.album.IAlbum;
+import com.module.calculator.AbstractCalculatorFactory;
+import com.module.calculator.ICalculator;
+import com.module.camera.AbstractCameraFactory;
+import com.module.camera.ICamera;
+import com.module.common.CommonModule;
+import com.module.contacts.ContactsFactory;
+import com.module.contacts.IContacts;
+import com.module.email.EmailFactory;
+import com.module.email.IEmail;
+import com.module.media.IMedia;
+import com.module.media.MediaFactory;
+import com.module.messaging.IMessaging;
+import com.module.messaging.MessagingFactory;
+import com.module.officesuite.IOfficeSuite;
+import com.module.officesuite.OfficeSuiteFactory;
+import com.module.settings.AbstractSettingsFactory;
+import com.module.settings.ISetting;
+import com.module.settings.SettingsFactory;
+import com.module.smallApp.ISmallApp;
+import com.module.smallApp.SmallAppFactory;
+import com.module.smartConnect.ISmartConnect;
+import com.module.smartConnect.SmartConnectFactory;
+import com.module.telephony.AbstractTelephonyFactory;
+import com.module.telephony.ITelephony;
+import com.module.telephony.TelephonyFactory;
+import com.module.walkman.AbstractWalkmanFactory;
+import com.module.walkman.IWalkman;
+import com.module.walkman.WalkmanFactory;
+import com.module.walkman.WalkmanModule;
+import com.parents.GroupFactories;
+import com.parser.cases.TestDataExtract;
+import com.parser.data.ModuleData;
+import com.parser.data.ModuleDataParser;
+import com.parser.module.PropertyNotFoundException;
+import com.module.email.AbstractEmailFactory;
+import com.module.facebook.AbstractFacebookFactory;
+import com.module.facebook.IFacebook;
+import com.sonyericsson.test.acceptancetest.AcceptanceTestCase;
+import com.utils.CommandConstantsUtils;
+
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
+
+public class RTAutomaticModulesPhaseII {
+
+    private AcceptanceTestCase testCase;
+
+    private CommonModule commonModule;
+
+	private String callNumber;
+
+    private static String callNumber2;
+
+    private static String callNumber3;
+
+    private static String emailaccount;
+
+    private static String emailpassword;
+
+    private static String email2account;
+
+    private static String email2password;
+
+    private static String EASaccount;
+
+    private static String EASpassword;
+
+    private static String facebookaccount;
+
+    private static String facebookpassword;
+
+    private static String test_vpnusername;
+
+    private static String test_vpnpassword;
+
+    private static String test_gmailpassword;
+
+    private static String test_gmailaccount;
+
+    private static String test_sipaccount;
+
+    private static String test_sippassword;
+
+    private static String test_partnerskypeaccount;
+
+    private static String test_skypeaccount;
+
+    private static String test_skypepassword;
+
+    private static String partner_sipaccount;
+
+    private static String test_wifi;
+
+    private static String test_wifipassword;
+
+    private IOfficeSuite officeSuite;
+
+    private ITelephony telephonyModule;
+
+    private ICamera camera;
+
+    private IAlarm alarmModule;
+
+    private ISetting settingsModule;
+
+    private IMedia mediaModule;
+
+    private IAlbum albumModule;
+
+    private IMessaging messagingModule;
+
+    private IContacts contactsModule;
+
+    private ISmallApp smallApp;
+
+    private ISmartConnect smartConnect;
+
+    private IEmail emailModule;
+
+	private IWalkman walkman;
+
+	private ICalculator calculator;
+
+	private IFacebook facebook;
+
+    public String cameraFilePath = Environment.getExternalStorageDirectory().getPath()
+            + "/DCIM/100ANDRO/";
+
+    public String xperiaFilePath = Environment.getExternalStorageDirectory().getPath()
+            + "/DCIM/XPERIA/";
+
+    public String testloops;
+
+    public RTAutomaticModulesPhaseII(AcceptanceTestCase testCase) throws PropertyNotFoundException,
+            XmlPullParserException, IOException {
+        this.testCase = testCase;
+        this.commonModule = new CommonModule(testCase);
+
+        ModuleDataParser dataParser = new ModuleDataParser();
+        dataParser.parse();
+
+        getAccounts();
+
+        officeSuite = OfficeSuiteFactory.getOfficeSuiteModule(testCase);
+        telephonyModule = ((AbstractTelephonyFactory)GroupFactories.createFactory(testCase,
+                "telephony")).create();
+        alarmModule = AlarmFactory.getCameraModule(testCase);
+        settingsModule = ((AbstractSettingsFactory)(GroupFactories.createFactory(testCase,
+                "settings"))).getSettingsModule();
+        messagingModule = MessagingFactory.getMessagingModule(testCase);
+        camera = ((AbstractCameraFactory)GroupFactories.createFactory(testCase, "camera")).create();
+        mediaModule = MediaFactory.getMediaModule(testCase);
+        albumModule = AlbumFactory.getAlbumModule(testCase);
+        contactsModule = ContactsFactory.getContactsModule(testCase);
+        smallApp = SmallAppFactory.getSmallAppModule(testCase);
+        smartConnect = SmartConnectFactory.getSmartConnectModule(testCase);
+        emailModule = ((AbstractEmailFactory)GroupFactories.createFactory(testCase, "email"))
+                .create();
+        walkman = ((AbstractWalkmanFactory)GroupFactories.createFactory(testCase, "walkman"))
+                .create();
+        calculator = ((AbstractCalculatorFactory)GroupFactories.createFactory(testCase,
+                "calculator")).create();
+        facebook = ((AbstractFacebookFactory)GroupFactories.createFactory(testCase, "facebook"))
+                .create();
+
+    }
+
+    public void getAccounts() {
+        callNumber = TestDataExtract.callNumber;
+        callNumber2 = TestDataExtract.callNumber2;
+        callNumber3 = TestDataExtract.callNumber3;
+
+        emailaccount = TestDataExtract.test_emailaccount;
+        emailpassword = TestDataExtract.test_emailpassword;
+        email2account = TestDataExtract.test_email2account;
+        email2password = TestDataExtract.test_email2password;
+        EASaccount = TestDataExtract.test_EASaccount;
+        EASpassword = TestDataExtract.test_EASpassword;
+        facebookaccount = TestDataExtract.test_facebookaccount;
+        facebookpassword = TestDataExtract.test_facebookpassword;
+        test_vpnusername = TestDataExtract.test_vpnusername;
+        test_vpnpassword = TestDataExtract.test_vpnpassword;
+        test_gmailaccount = TestDataExtract.test_gmailaccount;
+        test_gmailpassword = TestDataExtract.test_gmailpassword;
+        test_partnerskypeaccount = TestDataExtract.test_partnerskypeaccount;
+        test_skypeaccount = TestDataExtract.test_skypeaccount;
+        test_skypepassword = TestDataExtract.test_skypepassword;
+        test_sipaccount = TestDataExtract.test_sipaccount;
+        test_sippassword = TestDataExtract.test_sippassword;
+        partner_sipaccount = TestDataExtract.partner_sipaccount;
+
+        test_wifi = TestDataExtract.test_wifi;
+        test_wifipassword = TestDataExtract.test_wifipassword;
+
+
+    }
+
+    public void RT_COMM_Screenlock_Action_in_notification_window(String casename,
+            HashMap<String, String> paras) throws Exception {
+
+        try {
+
+        } catch (Exception ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (AssertionFailedError ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } catch (Error ex) {
+            commonModule.takeScreenShot(casename);
+            throw ex;
+        } finally {
+            System.out.println("in finally");
+            commonModule.unLockScreen();
+            commonModule.backOutToHomeScreen();
+        }
+    }
+
+
+}

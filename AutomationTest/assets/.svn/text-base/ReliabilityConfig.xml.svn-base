@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- modle is how many network status will be tested 1 means 2g only ,2 means 2g and 3g , 3 means test all  4 mean 3G only         network   1 means ete 2 mean cdma-->
+
+<Config mode="4" network= '1' loops = "3" varient="Gina" testtype="Reliability">
+	<common-data name="test0_Precondition">
+   
+        <!-- Server phone number (Listener Control Server)   -->
+		<partner_phonenumber>15699002004</partner_phonenumber> 
+		<!-- Server phone number (Music Resource Server) -->
+		<partner_phonenumber2>15699000758</partner_phonenumber2>       
+        <partner_phonenumber3>15699000758</partner_phonenumber3>
+        <sel_phonenumber>15699001134</sel_phonenumber>
+        <test_skypeaccount>test01980</test_skypeaccount>
+		<test_skypepassword>Beijing00</test_skypepassword>
+        
+		<test_emailaccount>agingtestnew002@gmail.com</test_emailaccount>
+		<test_emailpassword>Beijing00</test_emailpassword>
+        <test_email2account>agingtest005@gmail.com</test_email2account>
+        <test_email2password>Beijing00</test_email2password>
+        <test_gmailaccount>agingtestnew003@gmail.com</test_gmailaccount><!-- login use IMAP -->
+		<test_gmailpassword>Beijing00</test_gmailpassword>
+	    <test_facebookaccount>agingtestnew001@gmail.com</test_facebookaccount>
+		<test_facebookpassword>beijing123</test_facebookpassword>
+		<test_EASaccount>validation01@eas.cn.gte.nu</test_EASaccount>
+		<test_EASpassword>Beijing123</test_EASpassword>
+		<test_facebookname>Sevr Zhang</test_facebookname>
+		<test_partnerskypeaccount>test001748</test_partnerskypeaccount>
+			<test_sipaccount>9013</test_sipaccount>
+		 <test_sippassword>9013</test_sippassword>
+				<partner_sipaccount>9012</partner_sipaccount>
+		   <partner_sippassword>9012</partner_sippassword>
+		   
+		   <test_serveremail>agingtestserver@gmail.com</test_serveremail>
+		
+		<test_talkccount>gpvpower@gmail.com</test_talkccount>
+		<test_talkpassword>beijing1234</test_talkpassword>
+		
+		<!--      pbgwpla   icanseeit  -->
+		<wifi_name>GTE</wifi_name>
+		<wifi_password>power123</wifi_password>
+        <video_clip_number>3</video_clip_number>
+        <network_Type_2G>GSM only</network_Type_2G>
+        <network_Type_3G>WCDMA only</network_Type_3G>
+        <network_Type_4G>LTE only</network_Type_4G>
+        <network_Type_CDMA>CDMA only</network_Type_CDMA>
+        <network_Type_EVDO>EvDo only</network_Type_EVDO>
+        <network_Type_3G_PREFER>WCDMA (preferred)/GSM</network_Type_3G_PREFER>
+        <network_Type_4G_PREFER>LTE (preferred)/WCDMA/GSM</network_Type_4G_PREFER>
+
+	</common-data>
+		
+<!-- begin Test case  -->
+
+    <testcase name="Make_MO_and_MT_Call_Uner_Various_RAM_Status">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+        <durations>10</durations>
+    </testcase>
+    
+    <testcase name="RELIA_Camera_Take_Multiple_Video_Clips_With_AR_Effort">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+
+    <!-- case id 1348456  -->  
+    <testcase name="RELIA_Email_Send_Receive_Different_Protocol_Emails">
+        <type>Test</type>
+	<snarioname>Email</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1365693  -->  
+    <testcase name="RELIA_Phonebook_Multiple_Times_Settings">
+        <type>Test</type>
+    	<snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1365642  -->  
+    <testcase name="RELIA_Phonebook_Import_Contacts_From_Different_Storage_Under_Various_RAM_Status">
+        <type>Test</type>
+	<snarioname>Phonebook</snarioname>
+	<RAMStatus>0.6</RAMStatus>
+	<!-- Params list,seperate with ",":SIM card,Internal storage,SD card,USB storage -->
+	<storage>SD card</storage>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1365690  -->  
+    <testcase name="RELIA_Phonebook_Export_Contacts_To_Different_Storage">
+        <type>Test</type>
+	<snarioname>Phonebook</snarioname>
+	<!-- Params list,seperate with ",":SIM card,Internal storage,SD card,USB storage -->
+	<storage>SIM card,Internal storage,SD card,USB storage</storage>
+	<contactNumber>5</contactNumber>
+        <caseloops>1</caseloops>
+    </testcase>
+
+    <!-- case id 1365691  -->  
+    <testcase name="RELIA_Phonebook_Add_New_Contact_When_Call">
+        <type>Test</type>
+	<snarioname>Phonebook</snarioname>
+	<times>1</times>
+        <caseloops>1</caseloops>
+    </testcase>    
+   
+    <!-- case id 1365899  -->  
+    <testcase name="RELIA_Music_Player_Long_Time_Play_DRM_Files">
+        <type>Test</type>
+	<snarioname>Music Player</snarioname>
+	<times>1</times>
+	<music_list>Music</music_list>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 131348477  -->  
+    <testcase name="RELIA_MM_Play_Different_Format_Video_For_Multiple_Times">
+        <type>Test</type>
+		<snarioname>Music Player</snarioname>
+		<times>1</times>
+		<videoFolder>Movies</videoFolder>
+        <caseloops>1</caseloops>
+    </testcase>
+
+ 	<!-- case id 1348479  -->  
+    <testcase name="RELIA_MM_System_Capability_For_Operate_Video_Playing">
+        <type>Test</type>
+		<snarioname>MM</snarioname>
+		<videoName>oceans_x264_1280_534</videoName>
+		<repeatTime>2</repeatTime>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+ 	<!-- case id 1364702  -->  
+    <testcase name="RELIA_TrackID_Search_Songs_Under_Different_RAM_Status">
+        <type>Test</type>
+		<snarioname>TrackID</snarioname>
+		<RAMStatus>0.6</RAMStatus>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+ 	<!-- case id 1365790  -->  
+    <testcase name="RELIA_Music_Player_Long_Time_Play_Different_Format_Files">
+        <type>Test</type>
+		<snarioname>Music Player</snarioname>
+		<duration>200</duration>
+		<music_list>Music</music_list><!-- The folder name which to save this case test sourse -->
+        <caseloops>1</caseloops>
+    </testcase>
+    
+ 	<!-- case id 1365789  -->  
+    <testcase name="RELIA_Music_Player_Long_Time_Music_Play_Under_Different_Mode">
+        <type>Test</type>
+		<snarioname>Music Player</snarioname>
+		<!-- Params list,seperate with ",":shuffle on,shuffle off,repeat one,repeat all,repeat off -->
+		<play_mode>shuffle on,shuffle off,repeat one,repeat all,repeat off</play_mode>
+		<!-- modify caseloops as repeat times -->
+        <caseloops>1</caseloops>
+    </testcase>
+    
+ 	<!-- case id 1326370  -->  
+    <testcase name="RELIA_Music_Player_Playback_Large_Music_File">
+        <type>Test</type>
+		<snarioname>Music Player</snarioname>
+		<musicName>ChouNiangNiang(1)-150M</musicName>
+        <caseloops>1</caseloops>
+    </testcase>
+
+ 	<!-- case id 1348478  -->  
+    <testcase name="RELIA_MM_System_Capability_For_Playing_DRM_Videos">
+        <type>Test</type>
+		<snarioname>MM</snarioname>
+		<DRMvideo>test</DRMvideo><!-- please enter the storaged DRM videos foler name -->
+        <caseloops>1</caseloops>
+    </testcase>
+    
+ 	<!-- case id 1369594  -->  
+    <testcase name="RELIA_MM_System_Capability_For_Playing_Streaming_Videos">
+        <type>Test</type>
+		<snarioname>MM</snarioname>
+		<streamingvideo>test</streamingvideo><!-- please enter the storaged streaming videos foler name -->
+        <caseloops>1</caseloops>
+    </testcase>
+    
+ 	<!-- case id 1349399  -->  
+    <testcase name="RELIA_Album_Repeat_To_Play_delete_Images_For_Many_Times">
+        <type>Test</type>
+		<snarioname>Album</snarioname>
+		<times>2</times>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+ 	<!-- case id 1335245  -->  
+    <testcase name="RELIA_Album_View_Pictures_Under_Various_RAM_Status">
+        <type>Test</type>
+		<snarioname>Album</snarioname>
+		<RAMStatus>0.6</RAMStatus>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RELIA_MM_System_Capability_For_Video_Playing">
+        <type>Test</type>
+	<snarioname>MM</snarioname>
+	<videoname>oceans_x264_1280_534</videoname>
+	<repeattime>2</repeattime>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RELIA_Video_Player_Play_Large_Size_Video_File">
+        <type>Test</type>
+	<snarioname>Video</snarioname>
+	<videoname>oceans_x264_1280_534</videoname><!-- The large video name, without suffix -->
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="Make_MO_and_MT_Call_Uner_Various_RAM_Status">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+        <durations>10</durations>
+    </testcase>
+    
+    <testcase name="Make_Long_Call_With_Loudspeaker">
+        <type>Test</type>
+	<snarioname>Telephony</snarioname>
+        <caseloops>1</caseloops>
+        <durations>10</durations>
+    </testcase>
+    
+    <testcase name="Make_Long_Time_Call_With_PHF_Parameter">
+        <type>Test</type>
+	<snarioname>Telephony</snarioname>
+            <caseloops>1</caseloops>
+            <durations>10</durations>
+        </testcase>
+    <testcase name="Make_Long_Time_Calls_in_Various_Network_Mode">
+        <type>Test</type>
+ 	<snarioname>Telephony</snarioname>
+        <caseloops>1</caseloops>
+        <durations>10</durations>
+        <networkmode>2g,3g</networkmode><!-- available modes are 2g,3g, 3g prefer, 4g prefer -->
+    </testcase>
+    
+    <!-- case id 1335262  -->  
+    <testcase name="Make_Long_Time_Conference_Call">
+        <type>Test</type>
+	<snarioname>Telephony</snarioname>
+        <caseloops>1</caseloops>
+        <durations>10</durations>
+    </testcase>
+	<!-- case id 1325406  -->  
+    <testcase name="RELIA_Messaging_SMS_Send_Receive_Forword_Delete_Multiple_SMS">
+        <type>Test</type>
+	<snarioname>Telephony</snarioname>
+        <caseloops>1</caseloops>
+        <RAMStatus>0.6</RAMStatus>
+        <sendSMSNum>3</sendSMSNum>
+        <receiveSMSNum>3</receiveSMSNum>
+        <forwordSMSNum>3</forwordSMSNum>
+        <deleteSMSNum>2</deleteSMSNum>
+    </testcase>
+
+    <!-- case id 1344169  --> 
+    <testcase name="RELIA_Messaging_MMS_Send_Receive_Forword_Delete_Multiple_MMS">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <RAMStatus>0.6</RAMStatus>
+        <sendMMSNum>3</sendMMSNum>
+        <receiveMMSNum>3</receiveMMSNum>
+        <forwordMMSNum>3</forwordMMSNum>
+        <deleteMMSNum>2</deleteMMSNum>
+    </testcase>
+
+    <!-- case id 1344170  --> 
+    <testcase name="RELIA_Messaging_Send_Receive_Message_Under_Heavy_Load">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <RAMStatus>0.6</RAMStatus>
+    </testcase>
+    
+    <!-- case id 1344171-1  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_Message__incoming_call">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+   <!-- case id 1344171-2  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_Message__incoming_messgae">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <concurrent_SMS>1</concurrent_SMS>
+        <concurrent_MMS>1</concurrent_MMS>
+    </testcase>
+    
+   <!-- case id 1344171-3  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_Message__incoming_email">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+   <!-- case id 1344171-4  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_Message__background_media">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <concurrent_music>1</concurrent_music>
+        <concurrent_radio>1</concurrent_radio>
+    </testcase>
+    
+   <!-- case id 1344171-5  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_Message__alarm">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <concurrent_alarm>0</concurrent_alarm>
+        <concurrent_calendar>1</concurrent_calendar>
+    </testcase>
+    
+   <!-- case id 1344171-6  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_Message__chat">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+        <concurrent_facebook>1</concurrent_facebook>
+        <concurrent_wechat>0</concurrent_wechat>
+        <concurrent_weibo>0</concurrent_weibo>
+    </testcase>
+    
+    <!-- case id 1325355-1  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling__incoming_call">
+        <type>Test</type>
+        <caseloops>0</caseloops>
+    </testcase>
+    
+   <!-- case id 1325355-2  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling__incoming_messgae">
+        <type>Test</type>
+        <caseloops>0</caseloops>
+        <concurrent_SMS>1</concurrent_SMS>
+        <concurrent_MMS>1</concurrent_MMS>
+    </testcase>
+    
+   <!-- case id 1325355-3  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling__incoming_email">
+        <type>Test</type>
+        <caseloops>0</caseloops>
+    </testcase>
+    
+   <!-- case id 1325355-4  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling__background_media">
+        <type>Test</type>
+        <caseloops>0</caseloops>
+        <concurrent_music>1</concurrent_music>
+        <concurrent_radio>1</concurrent_radio>
+    </testcase>
+    
+   <!-- case id 1325355-5  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling__alarm">
+        <type>Test</type>
+        <caseloops>0</caseloops>
+        <concurrent_alarm>0</concurrent_alarm>
+        <concurrent_calendar>1</concurrent_calendar>
+    </testcase>
+    
+   <!-- case id 1325355-6  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling__chat">
+        <type>Test</type>
+        <caseloops>0</caseloops>
+        <concurrent_facebook>1</concurrent_facebook>
+        <concurrent_wechat>1</concurrent_wechat>
+        <concurrent_weibo>0</concurrent_weibo>
+    </testcase>
+    
+	<!-- case id 1325563  -->  
+    <testcase name="RELIA_Camera_Take_Multiple_Picture_With_Creative_Effort">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1325564  -->  
+    <testcase name="RELIA_Camera_Take_Multiple_Picture_With_AR_Effort">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1325568  -->  
+    <testcase name="RELIA_Camera_Take_Multiple_Pictures_With_Background_Defocus">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 735922  -->  
+    <testcase name="Camera_Take_Long_Videos">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <durations>10</durations>
+    </testcase>
+	
+	<!-- case id 1335159  -->  
+    <testcase name="Camera_Take_Multiple_Video_Clips_With_Superior_Auto_Mode">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <times>2</times>
+    </testcase>
+	    
+    <!-- case id 1335160  -->  
+    <testcase name="Camera_Take_Multiple_Video_Clips_With_Timeshift_Video_Mode">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <times>2</times>
+    </testcase>
+    
+	<!-- case id 1335157  -->  
+	<testcase name="Camera_Take_Multiple_4K2K_Pictures">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+		<caseloops>1</caseloops>
+		<photos>2</photos>
+	</testcase>
+	
+	<!-- case id 1335158  -->  
+	<testcase name="Camera_Take_Multiple_4K2K_Video_Clips">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+		<caseloops>1</caseloops>
+		<times>2</times>
+	</testcase>
+
+    <!-- case id 1335262  -->  
+    <testcase name="RELIA_Camera_Take_Multiple_Pictures_With_Supserior_Auto_Mode">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1336665  -->  
+    <testcase name="RELIA_Camera_Take_Multiple_Pictures_With_Geo_Tag">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1348081  -->  
+    <testcase name="RELIA_Camera_Take_Multiple_Pictures_With_Different_Scenes">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1325567  -->  
+    <testcase name="RELIA_Camera_Take_Multiple_Video_Clips_With_AR_Effort">
+        <type>Test</type>
+	<snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1325326 -->
+    <testcase name="RELIA_Telephony_Repeat_To_Multiple_Many_Calls_In_Various_Network_Mode">
+        <type>Test</type>
+	<snarioname>Telephony</snarioname>
+        <caseloops>1</caseloops>
+        <times>2</times>
+        <networkmode>2g,3g</networkmode><!-- available modes are 2g,3g, 3g prefer, 4g prefer -->
+    </testcase>
+    
+    <!-- case id 1335048 -->
+    <testcase name="RELIA_Telephony_Long_Time_Call_With_BTH">
+        <type>Test</type>
+        <snarioname>Telephony</snarioname>
+        <caseloops>1</caseloops>
+        <durations>10</durations>
+    </testcase>
+    
+    
+    <!-- case id 1336663  -->  
+    <testcase name="RELIA_Telephony_Long_Time_VOIP_Call">
+        <type>Test</type>
+        <snarioname>Telephony</snarioname>
+        <caseloops>1</caseloops>
+        <durations>10</durations>
+    </testcase>
+    
+    <!-- case id 1335304  -->  
+    <testcase name="RELIA_Telephony_Long_Time_SIP_Call">
+        <type>Test</type>
+        <snarioname>Telephony</snarioname>
+        <caseloops>1</caseloops>
+        <durations>10</durations>
+    </testcase>
+    
+<!-- end Test Case  -->
+
+
+
+<!-- Begin Pre-condition test case  -->
+    <testcase name="Set APN">
+        <type>Precondition</type>
+        <caseloops>0</caseloops>
+		<network_Type>3G</network_Type>
+    </testcase>
+    
+    <testcase name="Initial Settings">
+        <type>Precondition</type>
+        <caseloops>0</caseloops>
+        <network_Type>3G</network_Type>
+    </testcase>
+    
+    <testcase name="Insert SMS">
+        <type>Precondition</type>
+		<caseloops>0</caseloops>
+        <network_Type>3G</network_Type>
+
+    </testcase>
+    
+    <testcase name="Insert Call Log">
+        <type>Precondition</type>
+        <network_Type>3G</network_Type>
+        <caseloops>0</caseloops>
+    </testcase>
+    
+   <testcase name="Create Phone Contacts">
+        <type>Precondition</type>
+		<caseloops>0</caseloops>
+        <network_Type>3G</network_Type>
+    </testcase>
+    
+    <testcase name="Fill Memory">
+        <type>Precondition</type>
+        <caseloops>0</caseloops>
+		<network_Type>3G</network_Type>
+    </testcase>
+    
+    <testcase name="Delete EAS Account">
+        <type>Precondition</type>
+        <caseloops>0</caseloops>
+		<network_Type>3G</network_Type>
+    </testcase>
+    
+        <testcase name="Delete Email Account">
+        <type>Precondition</type>
+        <caseloops>0</caseloops>
+		<network_Type>3G</network_Type>
+    </testcase>
+    
+        <testcase name="Delete Gmail Account">
+        <type>Precondition</type>
+        <caseloops>0</caseloops>
+		<network_Type>3G</network_Type>
+    </testcase>
+    
+        <testcase name="Create EAS Account">
+        <type>Precondition</type>
+        <caseloops>0</caseloops>
+		<network_Type>3G</network_Type>
+    </testcase>
+    
+        <testcase name="Create Email Account">
+        <type>Precondition</type>
+        <caseloops>0</caseloops>
+		<network_Type>3G</network_Type>
+    </testcase>
+    
+        <testcase name="Create Gmail Account">
+        <type>Precondition</type>
+        <caseloops>0</caseloops>
+		<network_Type>3G</network_Type>
+    </testcase>
+
+<!-- End Pre-condition test case  -->
+</Config>
+
+
+
+
+

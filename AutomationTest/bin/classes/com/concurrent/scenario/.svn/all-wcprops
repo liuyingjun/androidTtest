@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Automation/!svn/ver/480/AutomationTest/src/com/concurrent/scenario
+END
+ScenarioPlayMusicAndVerifyBasicFunction.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/Automation/!svn/ver/474/AutomationTest/src/com/concurrent/scenario/ScenarioPlayMusicAndVerifyBasicFunction.java
+END
+ScenarioRecordingVideoTimeshiftVideo.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/Automation/!svn/ver/479/AutomationTest/src/com/concurrent/scenario/ScenarioRecordingVideoTimeshiftVideo.java
+END
+IScenario.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/Automation/!svn/ver/474/AutomationTest/src/com/concurrent/scenario/IScenario.java
+END
+ScenarioRecordingVideo4KVideo.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/Automation/!svn/ver/479/AutomationTest/src/com/concurrent/scenario/ScenarioRecordingVideo4KVideo.java
+END
+ScenarioTakePictureBackgroundDefocus.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/Automation/!svn/ver/480/AutomationTest/src/com/concurrent/scenario/ScenarioTakePictureBackgroundDefocus.java
+END
+ScenarioVideoPlaying.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/Automation/!svn/ver/474/AutomationTest/src/com/concurrent/scenario/ScenarioVideoPlaying.java
+END
+ScenarioCameraRecordingVideo.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/Automation/!svn/ver/474/AutomationTest/src/com/concurrent/scenario/ScenarioCameraRecordingVideo.java
+END
+ScenarioEditReadMMS.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/Automation/!svn/ver/474/AutomationTest/src/com/concurrent/scenario/ScenarioEditReadMMS.java
+END
+ScenarioRecordingVideoARFun.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/Automation/!svn/ver/479/AutomationTest/src/com/concurrent/scenario/ScenarioRecordingVideoARFun.java
+END
+ScenarioRecordingVideo4KVideoSuperipr.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/Automation/!svn/ver/479/AutomationTest/src/com/concurrent/scenario/ScenarioRecordingVideo4KVideoSuperipr.java
+END
+ScenarioRecordingVideoAREffect.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/Automation/!svn/ver/479/AutomationTest/src/com/concurrent/scenario/ScenarioRecordingVideoAREffect.java
+END
+ScenarioRecordingVideoCreativeEffect.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/Automation/!svn/ver/479/AutomationTest/src/com/concurrent/scenario/ScenarioRecordingVideoCreativeEffect.java
+END
+ScenarioEditReadSMS.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/Automation/!svn/ver/474/AutomationTest/src/com/concurrent/scenario/ScenarioEditReadSMS.java
+END

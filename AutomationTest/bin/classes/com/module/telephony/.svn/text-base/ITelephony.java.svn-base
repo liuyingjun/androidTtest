@@ -1,0 +1,342 @@
+
+package com.module.telephony;
+
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.parents.Module;
+
+public interface ITelephony extends Module{
+
+    public void launchPhone();
+
+    public void makeMOCallAndAnswered(String nunber) throws UiObjectNotFoundException;
+
+    public void endCall();
+
+    public void verifyCallOngoingWithinSpecifiedTime(int during) throws UiObjectNotFoundException;
+
+    public void makeConferenceCall(String number1, String number2)throws UiObjectNotFoundException;
+
+    public void verifyCallAnswered() throws UiObjectNotFoundException;
+
+    /**
+     * Hang up incoming call by press endCall key.
+     *
+     */
+    public void hangUpIncomingCall();
+
+    /**
+     * Answer incoming call by press Call key.
+     *
+     */
+    public void answerIncomingCall();
+
+    /**
+     * Reject incoming call and with message.
+     *
+     * @textMessage message text
+     */
+    public void rejectIncomingCallWithMessage(String textMessage);
+
+    public void changeNetworkMode(String mode);
+
+    // public void makeVOIPCall(String callNumber);
+
+    public void anwserCall();
+
+    public void answerMTCall(String remoteNumber);
+
+    public void tapLouderSpeakerIcon() throws UiObjectNotFoundException;
+
+	/**
+     * verify skype launched
+     *
+     * @waitTime time to wait skype launched
+     */
+    public void verifySkypeLaunched(int waitTime);
+
+    /**
+     * make skype call and answered automatically
+     *
+     * @callAccount the skype account has been added to friend
+     */
+	public void makeSkypeCallAndAnswered(String callAccount) throws UiObjectNotFoundException;
+
+	public void launchSkype();
+
+	public void endSkypeCall();
+
+	public void verifySkypeInCallStatus();
+
+	public void loginSkype(String skypeAccount, String skypePassword);
+
+	public void configSipSetting(String callSetting);
+
+	public void addSipAccount(String account, String password,String server) throws UiObjectNotFoundException;
+
+	public void simInsertContactSIM1FullAPI(String contact);
+
+	public void verifyCallThroughBluetoothDevice(int period) throws UiObjectNotFoundException;
+
+	public void clearCallLog() throws UiObjectNotFoundException;
+
+	public void receiveMTCallButNotAnswer(String remoteNumber);
+
+	public void checkCallLog(String ... numbers);
+
+	public void makeMOCallWithoutAnswered(String number) throws UiObjectNotFoundException;
+
+	public void makeMOCallWithSymbolNumber(String number) throws UiObjectNotFoundException;
+
+    public void makeMOCallWithFlightMode(String Number) throws UiObjectNotFoundException;
+
+    public void replaceCurrentCall(String callNumber2) throws UiObjectNotFoundException;
+
+    public void checkIsIncomingCall();
+
+    /**
+     * Incoming call, and not accept the incoming call. Wait for some seconds
+     * that you set before. The message you stored is replied, than record voice
+     * message of call originator.
+     *
+     * @param number: phone number.
+     * @param pickUpTime: the pick up time you set.
+     * @param greetingName: the greeting you choose.
+     * @param recordTime1: record voice message time.
+     */
+    public void checkAnswerMachineNotAcceptIncomingCall(String number, int pickUpTime,
+            String greetingName, int recordTime1);
+
+    /**
+     * Incoming call and wait for some seconds, the greeting is send, than
+     * accept the call.
+     *
+     * @param number: phone number.
+     * @param pickUpTime: the pick up time you set.
+     * @param greetingName: the greeting you choose.
+     */
+    public void checkAnswerMachineAnswerIncomingCall(String number, int pickUpTime,
+            String greetingName);
+
+    /**
+     * Check answering machine do not work when incoming call. Make sure turn
+     * off answering machine before invoke this method.
+     *
+     * @param number: phone number.
+     * @param pickUpTime: the pick up time you set.
+     * @param greetingName: the greeting you choose.
+     */
+    public void checkIncomingCallWithAnswerMachineOff(String number, int pickUpTime,
+            String greetingName);
+
+    /**
+     * Reject incoming call with answering machine, than record a reply voice
+     * message.
+     *
+     * @param number: phone number.
+     * @param greetingName: the pick up time you set.
+     * @param greetingTime: record voice message time.
+     */
+    public void rejectIncomingCallWithAnswerMachine(String number, String greetingName,
+            int greetingTime) throws UiObjectNotFoundException;
+
+    /**
+     * Play voice message in call log. Make sure there is at least one voice
+     * message in call log.
+     */
+    public void playVoiceMessageInCallLog() throws UiObjectNotFoundException;
+
+    /**
+     * Enable answering machine in call log from setting menu.
+     *
+     * @param greetingName: the pick up time you set.
+     * @param recordTime: record voice message time.
+     * @throws UiObjectNotFoundException
+     */
+    public void enableAnswerMachineFromCallLog(String greetingName, int recordTime)
+            throws UiObjectNotFoundException;
+
+    /**
+     * Incoming call and not accept incoming call, wait for some seconds that
+     * you set before, and the message that you stored is replied. Then recard
+     * voice message of call originator. During message is recording, accept the
+     * call.
+     *
+     * @param number: phone number.
+     * @param pickUpTime: the pick up time you set.
+     * @param greetingName: the pick up time you set.
+     * @param greetingTime: record voice message time.
+     */
+    public void acceptIncomingCallDuringRecordMessage(String number, int pickUpTime,
+            String greetingName, int greetingTime);
+
+    /**
+     * Disable answering machine in call log from setting menu.
+     *
+     * @throws UiObjectNotFoundException
+     */
+    public void disableAnswerMachineFromCallLog() throws UiObjectNotFoundException;
+
+    public void setCallWaiting(String value) throws UiObjectNotFoundException;
+
+    public void editMessageToRejectCall(String newMsg) throws UiObjectNotFoundException;
+
+    /**
+     * Turn on Answering machine in call settings.
+     *
+     * @param greetingName
+     * @param recordTime
+     * @throws UiObjectNotFoundException
+     */
+    public void turnOnAnsweringMachine(String greetingName, int recordTime)
+            throws UiObjectNotFoundException;
+
+    /**
+     * Turn off Answering machine in call settings.
+     *
+     * @throws UiObjectNotFoundException
+     */
+    public void turnOffAnsweringMachine() throws UiObjectNotFoundException;
+
+    /**
+     * Set pick up after time for Answering machine.
+     *
+     * @param seconds
+     */
+    public void setPickUpAfter(int seconds) throws UiObjectNotFoundException;
+
+    /**
+     * Check greetings play well in Answering machine.
+     *
+     * @param greetingName
+     * @throws UiObjectNotFoundException
+     */
+    public void checkGreetings(String greetingName) throws UiObjectNotFoundException;
+
+    /**
+     * Record a new greeting in answering machine.
+     *
+     * @param seconds
+     * @param greetingName
+     */
+    public void recordGreeting(int seconds, String greetingName) throws UiObjectNotFoundException;
+
+    /**
+     * Select one greeting to use for Answering machine.
+     *
+     * @param greetingName
+     * @throws UiObjectNotFoundException
+     */
+    public void selectOneGreeting(String greetingName) throws UiObjectNotFoundException;
+
+    /**
+     * Check voice message in Answering machine. Make sure there is at least one
+     * voice message in Answering machine.
+     *
+     * @param callNumber
+     */
+    public void checkAndPlayVoiceMessageInAnswerMachine(String callNumber) throws UiObjectNotFoundException;
+
+    /**
+     * Delete all voice messages in Answering Machine.
+     */
+    public void deleteAllVoiceMessageInAnswerMachine() throws UiObjectNotFoundException;
+
+    /**
+     * Delete all Greetings in Answering Machine.
+     */
+    public void deleteAllGreetings() throws UiObjectNotFoundException;
+
+    /**
+     * Set Microphone noise suppression on / off, than make a call to check
+     * noise suppression works well.
+     *
+     * @param callNumber
+     * @throws UiObjectNotFoundException
+     */
+    public void checkMicrophoneNoiseSuppression(String callNumber) throws UiObjectNotFoundException;
+
+    /**
+     * Set Equalizer as Normal/Bright/Smooth, make a call to check Equalizer
+     * works well.
+     *
+     * @param callNumber
+     */
+    public void checkEqualizer(String callNumber) throws UiObjectNotFoundException;
+
+    /**
+     * Set Speaker voice enhancement on/off, make call to check Speaker voice
+     * enhancement works well.
+     *
+     * @param callNumber
+     */
+    public void checkSpeakerVoiceEnhancement(String callNumber) throws UiObjectNotFoundException;
+
+    /**
+     * Set Slow Talk on/off, make call to check Slow Talk works well.
+     *
+     * @param callNumber
+     */
+    public void checkSlowTalk(String callNumber) throws UiObjectNotFoundException;
+
+    public void mergeCall() throws UiObjectNotFoundException;
+
+    /**
+     * Check Ongoing Call display name.
+     */
+    public void checkOngingCallName(String name);
+
+    /**
+     * Change volume level up and down.
+     */
+    public void changeVolumeLevel();
+
+    /**
+     * Mute / unmute the microphone.
+     *
+     * @param value: mute/unmute.
+     * @throws UiObjectNotFoundException
+     */
+    public void muteOrUnmuteMicrophone(String value) throws UiObjectNotFoundException;
+
+    /**
+     * Check call timer is running accordingly.
+     *
+     * @throws UiObjectNotFoundException
+     */
+    public void checkCallTimer() throws UiObjectNotFoundException;
+
+    /**
+     * Save contact from call log.
+     *
+     * @param number: the number you saved as contact.
+     * @param name: the contact name.
+     * @throws UiObjectNotFoundException
+     */
+    public void saveContactFromCallLog(String number, String name) throws UiObjectNotFoundException;
+
+    /**
+     * Send message from call log.
+     *
+     * @param numberOrName:phone number/contact name to send message.
+     * @throws UiObjectNotFoundException
+     */
+    public void sendMessageFromCallLog(String numberOrName) throws UiObjectNotFoundException;
+
+    /**
+     * Call back from call log.
+     *
+     * @param numberOrName: the number /contact name you call back.
+     * @throws UiObjectNotFoundException
+     */
+    public void callbackFromCallLog(String numberOrName) throws UiObjectNotFoundException;
+    
+    /**
+     * Verify call is answered with call number display on screen
+     *
+     * @param callNumber: Call number
+     * @throws UiObjectNotFoundException 
+     */
+    public void verifyCallAnsweredWithCallNumber(String callNumber) throws UiObjectNotFoundException;
+
+    public void receiveMTCallAndVerifyCallerInfo(String remoteNumber, String callerName);
+}

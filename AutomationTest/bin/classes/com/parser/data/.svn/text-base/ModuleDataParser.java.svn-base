@@ -1,0 +1,192 @@
+
+package com.parser.data;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import android.os.Build;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * this class is for parsing the xml which store the ids and texts of the
+ * appliations
+ *
+ * @author xp011726
+ *
+ */
+public class ModuleDataParser {
+
+    private XmlPullParser parser;
+
+    private String androidPlatform;
+
+    private String productMode;
+
+    public static ArrayList<ModuleData> modules = new ArrayList<ModuleData>();
+
+    public ArrayList<ProductData> products = new ArrayList<ProductData>();
+
+    public HashMap<String, String> values = new HashMap<String, String>();
+
+    public ModuleDataParser() {
+        this.getProductInfo();
+        this.getConfigFileName();
+
+        FileReader configFile;
+        try {
+            String path = new File("//sdcard//" + this.getConfigFileName()).getAbsolutePath();
+            configFile = new FileReader(path);
+            this.parser = XmlPullParserFactory.newInstance().newPullParser();
+
+            this.parser.setInput(configFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public ArrayList<ModuleData> parse() throws XmlPullParserException, IOException {
+        int eventType = this.parser.getEventType();
+        ModuleData module = null;
+        ProductData product = null;
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            switch (eventType) {
+                case XmlPullParser.START_DOCUMENT:
+                    break;
+                case XmlPullParser.START_TAG:
+
+                    String tagNameString = parser.getName();
+                    if ("module".equals(tagNameString)) {
+                        module = new ModuleData();
+                        products = new ArrayList<ProductData>();
+                        module.setName(parser.getAttributeValue(0));
+
+                    } else if ("product".equals(tagNameString)) {
+                        product = new ProductData();
+
+                        product.setName(parser.getAttributeValue(0));
+                    } else if ("id".equals(tagNameString)) {
+                        if (values == null) {
+                            values = new HashMap<String, String>();
+                        }
+                        String attributeString = parser.getAttributeValue(0);
+                        String valueString = parser.nextText();
+                        values.put(attributeString, valueString);
+                    }
+                    break;
+                case XmlPullParser.END_TAG:
+                    String endtagName = parser.getName();
+                    if ("module".equals(endtagName)) {
+                        module.setProducts(products);
+                        modules.add(module);
+                        module = null;
+                        products = null;
+                    } else if ("product".equals(endtagName)) {
+                        product.setValues(values);
+                        products.add(product);
+                        product = null;
+                        values = null;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            eventType = parser.next();
+
+        }
+        return modules;
+    }
+
+    public void getProductInfo() {
+        this.androidPlatform = Build.VERSION.RELEASE;
+        this.productMode = Build.MODEL;
+    }
+
+    public String getConfigFileName() {
+        if (this.androidPlatform.equals("4.4.4")) {
+            String[] shinanoProducts = {
+                    "D6503", "D6603", "SGP321", "D5803","C6903","D6708", "D5503"
+            };
+            for (int i = 0; i < shinanoProducts.length; i++) {
+                if (this.productMode.equals(shinanoProducts[i])) {
+                    return "shinano-r2.xml";
+                }
+            }
+
+        } else if (this.androidPlatform.equals("4.4.2")) {
+            String[] yukonProducts = {
+                "D2203","D2303"
+            };
+            for (int i = 0; i < yukonProducts.length; i++) {
+                if (this.productMode.equals(yukonProducts[i])) {
+                    return "yukon.xml";
+                }
+            }
+
+        }
+        return "productInfo.xml";
+    }
+
+    public static HashMap<String, String> getModuleData(String moduleName) {
+        HashMap<String, String> moduleData = new HashMap<String, String>();
+        HashMap<String, String> commonData = new HashMap<String, String>();
+        HashMap<String, String> productSpecifiedData = null;
+        //System.out.println("module size:" + modules.size());
+        for (int i = 0; i < modules.size(); i++) {
+
+            // find the specified module
+            if (modules.get(i).getName().equals(moduleName)) {
+
+                // get all the data of a specified module
+                ModuleData module = modules.get(i);
+                ArrayList<ProductData> products = module.getProducts();
+
+                for (int j = 0; j < products.size(); j++) {
+                    // get the common data under the module
+                    if (products.get(j).getName().equals("common")) {
+                        commonData = products.get(j).getValues();
+                        moduleData = commonData;
+                        break;
+                    }
+
+                }
+
+                for (int j = 0; j < products.size(); j++) {
+                    // get the product specified data under the module
+                    if (products.get(j).getName().equals(Build.MODEL)) {
+                        productSpecifiedData = products.get(j).getValues();
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        // link commonData and productSpecifiedData
+        if(productSpecifiedData !=null){
+                Set<String> keySet = productSpecifiedData.keySet();
+                Iterator<String> it = keySet.iterator();
+                while(it.hasNext()){
+                    String key = it.next();
+                    //System.out.println("key:value --"+key+","+productSpecifiedData.get(key));
+                    moduleData.put(key, productSpecifiedData.get(key));
+                }
+        }
+
+        return moduleData;
+    }
+}

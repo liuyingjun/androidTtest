@@ -1,0 +1,565 @@
+package com.module.email;
+
+import java.util.HashMap;
+
+import com.android.uiautomator.core.UiObject;
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.android.uiautomator.core.UiSelector;
+import com.module.common.CommonModule;
+import com.parser.data.ModuleDataParser;
+import com.sonyericsson.test.acceptancetest.AcceptanceTestCase;
+
+import android.util.Log;
+import android.view.KeyEvent;
+
+public class EmailModule implements IEmail{
+    AcceptanceTestCase testCase;
+
+    CommonModule commonModule;
+
+    String TAG = "Reliability";
+
+    HashMap<String, String> moduleData;
+
+    public EmailModule(AcceptanceTestCase testCase){
+        this.testCase = testCase;
+        this.commonModule = new CommonModule(testCase);
+
+        moduleData = ModuleDataParser.getModuleData("email");
+    }
+
+    public boolean loginEmailSyncAutoServer(String userName, String password) throws UiObjectNotFoundException {
+        boolean isSuccess = false;
+        commonModule.backOutToHomeScreen();
+        testCase.launchApp("com.android.email", "com.android.email.activity.EmailActivity");
+        commonModule.wait(4);
+
+        if (commonModule.isResourceId(moduleData.get("Account_Email_EditText_Id"))) {
+            commonModule.clickResourceId(moduleData.get("Account_Email_EditText_Id"));
+            testCase.enterText(userName);
+            commonModule.wait(1);
+            commonModule.clickResourceId(moduleData.get("Account_Password_EditText_Id"));
+            testCase.enterText(password);
+            commonModule.wait(1);
+            commonModule.clickResourceId(moduleData.get("Next_Button_Id"));
+            commonModule.wait(30);
+
+            if(testCase.isViewWithTextPresent("Check frequency")){
+                testCase.click("Next");
+                commonModule.wait(2);
+            }
+
+            if (commonModule.isTextExists("POP3")) {
+                testCase.failTest("Poor network!");
+            }
+
+            if(testCase.isViewWithTextPresent("Account setup")){
+                commonModule.clickResourceId(moduleData.get("Account_Name_EditText_Id"));
+                commonModule.wait(1);
+                testCase.enterText("rt");
+
+                testCase.click("Next");
+                commonModule.wait(1);
+
+            }
+            commonModule.waitForDescription("Compose", 30*1000);
+            isSuccess = true;
+
+        } else if (commonModule.isResourceId(moduleData.get("Compose_Button_Id"))
+                || testCase.isViewWithTextPresent("No mail")) {
+            isSuccess = !isSuccess;
+            Log.e(TAG, "Email Account is already configured.");
+        }
+        AcceptanceTestCase.assertTrue(isSuccess);
+        return isSuccess;
+    }
+
+    public void sendEmailWithAttachment(String attachName, String subject) throws UiObjectNotFoundException {
+        launchEmail();
+        commonModule.clickDescription("Compose");// Tap new email icon.
+        commonModule.waitForResourceId(moduleData.get("Send_Button_Id"), 2000);
+
+        // add attachment
+        commonModule.clickDescription("Attach file");
+        if (!commonModule.waitForText("Internal storage", 2000)) {
+            commonModule.clickResourceId("android:id/home");
+            commonModule.waitForText("Internal storage", 2000);
+
+            commonModule.clickText("Internal storage");
+            commonModule.waitForDescription("Search", 2000);
+        } else if (commonModule.waitForText("Internal storage", 2000)
+                && commonModule.waitForText("Open from", 2000)) {
+            commonModule.clickText("Internal storage");
+            commonModule.waitForDescription("Search", 2000);
+        }
+        commonModule.scrollFindText("testresource");
+        commonModule.wait(1);
+        commonModule.scrollFindText(attachName);
+        if (commonModule.isTextExists("Resize image")) {
+            commonModule.clickText("Small");
+            commonModule.wait(1);
+
+            commonModule.clickText("Always");
+        }
+        AcceptanceTestCase.assertTrue(
+                "Add attachment failed.",
+                commonModule.waitForResourceId(moduleData.get("Attachment_Icon_Id"), 2000)
+                        && commonModule.waitForResourceId(moduleData.get("Send_Button_Id"), 2000));
+
+        // input recipient
+        commonModule.clickResourceId(moduleData.get("Email_To_EditText_Id"));
+        testCase.enterText("agingtest005@gmail.com");
+        testCase.getUiDevice().pressEnter();
+        AcceptanceTestCase.assertTrue("", commonModule.isTextContains("agingtest005@gmail.com"));
+
+        commonModule.clickResourceId(moduleData.get("Email_Subject_EditText_Id"));
+        testCase.enterText(subject);
+        testCase.assertTextPresent(subject);
+
+        commonModule.clickResourceId(moduleData.get("Email_Content_EditText_Id"));
+        testCase.enterText("Test for RT email.");
+        commonModule.waitForTextContains("Test for RT email.", 2000);
+
+        commonModule.clickResourceId(moduleData.get("Send_Button_Id"));
+        AcceptanceTestCase.assertTrue("Send email failed.",
+                commonModule.waitForDescription("Compose", 2000));
+    }
+
+    public void sendEmailDeleteAttachment(String attachName, String subject) throws UiObjectNotFoundException {
+        commonModule.clickDescription("Compose");// Tap new email icon.
+        commonModule.waitForResourceId(moduleData.get("Send_Button_Id"), 2000);
+
+        // add attachment
+        commonModule.clickDescription("Attach file");
+        if (!commonModule.waitForText("Internal storage", 2000)) {
+            commonModule.clickResourceId("android:id/home");
+            commonModule.waitForText("Internal storage", 2000);
+
+            commonModule.clickText("Internal storage");
+            commonModule.waitForText("Internal storage", 2000);
+            commonModule.waitForDescription("Search", 2000);
+        }
+        commonModule.scrollFindText(attachName);
+        if (commonModule.isTextExists("Resize image")) {
+            commonModule.clickText("Small");
+            commonModule.wait(1);
+
+            commonModule.clickText("Always");
+        }
+        AcceptanceTestCase.assertTrue(
+                "Add attachment failed.",
+                commonModule.waitForText(attachName, 2000)
+                        && commonModule.waitForResourceId(moduleData.get("Send_Button_Id"), 2000));
+
+        commonModule.clickResourceId(moduleData.get("Attachment_Delete_Button_Id"));
+        AcceptanceTestCase.assertTrue("", commonModule.waitForTextGone(attachName, 2000));
+
+        // input recipient
+        commonModule.clickResourceId(moduleData.get("Email_To_EditText_Id"));
+        testCase.enterText("agingtest005@gmail.com");
+        testCase.assertTextPresent("agingtest005@gmail.com");
+
+        commonModule.clickResourceId(moduleData.get("Email_Subject_EditText_Id"));
+        testCase.enterText(subject);
+        testCase.assertTextPresent(subject);
+
+        commonModule.clickResourceId(moduleData.get("Email_Content_EditText_Id"));
+        testCase.enterText("Test for RT email.");
+        commonModule.waitForTextContains("Test for RT email.", 2000);
+
+        commonModule.clickResourceId(moduleData.get("Send_Button_Id"));
+        AcceptanceTestCase.assertTrue("Send email failed.",
+                commonModule.waitForDescription("Compose", 2000));
+    }
+
+    public void checkEmailSendSuccessfully(String subject) throws UiObjectNotFoundException {
+        commonModule.clickResourceId(moduleData.get("Home_Button_Id"));
+        commonModule.waitForText("Sent", 2000);
+
+        commonModule.clickText("Sent");
+        for (int i = 0; i < 20; i++) {
+
+            if (!commonModule.isTextExists("agingtest005@gmail.com")
+                    || !commonModule.isTextExists(subject)) {
+
+                int[] screen = testCase.getScreenSize();
+                testCase.dragViewBetweenTwoPosition(screen[0] / 2, screen[1] / 5, screen[0] / 2,
+                        (screen[1] / 5) * 4, 30);// Drag to refresh.
+                commonModule.wait(3);
+            } else if (commonModule.isTextExists("agingtest005@gmail.com")
+                    && commonModule.isTextExists(subject)) {
+                break;
+            } else if (i == 19 && !commonModule.isTextExists("agingtest005@gmail.com")
+                    || !commonModule.isTextExists(subject)) {
+                testCase.failTest("Poor network, the email not send successfully.");
+            }
+        }
+        // AcceptanceTestCase.assertTrue(
+        // "Send email failed.",
+        // commonModule.waitForText("agingtest005@gmail.com", 2000)
+        // && commonModule.waitForText(subject, 2000));
+    }
+
+	public void launchEmail(){
+    	testCase.launchApp("com.android.email", "com.android.email.activity.EmailActivity");
+    	commonModule.wait(5);
+    	testCase.waitForActivitySwitch();
+    }
+
+    public void sendEmail(String emailSender, String emailReceiver, boolean ccAccount) throws UiObjectNotFoundException {
+
+        launchEmail();
+        commonModule.wait(4);
+        if (commonModule.isResourceId(moduleData.get("Compose_Button_Id"))
+                || testCase.isViewWithTextPresent("No mail")) {
+            commonModule.clickResourceId(moduleData.get("Compose_Button_Id"));
+            commonModule.clickResourceId(moduleData.get("Accounts_Selector_Button_Id"));
+            testCase.click(emailSender);
+            commonModule.wait(2);
+            commonModule.clickResourceId(moduleData.get("Email_To_EditText_Id"));
+            commonModule.wait(2);
+            commonModule.enterTextSlowly(emailReceiver);
+            commonModule.wait(2);
+            if (ccAccount) {
+                testCase.pressKey(KeyEvent.KEYCODE_MENU);
+                testCase.click("Show Cc/Bcc");
+                // Add cc account
+                commonModule.clickResourceId(moduleData.get("Email_CC_Button_Id"));
+                if (commonModule.isResourceId(moduleData.get("Check_Box_Id"))) {
+                    testCase.clickItemWithId("checklist_check", 0);
+                    if (commonModule.isResourceId(moduleData.get("Email_Selector_Title_Id"))) {
+                        testCase.clickItemWithId("dialog_checklist_check", 0);
+                    }
+                } else {
+                    commonModule.clickResourceId(moduleData.get("Search_Text_EditText_Id"));
+                    testCase.enterText("agingtestserver@gmail.com");
+                    commonModule.clickResourceId(moduleData.get("Phonebook_Add_Account_Button_Id"));
+                }
+                testCase.click("Done");
+
+                // Add bcc account
+                commonModule.clickResourceId(moduleData.get("Email_Bcc_Pluc_Button_Id"));
+                if (commonModule.isResourceId(moduleData.get("Check_Box_Id"))) {
+                    testCase.clickItemWithId("checklist_check", 1);
+                    if (commonModule.isResourceId(moduleData.get("Email_Selector_Title_Id"))) {
+                        testCase.clickItemWithId("dialog_checklist_check", 0);
+                    }
+                } else {
+                    commonModule.clickResourceId(moduleData.get("Search_Text_EditText_Id"));
+                    testCase.enterText("agingtestserver@gmail.com");
+                    commonModule.clickResourceId(moduleData.get("Phonebook_Add_Account_Button_Id"));
+                }
+                testCase.click("Done");
+            }
+
+            testCase.pressKey(KeyEvent.KEYCODE_ENTER);
+            commonModule.wait(2);
+            testCase.clickItemWithId("subject");
+            commonModule.wait(2);
+            testCase.enterText("Reliability email test");
+            commonModule.wait(2);
+            testCase.pressKey(KeyEvent.KEYCODE_BACK);
+            commonModule.clickResourceId(moduleData.get("Email_Content_EditText_Id"));
+
+            commonModule.enterTextSlowly("This email is for reliability test!");
+            testCase.pressKey(KeyEvent.KEYCODE_BACK);
+            commonModule.clickResourceId(moduleData.get("Send_Button_Id"));
+            commonModule.wait(10);
+
+        }
+        commonModule.backOutToHomeScreen();
+    }
+
+    public void sortBy(String sortType) throws UiObjectNotFoundException {
+        commonModule.pressMoreOption();
+        commonModule.waitForText("Sort", 2000);
+
+        commonModule.clickText("Sort");
+        commonModule.waitForText("Sort by", 2000);
+
+        commonModule.clickText(sortType);
+        commonModule.waitForTextGone("Sort by", 2000);
+
+        commonModule.clickResourceId("com.android.email:id/message_list_header_text");
+        commonModule.wait(2);
+
+        commonModule.clickResourceId("com.android.email:id/message_list_header_text");
+        commonModule.wait(2);
+    }
+
+    public void replyEmail() throws UiObjectNotFoundException {
+        // select one of mail.
+        commonModule.clickDescription("Search");
+        commonModule.waitForResourceId("android:id/search_plate", 2000);
+
+        commonModule.clickResourceId("android:id/search_plate");
+        testCase.enterText("agingtest");
+        testCase.enterText("\n");
+        commonModule.waitForResourceId("com.android.email:id/search_filter", 5000);
+
+        commonModule.clickResourceId("com.android.email:id/search_filter");
+        commonModule.waitForText("From", 2000);
+
+        commonModule.clickText("From");
+        commonModule.waitForText("Older email", 5000);
+
+        UiObject list = new UiObject(new UiSelector().resourceId("android:id/list"));
+        // UiObject emailItem = new UiObject(new UiSelector().className(
+        // "android.widget.RelativeLayout").index(1));
+        UiObject emailItem = list.getChild(new UiSelector().className(
+                "android.widget.RelativeLayout").index(1));
+        emailItem.click();
+        commonModule.waitForText("Reply", 2000);
+
+        // reply email
+        commonModule.clickText("Reply");
+        commonModule.waitForResourceId("com.android.email:id/send", 2000);
+
+        commonModule.clickResourceId("com.android.email:id/to");
+        testCase.enterText("agingtest005@gmail.com");
+
+        commonModule.clickResourceId("com.android.email:id/message_content");
+        testCase.enterText("Test for RT.");
+        commonModule.waitForTextContains("Test for RT.", 2000);
+
+        commonModule.clickResourceId("com.android.email:id/send");
+        AcceptanceTestCase.assertTrue(
+                "Reply email failed.",
+                !commonModule.waitForResourceId("com.android.email:id/send", 3000)
+                        && commonModule.waitForText("Reply", 3000));
+    }
+
+    public boolean addAccount(String account, String password, int timeMin) throws UiObjectNotFoundException {
+        boolean isSuccess = false;
+        launchEmail();
+        if (testCase.isViewWithTextPresent("Account setup")){
+        	loginEmailSyncAutoServer(account, password);
+        }
+        else{
+	        commonModule.pressMoreOption();
+	        commonModule.waitForText("Settings", 2000);
+	
+	        commonModule.clickText("Settings");
+	        if (!commonModule.isTextExists(account)) {
+	            commonModule.waitForText("Add account", 2000);
+	
+	            commonModule.clickText("Add account");
+	            commonModule.wait(4);
+	
+	            if (commonModule.isResourceId(moduleData.get("Account_Email_EditText_Id"))) {
+	                commonModule.clickResourceId(moduleData.get("Account_Email_EditText_Id"));
+	                testCase.enterText(account);
+	                commonModule.wait(1);
+	                commonModule.clickResourceId(moduleData.get("Account_Password_EditText_Id"));
+	                testCase.enterText(password);
+	                commonModule.wait(1);
+	                commonModule.clickResourceId(moduleData.get("Next_Button_Id"));
+	                commonModule.wait(30);
+	                for (int j = 0; j < 5; j++) {
+	                    if (testCase.isViewWithTextPresent("IMAP")) {
+	                        testCase.click("IMAP");
+	                        commonModule.wait(10);
+	                        if (commonModule.isResourceId(moduleData.get("Account_Port_EditText_Id"))) {
+	                            commonModule
+	                                    .clickResourceId(moduleData.get("Account_Port_EditText_Id"));
+	                            String serverText = new UiObject(new UiSelector().resourceId(moduleData
+	                                    .get("Account_Port_EditText_Id"))).getText();
+	
+	                            for (int i = 0; i < serverText.length(); i++) {
+	                                testCase.pressKey(KeyEvent.KEYCODE_DEL);
+	                            }
+	                            testCase.enterText("993");
+	                            commonModule.wait(1);
+	                            testCase.pressKey(KeyEvent.KEYCODE_BACK);
+	                            commonModule.wait(2);
+	                            commonModule.clickResourceId(moduleData
+	                                    .get("Account_Security_Type_Spinner_Id"));
+	                            commonModule.wait(2);
+	                            testCase.pressKey(KeyEvent.KEYCODE_DPAD_DOWN);
+	                            testCase.pressKey(KeyEvent.KEYCODE_DPAD_DOWN);
+	                            testCase.pressKey(KeyEvent.KEYCODE_DPAD_DOWN);
+	                            testCase.pressKey(KeyEvent.KEYCODE_ENTER);
+	                            commonModule.clickResourceId(moduleData.get("Next_Button_Id"));
+	                            commonModule.wait(20);
+	                        }
+	                        break;
+	                    } else if (commonModule.isTextExists("Check frequency")) {
+	                        commonModule.clickResourceId(moduleData.get("Next_Button_Id"));
+	                        commonModule.waitForText("Account setup", 2000);
+	
+	                        commonModule.emptyEditor(1);
+	                        testCase.enterText(account);
+	
+	                        commonModule.clickResourceId(moduleData.get("Next_Button_Id"));
+	                        commonModule.wait(20);
+	                        break;
+	                    } else {
+	                        commonModule.wait(10);
+	                    }
+	                }
+	
+	                // for (int i = 0; i < 10; i++) {
+	                // commonModule.wait(2);
+	                // // check if or not testCase view for "Next"
+	                // if (testCase.isViewWithTextPresent("Inbox check frequency")
+	                // || testCase.isViewWithTextPresent("Inbox checking frequency")
+	                // || testCase.isViewWithTextPresent("Check frequency")) {
+	                // testCase.clickId("account_check_frequency");
+	                // // The default frequency is manual
+	                // testCase.pressKey(KeyEvent.KEYCODE_DPAD_DOWN);
+	                // testCase.pressKey(KeyEvent.KEYCODE_DPAD_DOWN);
+	                // // //The default frequency is 15 minutes
+	                // // testCase.pressKey(KeyEvent.KEYCODE_DPAD_UP);
+	                // // testCase.pressKey(KeyEvent.KEYCODE_DPAD_UP);
+	                // // testCase.pressKey(KeyEvent.KEYCODE_DPAD_UP);
+	                // testCase.pressKey(KeyEvent.KEYCODE_ENTER);
+	                // Log.d(TAG, "Set the check frequency to 5Mins");
+	                // if (testCase.isViewWithTextPresent("OK")) {
+	                // testCase.click("OK");
+	                // }
+	                // testCase.click("Next");
+	                // commonModule.wait(2);
+	                // break;
+	                // }
+	                //
+	                // if (testCase.isViewWithTextPresent("Could not finish")
+	                // || testCase.isViewWithTextPresent("Edit details")) {
+	                // testCase.click("Edit details");
+	                // commonModule.wait(2);
+	                // testCase.click("Next");
+	                // if (i == 9) {
+	                // return isSuccess;
+	                // }
+	                // }
+	                // }
+	                //
+	                // for (int i = 0; i < 10; i++) {
+	                // commonModule.wait(2);
+	                // // check if or not testCase view for "Next"
+	                // if (testCase.isViewWithIdPresent("account_name")) {
+	                // testCase.clickId("account_name");
+	                // String serverText =
+	                // testCase.getTextFromViewWithId("account_name");
+	                // for (int j = 0; j < serverText.length(); j++) {
+	                // testCase.pressKey(KeyEvent.KEYCODE_DEL);
+	                // }
+	                // testCase.enterText(account);
+	                // commonModule.wait(2);
+	                // testCase.clickId("next");
+	                // break;
+	                // }
+	                // commonModule.wait(1);
+	                // if (testCase.isViewWithTextPresent("Note")
+	                // || testCase.isViewWithTextPresent("No")) {
+	                // testCase.click("No");
+	                // }
+	                // }
+	                // wait long time to login last view
+	
+	                // login 3min
+	                long currTime = commonModule.getCurrTime();
+	                long afterTime = commonModule.getCurrTime() + timeMin * 60 * 1000L;
+	
+	                while (commonModule.getCurrTime() < afterTime) {
+	                    commonModule.wait(1);
+	                    if (testCase.isViewWithIdPresent("compose")
+	                            || testCase.isViewWithTextPresent("No mail")) {
+	                        // login seccuess
+	                        commonModule.wait(5);
+	                        break;
+	                    } else if (testCase
+	                            .isViewWithTextPresent("Could not create the account.Try again later.")) {
+	                        if (testCase.isViewWithTextPresent("Cancel")) {
+	                            testCase.click("Cancel");
+	                            Log.d(TAG, "The email account cannot be created.");
+	                            return isSuccess;
+	                        }
+	                    }
+	                }
+	                commonModule.wait(5);
+	                if (commonModule.isResourceId(moduleData.get("Compose_Button_Id"))
+	                        || testCase.isViewWithTextPresent("No mail")) {
+	                    // login success
+	                    Log.d(TAG, "Email Account login sucessully");
+	                    isSuccess = !isSuccess;
+	                }
+	            } else if (commonModule.isResourceId(moduleData.get("Compose_Button_Id"))
+	                    || testCase.isViewWithTextPresent("No mail")) {
+	                isSuccess = !isSuccess;
+	                Log.e(TAG, "Email Account is already configured.");
+	            }
+	            testCase.assertTrue(isSuccess);
+	            return isSuccess;
+	        }
+	        else{
+	        	commonModule.backOutToHomeScreen();
+	        }
+        }
+        return isSuccess;
+    }
+
+    public void setSynchronizFrequency(String account, String frequency) throws UiObjectNotFoundException {
+        launchEmail();
+        commonModule.wait(8);
+		
+        commonModule.pressMoreOption();
+        commonModule.waitForText("Settings", 2000);
+
+        commonModule.clickText("Settings");
+        commonModule.waitForText(account, 2000);
+
+        commonModule.clickText(account);
+        commonModule.waitForText("Check frequency", 2000);
+
+        commonModule.clickText("Check frequency");
+        commonModule.waitForText("Account check frequency", 2000);
+
+        commonModule.clickText("Check frequency");
+        commonModule.waitForText(frequency, 2000);
+
+        commonModule.clickText(frequency);
+
+        if (testCase.isViewWithTextPresent("OK")){
+        	commonModule.clickText("OK");
+        }
+
+        AcceptanceTestCase.assertTrue(
+                "Set synchroniz frequency failed.",
+                commonModule.waitForText("Check frequency", 5000)
+                        && commonModule.waitForText(frequency, 5000));
+    }
+
+	 public void addGoogleAccount(String account, String password) throws UiObjectNotFoundException {
+    	 testCase.launchApp("com.android.settings", "com.android.settings.Settings");
+         commonModule.waitForText("Settings", 2000);
+
+         commonModule.scrollFindText("Add account");
+
+         commonModule.clickText("Google");
+
+         commonModule.waitForText("Existing", 2000);
+
+         commonModule.clickText("Existing");
+
+         commonModule.emptyEditor(0);
+         testCase.enterText(account);
+
+         commonModule.emptyEditor(1);
+         testCase.enterText(password);
+
+         commonModule.clickResourceId(moduleData.get("Google_Next_Button"));
+         if(commonModule.isTextExists("OK")){
+        	 commonModule.clickText("OK");
+         }
+         AcceptanceTestCase.assertTrue("Google service cannot opened", commonModule.waitForText("Google services", 300*1000));
+         commonModule.clickResourceId(moduleData.get("Google_Next_Button"));
+         commonModule.clickText("SKIP");
+         if(commonModule.isTextExists("Account sign‑in successful")){
+        	 commonModule.clickResourceId(moduleData.get("Google_Next_Button"));
+         }
+         commonModule.waitForText("Google", 10*1000);
+         commonModule.clickText("Google");
+         AcceptanceTestCase.assertTrue("Google account login failed", commonModule.isTextExists(account));
+     }
+
+}

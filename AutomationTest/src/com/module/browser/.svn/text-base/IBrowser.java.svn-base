@@ -1,0 +1,22 @@
+package com.module.browser;
+
+import java.io.File;
+
+import com.android.uiautomator.core.UiObjectNotFoundException;
+
+public interface IBrowser {
+
+    /**
+     * launch chrome browser
+     */
+	public void launchChrome();
+
+    /**
+     * Play music file on background.
+     *
+     */
+	public void downloadFileWithChrome(String url)  throws UiObjectNotFoundException;
+
+
+
+}

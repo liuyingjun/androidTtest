@@ -1,0 +1,164 @@
+
+package com.module.calculator;
+
+import com.android.uiautomator.core.UiObject;
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.android.uiautomator.core.UiSelector;
+import com.module.common.CommonModule;
+import com.parser.data.ModuleDataParser;
+import com.sonyericsson.test.acceptancetest.AcceptanceTestCase;
+
+import android.graphics.Rect;
+import android.hardware.Camera;
+import android.hardware.Camera.CameraInfo;
+
+import java.util.HashMap;
+
+public class CalculatorModule implements ICalculator {
+
+    AcceptanceTestCase testCase;
+
+    CommonModule commonModule;
+
+    HashMap<String, String> moduleData;
+
+    String TAG = "Reliability";
+
+    CameraInfo info = new Camera.CameraInfo();
+
+    public CalculatorModule(AcceptanceTestCase testCase) {
+        this.testCase = testCase;
+        this.commonModule = new CommonModule(testCase);
+
+        moduleData = ModuleDataParser.getModuleData("calculator");
+    }
+
+    public void launchCalculator() {
+        testCase.launchApp("com.android.calculator2", "com.android.calculator2.Calculator");
+        AcceptanceTestCase.assertTrue(
+                "Launch calculator failed.",
+                commonModule.waitForDescription("plus", 2000)
+                        && commonModule.waitForDescription("minus", 2000)
+                        && commonModule.waitForDescription("multiply", 2000)
+                        && commonModule.waitForDescription("divide", 2000));
+    }
+
+    public void checkInput() throws UiObjectNotFoundException {
+        if (commonModule.isResourceId(moduleData.get("Clear_Button_Id"))) {
+            commonModule.clickResourceId(moduleData.get("Clear_Button_Id"));
+        } else if (commonModule.isDescriptionExists("delete")) {
+            testCase.longPressItemWithDescription("delete");
+        }
+
+        testCase.enterText("123450.6789");
+        testCase.assertTextPresent("123450 point 6789");
+
+        testCase.longPressItemWithDescription("delete");
+        testCase.enterText("987654321098765432109876543210");
+        testCase.assertTextPresent("987654321098765432109876543210");
+        commonModule.wait(2);
+
+        UiObject editor = new UiObject(new UiSelector().className("android.widget.EditText"));
+        Rect eRect = editor.getVisibleBounds();
+
+        testCase.dragViewBetweenTwoPosition(eRect.centerX() - 200, eRect.centerY(),
+                eRect.centerX() + 200, eRect.centerY(), 30);
+        commonModule.wait(2);
+
+        testCase.dragViewBetweenTwoPosition(eRect.centerX() + 200, eRect.centerY(),
+                eRect.centerX() - 300, eRect.centerY(), 30);
+        commonModule.wait(2);
+
+        int textLength1 = editor.getText().length();
+        commonModule.clickDescription("delete");
+
+        int textLength2 = editor.getText().length();
+        AcceptanceTestCase.assertTrue("Delete one digit failed.", textLength2 == textLength1 - 1);
+
+        testCase.longPressItemWithDescription("delete");
+        AcceptanceTestCase
+                .assertTrue("Long tap delete button failed.", editor.getText().equals(""));
+    }
+
+    public void checkMathOperator() throws UiObjectNotFoundException {
+        UiObject editor = new UiObject(new UiSelector().className("android.widget.EditText"));
+        if (!editor.getText().equals("")) {
+            if (commonModule.isResourceId(moduleData.get("Clear_Button_Id"))) {
+                commonModule.clickResourceId(moduleData.get("Clear_Button_Id"));
+            } else if (commonModule.isDescriptionExists("delete")) {
+                testCase.longPressItemWithDescription("delete");
+            }
+        }
+
+        // Operator: -1+5 Result: 4
+        testCase.enterText("-1+5");
+        commonModule.clickDescription("equals");
+        testCase.assertTextPresent("4");
+
+        // Operator: 1+5 Result: 6
+        testCase.enterText("1+5");
+        commonModule.clickDescription("equals");
+        testCase.assertTextPresent("6");
+
+        // Operator: 3*8 Result: 24
+        testCase.enterText("3*8");
+        commonModule.clickDescription("equals");
+        testCase.assertTextPresent("24");
+
+        // Operator: 9/2 Result: 4.5
+        testCase.enterText("9/2");
+        commonModule.clickDescription("equals");
+        testCase.assertTextPresent("4 point 5");
+
+        // Operator: 0.4+0.7 Result: 1.1
+        testCase.enterText("0.4+0.7");
+        commonModule.clickDescription("equals");
+        testCase.assertTextPresent("1 point 1");
+
+        // Operator: 0.04*0.075*1.3 Result: 0.0039
+        testCase.enterText("0.04*0.075*1.3");
+        commonModule.clickDescription("equals");
+        testCase.assertTextPresent("0 point 0039");
+
+        if (commonModule.isResourceId(moduleData.get("Clear_Button_Id"))) {
+            commonModule.clickResourceId(moduleData.get("Clear_Button_Id"));
+        } else if (commonModule.isDescriptionExists("delete")) {
+            testCase.longPressItemWithDescription("delete");
+        }
+    }
+
+    public void checkSpecialOperator() throws UiObjectNotFoundException {
+        // Press operator: -,6,/,-  Result: -6/-
+        commonModule.clickDescription("minus");
+        commonModule.clickText("6");
+        commonModule.clickDescription("divide");
+        commonModule.clickDescription("minus");
+        testCase.assertTextPresent("minus6divided byminus");
+
+        commonModule.clickDescription("equals");
+        testCase.assertTextPresent("minus6");
+
+        // Press operator: 9,/,0 Result: infinite symbol:8
+        commonModule.clickText("9");
+        commonModule.clickDescription("divide");
+        commonModule.clickText("0");
+
+        commonModule.clickDescription("equals");
+        testCase.assertTextPresent("  ∞");
+
+        // Press operator: -,6,/,0 Result: infinite symbol:-8
+        if (commonModule.isResourceId(moduleData.get("Clear_Button_Id"))) {
+            commonModule.clickResourceId(moduleData.get("Clear_Button_Id"));
+        } else if (commonModule.isDescriptionExists("delete")) {
+            testCase.longPressItemWithDescription("delete");
+        }
+
+        commonModule.clickDescription("minus");
+        commonModule.clickText("6");
+        commonModule.clickDescription("divide");
+        commonModule.clickText("0");
+
+        commonModule.clickDescription("equals");
+        testCase.assertTextPresent(" minus∞");
+    }
+}

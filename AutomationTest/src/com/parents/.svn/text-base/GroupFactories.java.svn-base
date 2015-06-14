@@ -1,0 +1,32 @@
+package com.parents;
+
+import com.module.calculator.CalculatorFactory;
+import com.module.camera.CameraFactory;
+import com.module.facebook.FacebookFactory;
+import com.module.settings.SettingsFactory;
+import com.module.telephony.TelephonyFactory;
+import com.module.walkman.WalkmanFactory;
+import com.module.email.EmailFactory;
+import com.sonyericsson.test.acceptancetest.AcceptanceTestCase;
+
+public class GroupFactories {
+
+    public static Factory createFactory(AcceptanceTestCase testCase, String moduleName) {
+        if (moduleName == "telephony") {
+            return new TelephonyFactory(testCase);
+        } else if (moduleName == "walkman") {
+            return new WalkmanFactory(testCase);
+        } else if (moduleName == "settings") {
+            return new SettingsFactory(testCase);
+        }else if(moduleName == "email"){
+            return new EmailFactory(testCase);
+        }else if(moduleName == "camera"){
+            return new CameraFactory(testCase);
+        } else if (moduleName == "calculator") {
+            return new CalculatorFactory(testCase);
+        } else if (moduleName == "facebook") {
+            return new FacebookFactory(testCase);
+        }
+        return null;
+    }
+}

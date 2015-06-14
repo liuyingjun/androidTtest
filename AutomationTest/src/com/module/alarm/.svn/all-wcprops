@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Automation/!svn/ver/399/AutomationTest/src/com/module/alarm
+END
+AlarmFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/Automation/!svn/ver/163/AutomationTest/src/com/module/alarm/AlarmFactory.java
+END
+IAlarm.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/Automation/!svn/ver/395/AutomationTest/src/com/module/alarm/IAlarm.java
+END
+AlarmModule.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/Automation/!svn/ver/399/AutomationTest/src/com/module/alarm/AlarmModule.java
+END

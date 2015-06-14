@@ -1,0 +1,1123 @@
+package com.module.camera;
+
+import junit.framework.Assert;
+
+import com.android.uiautomator.core.UiObject;
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.android.uiautomator.core.UiSelector;
+import com.module.common.CommonModule;
+import com.parser.data.ModuleDataParser;
+import com.sonyericsson.test.acceptancetest.AcceptanceTestCase;
+
+import android.hardware.Camera.CameraInfo;
+import android.hardware.Camera;
+import android.util.Log;
+import android.view.KeyEvent;
+
+import java.util.HashMap;
+
+public class CameraModule implements ICamera {
+    AcceptanceTestCase testCase;
+
+    CommonModule commonModule;
+
+    HashMap<String, String> moduleData;
+
+    public static final String CAMERA_PACKAGE = "com.sonyericsson.android.camera";
+
+    public static final String CAMERA_CLASS_NAME = "com.sonyericsson.android.camera.CameraActivity";
+
+    String TAG = "Reliability";
+    CameraInfo info = new Camera.CameraInfo();
+
+    public CameraModule(AcceptanceTestCase testCase){
+        this.testCase = testCase;
+        this.commonModule = new CommonModule(testCase);
+
+        moduleData = ModuleDataParser.getModuleData("camera");
+    }
+
+    public void launchCameraPhotoApplication() {
+        testCase.launchApp(CAMERA_PACKAGE, CAMERA_CLASS_NAME);
+        testCase.setTimeout(6000);
+        removeAlertTitle();
+        AcceptanceTestCase.assertTrue("launch Camera failed", commonModule.isResourceId(moduleData.get("Take_Photo_Main_Button_Id")));
+        testCase.resetTimeout();
+
+    }
+
+    protected void removeAlertTitle() {
+        if (testCase.isViewWithIdPresent("alertTitle")) {
+            testCase.clickItemWithText("No");
+        }
+    }
+
+    protected boolean isCameraApplicationOpened() {
+        return testCase.isViewWithIdPresent("capture_button");
+    }
+
+    public void recordVideo(int recordingTime) throws UiObjectNotFoundException {
+        commonModule.clickResourceId(moduleData.get("Common_Record_Button_Id"));
+        commonModule.wait(2);
+        // testCase.assertViewWithIdPresent("recording_time");
+        commonModule.wait(recordingTime);
+        commonModule.clickResourceId(moduleData.get("Common_Record_Button_Id"));
+    }
+
+    public void takePicture() {
+        launchCameraPhotoApplication();
+        pressCameraButton();
+        commonModule.wait(5);
+    }
+
+    public void pressCameraButton() {
+        testCase.pressTwoKeys(KeyEvent.KEYCODE_FOCUS, KeyEvent.KEYCODE_CAMERA);
+    }
+
+    public void switchCamera() {
+        testCase.clickPoint(commonModule.getX(100, 1794), commonModule.getY(750, 1080));
+    }
+
+    public void selectOneCreativeEffect(int y) throws UiObjectNotFoundException {
+        if (testCase.isViewWithIdPresent("effect_selector_icon")) {
+            testCase.clickId("effect_selector_icon");
+            commonModule.wait(2);
+        } else if (commonModule.isResourceId(moduleData.get("Creative_Effect_Selector_Icon_Id"))) {
+            commonModule.clickResourceId(moduleData.get("Creative_Effect_Selector_Icon_Id"));
+        }
+        testCase.clickPoint(commonModule.getX(1500, 1794), commonModule.getY(y, 1080));
+        commonModule.wait(1);
+        testCase.clickPoint(commonModule.getX(500, 1794), commonModule.getY(500, 1080));
+        commonModule.wait(2);
+    }
+
+    public void selectAllCreativeEffectAndTakePictures() throws UiObjectNotFoundException {
+        for (int i = 0; i < 19; i++) {
+            Log.i(TAG, "Select Creative Effect " + (i + 1));
+            if (i == 0) {
+                // The first one.
+                selectOneCreativeEffect(100);
+            } else if (i == 1) {
+                // The second one.
+                selectOneCreativeEffect(400);
+            } else if (i == 2) {
+                // The third one.
+                selectOneCreativeEffect(700);
+            } else if (i > 2 && i < 18) {
+                selectOneCreativeEffect(800);
+            } else {
+                // The last one.
+                selectOneCreativeEffect(900);
+            }
+            takePicture();
+        }
+	}
+
+    public void changePreviewMode(String preview) throws UiObjectNotFoundException {
+        // Press more menu button.
+        commonModule.waitForId("effect_selector_icon", 5000);
+        testCase.clickPoint(commonModule.getX(100, 1794), commonModule.getY(1000, 1080));
+        commonModule.wait(3);
+        if (commonModule.isResourceId(moduleData.get("Preview_Text_Id"))) {
+            commonModule.clickResourceId(moduleData.get("Preview_Text_Id"));
+        } else if (commonModule.isTextExists("Preview")) {
+            commonModule.clickText("Preview");
+        } else if (commonModule.isDescriptionExists("Preview")) {
+            commonModule.clickDescription("Preview");
+        } else {
+            commonModule.clickResourceId(moduleData.get("Preview_Description_Id"));
+        }
+        commonModule.waitForText(preview, 3000);
+        testCase.click(preview);
+        Assert.assertTrue("Change Preview Mode failed.", commonModule.waitForText("Preview", 3000)
+                && commonModule.waitForText(preview, 3000));
+        testCase.pressKey(KeyEvent.KEYCODE_BACK);
+        Assert.assertTrue("Back to camera view failed.",
+                commonModule.waitForTextGone("Preview", 3000));
+    }
+
+    public void checkPictures(int picNum) throws UiObjectNotFoundException{
+        launchCameraPhotoApplication();
+        if (commonModule.isResourceId(moduleData.get("Content_Thumbnail_Id"))) {
+            commonModule.clickResourceId(moduleData.get("Content_Thumbnail_Id"));
+            commonModule.wait(2);
+        }
+        if (commonModule.waitForId("alertTitle", 3000) && commonModule.waitForText("Album", 3000)) {
+            testCase.click("Album");
+            if (commonModule.waitForText("Just once", 3000)) {
+                testCase.click("Just once");
+            }
+        }
+        int[] screen = testCase.getScreenSize();
+        if (screen[0] > screen[1]) {
+            testCase.clickPoint(commonModule.getX(1260, 1794), commonModule.getY(420, 1080));
+        } else {
+            testCase.clickPoint(commonModule.getX(805, 1080), commonModule.getY(475, 1794));
+        }
+        if (!commonModule.waitForId("home", 3000)) {
+            testCase.clickPoint(commonModule.getX(900, 1794), commonModule.getY(540, 1080));
+        }
+        commonModule.waitForId("home", 3000);
+        for (int i = 0; i < picNum; i++) {
+            testCase.scrollRight();
+            commonModule.wait(1);
+        }
+    }
+
+    public void launchCameraByMode(String cameraMode) {
+
+        launchCameraPhotoApplication();
+        commonModule.wait(1);
+        testCase.setOrientationPortrait();
+        testCase.clickItemWithId("mode_selector_button");
+        testCase.clickItemWithText(cameraMode);
+        commonModule.wait(3);
+
+    }
+
+    @SuppressWarnings("static-access")
+    public void switchMicrophoneOnTimeshiftMode() {
+        // Press more menu button.
+        testCase.clickPoint(commonModule.getX(100, 1794), commonModule.getY(1000, 1080));
+        commonModule.wait(3);
+        // Press switch microphone button
+        testCase.clickPoint(commonModule.getX(400, 1794), commonModule.getY(500, 1080));
+        testCase.pressKey(KeyEvent.KEYCODE_BACK);
+        commonModule.wait(1);
+        testCase.assertFalse("Camera Mode: Could not exit switch microphone.",
+                commonModule.waitForId("switch_category", 8000));
+
+}
+
+	public void openLatestPictureInCamera() throws UiObjectNotFoundException{
+			 commonModule.wait(3);
+			 testCase.assertViewWithIdPresent("main_button");
+			 commonModule.wait(1);
+			 clickRecentShot();
+			 // Press to show picture information
+			 testCase.clickPoint(commonModule.getX(500, 1794), commonModule.getY(900, 1080));
+			 commonModule.wait(1);
+			 testCase.assertViewWithIdNotPresent("main_button");
+	}
+
+	protected void clickRecentShot() throws UiObjectNotFoundException {
+		commonModule.clickResourceId(moduleData.get("Recent_Shot_Icon_Id"));
+		commonModule.wait(3);
+		if (testCase.isViewWithTextPresent("Complete action using")) {
+			testCase.click("Album");
+			if (testCase.isViewWithTextPresent("Always")) {
+			testCase.click("Always");
+			}
+		commonModule.wait(5);
+	}
+		}
+
+	@Override
+	public void openLatestVideoInCamera() throws UiObjectNotFoundException {
+		commonModule.wait(3);
+		testCase.assertViewWithIdPresent("main_button");
+		commonModule.wait(1);
+		clickRecentShot();
+		// Click to play video
+		if (!testCase.isViewWithIdPresent("video_buttons")) {
+			testCase.clickPoint(commonModule.getX(540, 1080), commonModule.getY(950, 1794));
+			commonModule.wait(2);
+			}
+			if (testCase.isViewWithTextPresent("Complete action using")) {
+				testCase.click("Movies");
+				if (testCase.isViewWithTextPresent("Always")) {
+					testCase.click("Always");
+					}
+				commonModule.wait(3);
+			}
+			commonModule.wait(1);
+			testCase.assertViewWithIdNotPresent("main_button");
+
+		}
+
+    @SuppressWarnings("static-access")
+    public void recordVideoOnTimeshiftMode(int recordingTime) throws UiObjectNotFoundException {
+        commonModule.wait(2);
+        commonModule.clickResourceId(moduleData.get("Record_Video_Main_ButtonId"));
+        testCase.assertViewWithIdPresent("recording_time");
+        commonModule.wait(recordingTime);
+        commonModule.clickResourceId(moduleData.get("Record_Video_Main_ButtonId"));
+        testCase.assertTrue("Timeshift Mode: Could not save timeshift video!",
+                commonModule.waitForId("skip_button", 8000));
+        commonModule.wait(2);
+    }
+
+    public void selectOneEffectFromCameraSettings(String effectName) throws UiObjectNotFoundException {
+        commonModule.clickResourceId(moduleData.get("Mode_Selector_Button_Id"));
+        commonModule.waitForText(effectName, 2000);
+
+		if (effectName.equals("Creative effect")
+				&& testCase.isViewWithTextPresent("Picture effect")) {
+			testCase.click("Picture effect");
+			commonModule.wait(3);
+		} else{
+			for (int i = 0; i < 3; i++) {
+				if (testCase.isViewWithTextPresent(effectName)) {
+					break;
+				}
+				testCase.scrollRight();
+				testCase.scrollDown();
+				commonModule.wait(2);
+			}
+			if (testCase.isViewWithTextPresent(effectName)) {
+				testCase.click(effectName);
+				commonModule.wait(2);
+			} else {
+				commonModule.backOutToHomeScreen();
+			}
+		}
+//		Assert.assertTrue("Select effect from Camera settings failed.",
+//				commonModule.waitForTextGone(effectName, 3000));
+	}
+
+	public void selectOneAREffect(String areffect) {
+
+        // if (testCase.isViewWithDescriptionPresent("Theme menu")) {
+        // testCase.clickItemWithDescription("Theme menu");
+        // commonModule.waitForText(areffect, 3000);
+        // }
+        testCase.clickItemWithDescription(areffect);
+        if (testCase.isViewWithTextPresent("AR effect") && testCase.isViewWithTextPresent("Next")) {
+            testCase.click("Next");
+            commonModule.waitForText("OK", 3000);
+            testCase.click("OK");
+        }
+        Assert.assertTrue("Select AR effect failed.", commonModule.waitForText("Reset", 3000));
+    }
+
+    public int selectAllAREffectAndTakePictures() {
+        int i = 0;
+        if (testCase.isViewWithDescriptionPresent("Fairytale")) {
+            selectOneAREffect("Fairytale");
+            takePicture();
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Fairytale", 3000);
+        } else if (testCase.isViewWithDescriptionPresent("Fairy tale")) {
+            selectOneAREffect("Fairy tale");
+            takePicture();
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Fairy tale", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Dive")) {
+            selectOneAREffect("Dive");
+            takePicture();
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Dive", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Dinosaur")) {
+            selectOneAREffect("Dinosaur");
+            takePicture();
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Dinosaur", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Celebration")) {
+            selectOneAREffect("Celebration");
+            takePicture();
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Celebration", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Masquerade")) {
+            selectOneAREffect("Masquerade");
+            takePicture();
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Masquerade", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Funky disco")) {
+            selectOneAREffect("Funky disco");
+            takePicture();
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Funky disco", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Butterfly")) {
+            selectOneAREffect("Butterfly");
+            takePicture();
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Butterfly", 3000);
+        }
+        return i;
+    }
+
+    public void takePicturesWithBackgroundDefocusMode() {
+        if (testCase.isViewWithTextPresent("OK")) {
+            testCase.click("OK");
+            commonModule.wait(3);
+        }
+        testCase.pressKey(KeyEvent.KEYCODE_FOCUS);
+        commonModule.wait(3);
+        takePicture();
+        if (testCase.isViewWithIdPresent("image_button_check")) {
+            testCase.clickId("image_button_check");
+        } else if (testCase.isViewWithTextPresent("Could not blur background.")) {
+            testCase.failTest("Could not blur background.");
+        }
+        Assert.assertTrue("Take pictures with Background defocus mode failed.",
+                commonModule.waitForId("touch_focus_guide_icon_16_9", 10 * 1000));
+    }
+
+    public void activeGeoTagFromCameraSettings() throws UiObjectNotFoundException {
+        launchCameraPhotoApplication();
+        if (!commonModule.waitForId("geo_tag_indicator", 3000)) {
+            testCase.clickItemWithDescription("Menu");
+            commonModule.wait(2);
+
+            // Tap other settings icon.
+            for (int i = 0; i < 5; i++) {
+                if (commonModule.isResourceId(moduleData.get("Switch_Category"))
+                        || commonModule.isTextExists("Geotagging")) {
+                    break;
+                }
+                if (commonModule.waitForDescription("Other settings", 2000)) {
+                    commonModule.clickDescription("Other settings");
+                } else if (commonModule.isResourceId(moduleData.get("Other_Settings_Icon_Id"))) {
+                    commonModule.clickResourceId(moduleData.get("Other_Settings_Icon_Id"));
+                } else {
+                    testCase.clickPoint(commonModule.getX(295, 1920), commonModule.getY(267, 1080));
+                }
+                commonModule.wait(1);
+                if (i == 4 && !commonModule.isTextExists("Geotagging")) {
+                    testCase.failTest("Tool can't capture other settings icon. ");
+                }
+            }
+
+            if (commonModule.isResourceId(moduleData.get("Switch_Category"))) {
+                commonModule.clickResourceId(moduleData.get("Switch_Category"));
+            } else if (commonModule.isTextExists("Geotagging")) {
+                commonModule.clickText("Geotagging");
+            } else {
+                testCase.clickPoint(commonModule.getX(390, 1920), commonModule.getY(122, 1080));
+            }
+
+			if (commonModule.waitForText("How to get location", 3000)) {
+				testCase.click("OK");
+			}
+
+            if (testCase.isViewWithIdPresent("switch_category")
+                    || commonModule.isTextExists("Geotagging")) {
+                testCase.pressKey(KeyEvent.KEYCODE_BACK);
+            }
+            commonModule.wait(2);
+        }
+//        Assert.assertTrue("Set Geo tag failed.", commonModule.waitForResourceId(
+//                moduleData.get("Geo_Tag_Indicator"), 5000));
+    }
+
+    @SuppressWarnings("static-access")
+    public void openHDR() {
+        openCameraSetting();
+        commonModule.wait(3);
+        // Press HDR switch button
+        testCase.clickPoint(commonModule.getX(1100, 1794), commonModule.getY(500, 1080));
+        testCase.pressKey(KeyEvent.KEYCODE_BACK);
+        commonModule.wait(1);
+        testCase.assertFalse("Camera Mode: Could not exit switch microphone.",
+                commonModule.waitForId("switch_category", 8000));
+
+	}
+
+	@SuppressWarnings("static-access")
+	public void open4K2KPictureMode() {
+		openCameraSetting();
+		commonModule.wait(3);
+		// Press resolution button
+		testCase.clickPoint(commonModule.getX(450, 1794),
+				commonModule.getY(500, 1080));
+		commonModule.wait(3);
+		// Press 4k2k button
+		testCase.clickPoint(commonModule.getX(1000, 1794),
+				commonModule.getY(500, 1080));
+		testCase.pressKey(KeyEvent.KEYCODE_BACK);
+		commonModule.wait(1);
+		testCase.assertFalse("Camera Mode: Could not exit setting.",
+				commonModule.waitForId("switch_category", 8000));
+
+	}
+
+	@SuppressWarnings("static-access")
+	public void change4KVideoSetting(int steadyShot, int preview) {
+		int gap = 170;
+
+		openCameraSetting();
+		commonModule.wait(2);
+		// Change SteadyShot setting
+		testCase.clickPoint(commonModule.getX(400, 1794),
+				commonModule.getY(500, 1080));
+		commonModule.wait(1);
+		switch (steadyShot) {
+		case 0:
+			testCase.clickPoint(commonModule.getX(550, 1794),
+					commonModule.getY(500, 1080));
+		case 1:
+			testCase.clickPoint(commonModule.getX(550 + gap, 1794),
+					commonModule.getY(500, 1080));
+		}
+		commonModule.wait(1);
+		// Change preview setting
+		testCase.clickPoint(commonModule.getX(400 + gap, 1794),
+				commonModule.getY(500, 1080));
+		commonModule.wait(2);
+		switch (preview) {
+		case 0:
+			testCase.clickPoint(commonModule.getX(730, 1794),
+					commonModule.getY(500, 1080));
+		case 1:
+			testCase.clickPoint(commonModule.getX(730 + gap, 1794),
+					commonModule.getY(500, 1080));
+		case 2:
+			testCase.clickPoint(commonModule.getX(730 + gap * 2, 1794),
+					commonModule.getY(500, 1080));
+		}
+		commonModule.wait(1);
+		// Change microphone setting
+		testCase.clickPoint(commonModule.getX(400 + gap * 2, 1794),
+				commonModule.getY(500, 1080));
+		testCase.pressKey(KeyEvent.KEYCODE_BACK);
+		commonModule.wait(3);
+		boolean id = commonModule.waitForId("switch_category", 5000);
+		testCase.assertFalse("Camera Mode: Could not exit setting page.",id
+				);
+
+	}
+
+    public void recordVideoOn4KMode(int recordingTime) throws UiObjectNotFoundException {
+        commonModule.wait(2);
+        commonModule.clickResourceId(moduleData.get("Record_Video_Main_ButtonId"));
+        commonModule.wait(recordingTime);
+        commonModule.clickResourceId(moduleData.get("Record_Video_Main_ButtonId"));
+        commonModule.wait(3);
+        if (testCase.isViewWithIdPresent("auto_review_delete")) {
+            testCase.pressKey(KeyEvent.KEYCODE_BACK);
+        }
+    }
+
+	private void openCameraSetting() {
+		// Press more menu button.
+		testCase.clickPoint(commonModule.getX(100, 1794),
+				commonModule.getY(1000, 1080));
+	}
+
+    public void changeScenes(String scenes) throws UiObjectNotFoundException {
+        testCase.setOrientationPortrait();
+        if (!commonModule.isTextExists("Scene selection")) {
+            if (commonModule.isDescriptionExists("Scenes")) {
+                commonModule.clickDescription("Scenes");
+            } else {
+                // Tap the coordinate to click Scenes icon.
+                testCase.clickPoint(commonModule.getX(60, 1280), commonModule.getY(70, 720));
+            }
+            commonModule.waitForText("Scene selection", 2000);
+        }
+
+        for (int i = 0; i < 5; i++) {
+
+            if (!commonModule.isTextExists("Scene selection")) {
+                break;
+            }
+
+            if (commonModule.isTextExists(scenes)) {
+                commonModule.clickText(scenes);
+            } else if (commonModule.isDescriptionExists(scenes)) {
+                commonModule.clickDescription(scenes);
+            }
+
+            if (i == 4) {
+                testCase.failTest("Tool can't change scenes.");
+            }
+        }
+        Assert.assertTrue("Change '" + scenes + "' scenes failed.",
+                commonModule.waitForTextGone("Scene selection", 3000));
+    }
+
+    public void changeScenesByCoordinate(int pointX) {
+        testCase.setOrientationPortrait();
+        testCase.clickItemWithDescription("Scenes");
+        commonModule.waitForText("Scene selection", 2000);
+        testCase.clickPoint(commonModule.getX(pointX, 1794), commonModule.getY(540, 1080));
+        Assert.assertTrue("Change scenes failed.", commonModule.waitForId("main_button", 5000));
+    }
+
+    public void recordVideoByAREffect(int recordingTime) throws UiObjectNotFoundException {
+        commonModule.clickResourceId(moduleData.get("AR_Effect_Record_Button_Id"));
+        commonModule.wait(2);
+        commonModule.wait(recordingTime);
+        commonModule
+                .clickResourceId("com.sonymobile.androidapp.cameraaddon.areffect:id/record_stop_btn");
+        Assert.assertTrue("Record Video by AR effect failed.",
+                commonModule.waitForResourceId(moduleData.get("AR_Effect_Record_Button_Id"), 3000));
+    }
+
+    public void checkVideos(int videoNum) throws UiObjectNotFoundException {
+        launchCameraPhotoApplication();
+        if (commonModule.isResourceId(moduleData.get("Content_Thumbnail_Id"))) {
+            commonModule.clickResourceId(moduleData.get("Content_Thumbnail_Id"));
+        } else if (commonModule
+                .isResourceId("com.sonymobile.androidapp.cameraaddon.areffect:id/video_indicator")) {
+            commonModule
+                    .clickResourceId("com.sonymobile.androidapp.cameraaddon.areffect:id/video_indicator");
+        } else if (commonModule.isDescriptionExists("Thumbnail")) {
+            commonModule.clickDescription("Thumbnail");
+        }
+        commonModule.wait(2);
+        if (!commonModule.waitForId("home", 3000)) {
+            testCase.clickPoint(commonModule.getX(1300, 1794), commonModule.getY(540, 1080));
+        }
+        commonModule.waitForId("home", 3000);
+        for (int i = 0; i < videoNum; i++) {
+            testCase.scrollRight();
+            commonModule.wait(1);
+        }
+    }
+
+    public void selectAllPreviewModeAndTakePictures() throws UiObjectNotFoundException {
+        changePreviewMode("Unlimited");
+        takePicture();
+        commonModule.waitForId("auto_review_delete", 3000);
+        commonModule.pressKey(KeyEvent.KEYCODE_BACK);
+        commonModule.waitForId("mode_selector_button", 5000);
+
+        changePreviewMode("5 seconds");
+        takePicture();
+        commonModule.waitForId("auto_review_delete", 3000);
+        commonModule.waitForId("mode_selector_button", 6000);
+
+        changePreviewMode("3 seconds");
+        takePicture();
+        commonModule.waitForId("auto_review_delete", 3000);
+        commonModule.waitForId("mode_selector_button", 4000);
+
+        changePreviewMode("Edit");
+        takePicture();
+        commonModule.waitForId("Complete action using", 3000);
+        commonModule.pressKey(KeyEvent.KEYCODE_BACK);
+        if (!commonModule.waitForId("main_button", 3000)) {
+            commonModule.pressKey(KeyEvent.KEYCODE_BACK);
+            commonModule.waitForId("main_button", 3000);
+        }
+
+        changePreviewMode("Off");
+        takePicture();
+        commonModule.waitForId("mode_selector_button", 3000);
+	}
+
+	public void selectAllScenesAndTakePictures() throws UiObjectNotFoundException{
+		changeScenes("Off");
+        takePicture();
+
+        changeScenes("Soft skin");
+        takePicture();
+
+        changeScenes("Soft snap");
+        takePicture();
+
+        changeScenes("Anti motion blur");
+        takePicture();
+
+        changeScenes("Landscape");
+        takePicture();
+
+        changeScenes("Backlight correction HDR");
+        takePicture();
+
+        changeScenes("Night portrait");
+        takePicture();
+
+        changeScenes("Night scene");
+        takePicture();
+
+        changeScenes("Hand-held twilight");
+        takePicture();
+
+        changeScenes("High sensitivity");
+        takePicture();
+
+        changeScenes("Gourmet");
+        takePicture();
+
+        changeScenes("Pet");
+        takePicture();
+
+        changeScenes("Beach");
+        takePicture();
+
+        changeScenes("Snow");
+        takePicture();
+
+        changeScenes("Party");
+        takePicture();
+
+        changeScenes("Sports");
+        takePicture();
+
+        changeScenes("Document");
+        takePicture();
+
+        changeScenes("Fireworks");
+        takePicture();
+    }
+
+    public int selectAllAREffectAndRecordVideos(int recordingTime) throws UiObjectNotFoundException {
+        int i = 0;
+        if (testCase.isViewWithDescriptionPresent("Fairytale")) {
+            selectOneAREffect("Fairytale");
+            recordVideoByAREffect(recordingTime);
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Fairytale", 3000);
+        } else if (testCase.isViewWithDescriptionPresent("Fairy tale")) {
+            selectOneAREffect("Fairy tale");
+            recordVideoByAREffect(recordingTime);
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Fairy tale", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Dive")) {
+            selectOneAREffect("Dive");
+            recordVideoByAREffect(recordingTime);
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Dive", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Dinosaur")) {
+            selectOneAREffect("Dinosaur");
+            recordVideoByAREffect(recordingTime);
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Dinosaur", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Celebration")) {
+            selectOneAREffect("Celebration");
+            recordVideoByAREffect(recordingTime);
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Celebration", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Masquerade")) {
+            selectOneAREffect("Masquerade");
+            recordVideoByAREffect(recordingTime);
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Masquerade", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Funky disco")) {
+            selectOneAREffect("Funky disco");
+            recordVideoByAREffect(recordingTime);
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Funky disco", 3000);
+        }
+        if (testCase.isViewWithDescriptionPresent("Butterfly")) {
+            selectOneAREffect("Butterfly");
+            recordVideoByAREffect(recordingTime);
+            i = i + 1;
+            testCase.clickItemWithDescription("Theme menu");
+            commonModule.waitForText("Butterfly", 3000);
+        }
+        return i;
+    }
+
+    public void switchToVideoWithManualMode() throws UiObjectNotFoundException {
+        commonModule.clickResourceId(moduleData.get("Common_Record_Button_Id"));
+        Assert.assertTrue("Switch to video failed.",
+                commonModule.waitForDescription("Record", 3000));
+    }
+
+    public void recordVideoByManualMode(int recordingTime) throws UiObjectNotFoundException {
+        commonModule.clickDescription("Record");
+        commonModule.wait(recordingTime);
+
+        commonModule.clickResourceId(moduleData.get("Common_Record_Button_Id"));// Tap stop button.
+        Assert.assertTrue("Record video failed.",
+                commonModule.waitForResourceId(moduleData.get("Content_Thumbnail_Id"), 5000));
+    }
+
+    public void selectScenesAndRecordVideos(String ... scenes) throws UiObjectNotFoundException{
+        for (String scene : scenes) {
+            if (commonModule.isDescriptionExists("Scenes")) {
+                commonModule.clickDescription("Scenes");
+            } else {
+                // Tap the coordinate to click Scenes icon.
+                testCase.clickPoint(commonModule.getX(60, 1280), commonModule.getY(70, 720));
+            }
+            commonModule.waitForText("Scene selection", 2000);
+
+            if (commonModule.isTextContains(scene)
+                    || commonModule.isDescriptionExists(scene)) {
+                changeScenes(scene);
+                recordVideoByManualMode(5);
+            }
+            else {
+                testCase.pressKey(KeyEvent.KEYCODE_BACK);// Make scenes selector disappeared.
+            }
+        }
+    }
+
+    public void selectAllAppsAndRecordVideos(int recordingTime) throws UiObjectNotFoundException {
+        if (testCase.isViewWithTextPresent("Manual")) {
+            Log.i(TAG, "Take camera video with manual");
+            launchCameraByMode("Manual");
+            switchToVideoWithManualMode();
+            recordVideoByManualMode(recordingTime);
+            commonModule.backOutToHomeScreen();
+        }
+        if (testCase.isViewWithTextPresent("AR effect")) {
+            Log.i(TAG, "Take camera video with ar effect");
+            launchCameraByMode("AR effect");
+            commonModule.wait(2);
+            selectOneAREffect("Dive");
+            recordVideoByAREffect(recordingTime);
+            commonModule.backOutToHomeScreen();
+        }
+    }
+
+    public void recordVideoWithZoom() throws UiObjectNotFoundException {
+        commonModule.backOutToHomeScreen();
+        launchCameraPhotoApplication();
+        commonModule.clickDescription("Record");
+        commonModule.waitForId(moduleData.get("Record_Time_Container_Id"), 2000);
+        for (int i = 0; i < 3; i++) {
+            testCase.pressKey(KeyEvent.KEYCODE_VOLUME_UP);
+        }
+        for (int j = 0; j < 3; j++) {
+            testCase.pressKey(KeyEvent.KEYCODE_VOLUME_DOWN);
+        }
+        commonModule.clickResourceId(moduleData.get("Common_Record_Button_Id"));// Tap stop button.
+//        Assert.assertTrue("Record video with zoom failed.",
+//                commonModule.waitForResourceId(moduleData.get("Content_Thumbnail_Id"), 5000));
+    }
+
+	public void setGeoTaggingOff() throws UiObjectNotFoundException{
+        launchCameraPhotoApplication();
+        testCase.clickItemWithDescription("Menu");
+        commonModule.wait(2);
+
+        // Tap other settings icon.
+        for (int i = 0; i < 5; i++) {
+            if (commonModule.isResourceId(moduleData.get("Switch_Category"))
+                    || commonModule.isTextExists("Geotagging")) {
+                break;
+            }
+
+            if (commonModule.isResourceId(moduleData.get("Other_Settings_Icon_Id"))) {
+                commonModule.clickResourceId(moduleData.get("Other_Settings_Icon_Id"));
+            } else if (commonModule.isDescriptionExists("Other settings")) {
+                commonModule.clickDescription("Other settings");
+            } else {
+                commonModule.clickResourceIdByInstance(moduleData.get("Camera_Setting_Tab_Icon"), 1);
+            }
+            commonModule.wait(1);
+
+            if (i == 4) {
+                testCase.failTest("Tap other setting icon failed.");
+            }
+        }
+
+        if (commonModule.isResourceId(moduleData.get("Switch_Category"))) {
+            commonModule.clickResourceId(moduleData.get("Switch_Category"));
+        } else if (commonModule.isTextExists("Geotagging")) {
+            commonModule.clickText("Geotagging");
+        }
+
+        testCase.pressKey(KeyEvent.KEYCODE_BACK);
+        AcceptanceTestCase.assertTrue("Set Geo Tagging off failed.",
+                !commonModule.waitForId("geo_tag_indicator", 3000));
+	}
+
+	public void changeWhiteBalance(String wb) throws UiObjectNotFoundException{
+	    launchCameraPhotoApplication();
+
+        commonModule.clickDescription("Exposure value White balance");
+	    commonModule.waitForDescription(wb, 2000);
+
+	    commonModule.clickDescription(wb);
+	    verifyWhiteBalance(wb);
+	}
+
+	public void verifyWhiteBalance(String wb) throws UiObjectNotFoundException{
+	    if(!commonModule.isDescriptionExists(wb)){
+            commonModule.clickDescription("Exposure value White balance");
+        }
+	    commonModule.waitForDescription(wb, 2000);
+
+	    UiObject wbo = new UiObject(new UiSelector().description(wb));
+	    
+	    AcceptanceTestCase.assertTrue("Change " + wb + " White balance failed.", wbo.isSelected());
+
+	}
+
+	public void selectAllWhiteBalance() throws UiObjectNotFoundException{
+	    changeWhiteBalance("Auto");
+	    takePicture();
+
+	    changeWhiteBalance("Incandescent");
+        takePicture();
+
+        changeWhiteBalance("Fluorescent");
+        takePicture();
+
+        changeWhiteBalance("Daylight");
+        takePicture();
+
+        changeWhiteBalance("Cloudy");
+        takePicture();
+	}
+
+    public void setHDROnOrOff(String flag) throws UiObjectNotFoundException {
+
+            launchCameraByMode("Manual");
+            commonModule.clickDescription("Menu");
+            commonModule.waitForText("HDR", 2000);
+
+            UiObject hdr = new UiObject(new UiSelector().resourceId(
+                    "com.sonyericsson.android.camera:id/switch_track"));
+            if (flag == "ON") {
+                if (!hdr.isChecked()) {
+                    hdr.click();
+                    commonModule.wait(3);
+                }
+//                Assert.assertTrue("Open HDR failed.", hdr.isChecked());
+            } else if (flag == "OFF") {
+                if (hdr.isChecked()) {
+                    hdr.click();
+                    commonModule.wait(3);
+                }
+//                Assert.assertTrue("Close HDR failed.", !hdr.isChecked());
+            }
+
+            testCase.pressKey(KeyEvent.KEYCODE_BACK);
+            commonModule.waitForTextGone("HDR", 2000);
+
+    }
+
+    public void changeResolutionAndRecordVideo(String resolution, int recordingTime) throws UiObjectNotFoundException{
+        if(!commonModule.isTextExists(resolution)){
+            commonModule.clickDescription("Menu");
+            commonModule.wait(2);
+
+            commonModule.clickDescriptionContains("Resolution");
+            commonModule.waitForText(resolution, 2000);
+        }
+
+        commonModule.clickText(resolution);
+
+        if(commonModule.isTextExists("Video resolution")){
+            testCase.pressKey(KeyEvent.KEYCODE_BACK);
+        }
+
+        recordVideoByManualMode(recordingTime);
+
+        commonModule.clickDescription("Menu");
+        commonModule.wait(2);
+
+        commonModule.clickDescriptionContains("Resolution");
+        commonModule.waitForText(resolution, 2000);
+    }
+
+    public void selectAllResolutionAndRecordVideos(int recordingTime) throws UiObjectNotFoundException{
+        commonModule.clickDescription("Menu");
+        commonModule.wait(2);
+
+        try{
+            commonModule.clickResourceId("com.sonyericsson.android.camera:id/category");
+        }catch(UiObjectNotFoundException e){
+            testCase.clickPoint(commonModule.getX(280, 1196), commonModule.getY(540, 720));
+        }
+
+        if(commonModule.isTextExists("Full HD (30 fps)")){
+            changeResolutionAndRecordVideo("Full HD (30 fps)", recordingTime);
+        } else if(commonModule.isTextExists("Full HD")){
+            changeResolutionAndRecordVideo("Full HD", recordingTime);
+        }
+
+        if(commonModule.isTextExists("Full HD (60 fps)")){
+            changeResolutionAndRecordVideo("Full HD (60 fps)", recordingTime);
+        }
+
+        if(commonModule.isTextExists("HD")){
+            changeResolutionAndRecordVideo("HD", recordingTime);
+        } else if(commonModule.isTextExists("HD720p")){
+            changeResolutionAndRecordVideo("HD720p", recordingTime);
+        }
+
+        if(commonModule.isTextExists("VGA")){
+            changeResolutionAndRecordVideo("VGA", recordingTime);
+        }
+
+        if(commonModule.isTextExists("MMS")){
+            changeResolutionAndRecordVideo("MMS", recordingTime);
+        } else if(commonModule.isTextExists("Multimedia message")){
+            changeResolutionAndRecordVideo("Multimedia message", recordingTime);
+        }
+
+        // Only Honami.
+        if(commonModule.isTextExists("4K2K")){
+            changeResolutionAndRecordVideo("4K2K", recordingTime);
+        }
+    }
+
+    /*
+    public void checkVideoSize(){
+        commonModule.clickResourceId("com.sonyericsson.android.camera:id/content_thumbnail");
+        if(!commonModule.isResourceId("android:id/home")){
+            int[] screen = testCase.getScreenSize();
+            testCase.clickPoint(screen[0]/4, screen[1]/4);
+        }
+        commonModule.waitForDescription("More options", 2000);
+
+        commonModule.clickDescription("More options");
+        commonModule.waitForText("Details", 2000);
+
+        commonModule.clickText("Details");
+
+    }
+    */
+
+    public void shortPressZoomKey(){
+        testCase.pressKey(KeyEvent.KEYCODE_VOLUME_DOWN);
+        commonModule.wait(2);
+        // AcceptanceTestCase.assertTrue("Zoom bar not display.--down",
+        // commonModule.isResourceId(moduleData.get("Zoombar_Id")));
+        // AcceptanceTestCase.assertTrue("Zoom bar not disappear.--down",
+        // !commonModule.isResourceId(moduleData.get("Zoombar_Id")));
+
+        testCase.pressKey(KeyEvent.KEYCODE_VOLUME_UP);
+        commonModule.wait(2);
+        // AcceptanceTestCase.assertTrue("Zoom bar not display.--up",
+        // commonModule.isResourceId(moduleData.get("Zoombar_Id")));
+        // AcceptanceTestCase.assertTrue("Zoom bar not disappear.--up",
+        // !commonModule.isResourceId(moduleData.get("Zoombar_Id")));
+    }
+
+    public void longPressZoomKey() {
+        commonModule.wait(2);
+        testCase.longPressKey(KeyEvent.KEYCODE_VOLUME_UP, 3000);
+        for(int i=0; i<5; i++){
+            if(commonModule.isResourceId(moduleData.get("Zoombar_Id"))){
+                break;
+            }else if(i==4){
+                AcceptanceTestCase.fail("Zoom bar not display.--up");
+            }else{
+                testCase.longPressKey(KeyEvent.KEYCODE_VOLUME_UP, 3000);
+            }
+        }
+
+        commonModule.wait(2);
+
+        testCase.longPressKey(KeyEvent.KEYCODE_VOLUME_DOWN, 3000);
+        for(int i=0; i<5; i++){
+            if(commonModule.isResourceId(moduleData.get("Zoombar_Id"))){
+                break;
+            }else if(i==4){
+                AcceptanceTestCase.fail("Zoom bar not display.--down");
+            }else{
+                testCase.longPressKey(KeyEvent.KEYCODE_VOLUME_DOWN, 3000);
+            }
+        }
+        commonModule.wait(2);
+    }
+
+    public void changeUseVolumeKeyAs(String volumeKey) throws UiObjectNotFoundException{
+        commonModule.clickDescription("Menu");
+        for (int i = 0; i < 3; i++) {
+            if (commonModule.waitForText("Use Volume key as", 5000)) {
+                break;
+            }
+            if (commonModule.waitForDescription("Other settings", 5000)) {
+                commonModule.clickDescription("Other settings");
+            } else if (commonModule.isResourceId(moduleData.get("Other_Settings_Icon_Id"))) {
+                commonModule.clickResourceId(moduleData.get("Other_Settings_Icon_Id"));
+            } else {
+                testCase.clickPoint(commonModule.getX(295, 1920), commonModule.getY(267, 1080));
+            }
+        }
+
+        commonModule.clickText("Use Volume key as");
+        commonModule.waitForText(volumeKey, 2000);
+
+        commonModule.clickText(volumeKey);
+
+        testCase.pressKey(KeyEvent.KEYCODE_BACK);
+        commonModule.waitForTextGone("Use Volume key as", 2000);
+    }
+
+    public void verifyVolumeKeyAsVolume(){
+        testCase.pressKey(KeyEvent.KEYCODE_VOLUME_DOWN);
+        commonModule.wait(2);
+        testCase.pressKey(KeyEvent.KEYCODE_VOLUME_UP);
+        commonModule.wait(2);
+
+        testCase.longPressKey(KeyEvent.KEYCODE_VOLUME_UP, 5000);
+        commonModule.wait(3);
+        testCase.longPressKey(KeyEvent.KEYCODE_VOLUME_DOWN, 5000);
+        commonModule.wait(3);
+    }
+
+    public void verifyVolumeKeyAsShutter(){
+        testCase.pressKey(KeyEvent.KEYCODE_VOLUME_DOWN);
+        commonModule.wait(5);
+        AcceptanceTestCase.assertTrue("Use volume key as Shutter not work well",
+                commonModule.waitForResourceId(moduleData.get("Record_Time_Container_Id"), 3000));
+        commonModule.wait(2);
+        testCase.pressKey(KeyEvent.KEYCODE_VOLUME_DOWN);
+        commonModule.wait(5);
+
+        testCase.pressKey(KeyEvent.KEYCODE_VOLUME_UP);
+        commonModule.wait(5);
+        AcceptanceTestCase.assertTrue("Use volume key as Shutter not work well",
+                commonModule.waitForResourceId(moduleData.get("Record_Time_Container_Id"), 3000));
+        commonModule.wait(2);
+        testCase.pressKey(KeyEvent.KEYCODE_VOLUME_UP);
+        commonModule.wait(2);
+    }
+
+    public void holdCameraKey() {
+        testCase.pressKey(KeyEvent.KEYCODE_CAMERA);
+        commonModule.wait(2);
+        removeAlertTitle();
+        AcceptanceTestCase.assertTrue("Camera launch failed",
+                commonModule.waitForResourceId(moduleData.get("Take_Photo_Main_Button_Id"), 2000));
+    }
+
+    public void verifyManualMode() {
+    	removeAlertTitle();
+        commonModule.wait(2);
+        AcceptanceTestCase.assertTrue(
+                "Manual Mode open failed",
+                commonModule.isDescriptionExists("Flash")
+                        && commonModule.isDescriptionExists("Exposure value White balance")
+                        && commonModule.isResourceId(moduleData.get("Take_Photo_Main_Button_Id")));
+
+    }
+
+    public void launchCameraWithGeoActive() throws UiObjectNotFoundException{
+        testCase.launchApp(CAMERA_PACKAGE, CAMERA_CLASS_NAME);
+        testCase.setTimeout(6000);
+        if (testCase.isViewWithIdPresent("alertTitle")) {
+            testCase.clickItemWithText("Yes");
+        }
+        if(commonModule.isTextExists("Enable geotagging")){
+            commonModule.clickText("OK");
+            commonModule.waitForText("Location", 2000);
+
+            commonModule.clickText("OFF");
+            if(commonModule.isTextExists("Location consent")){
+                commonModule.clickText("Agree");
+            }
+        }
+        testCase.launchApp(CAMERA_PACKAGE, CAMERA_CLASS_NAME);
+
+        testCase.assertViewWithIdPresent("main_button");
+        testCase.resetTimeout();
+    }
+}

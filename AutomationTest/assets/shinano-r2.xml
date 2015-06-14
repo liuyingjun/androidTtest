@@ -1,0 +1,300 @@
+<shinano-r2>    
+    <module name="telephony">
+        <product name="common">
+            <id name="Call_Timer_Id">com.android.incallui:id/elapsedTime</id>
+            <id name="End_Call_Button_Id">com.android.incallui:id/endCallButton</id>
+            <id name="Call_Button_Id">com.sonyericsson.android.socialphonebook:id/call_button</id>
+            <id name="Dialer_Icon_Id">com.android.incallui:id/dialpadButton</id>
+            <id name="Merge_Icon">com.android.incallui:id/mergeCallsIcon</id>
+            <id name="Mute_Button">com.android.incallui:id/muteButton</id>
+            <id name="Loud_Speaker_Button">com.android.incallui:id/audioButton</id>
+            <id name="Detail_Icon">com.sonyericsson.android.socialphonebook:id/detail_icon</id>
+            <id name="Send_Button">com.sonyericsson.conversations:id/conversation_send_button</id>
+            <id name="Number_Editor">com.sonyericsson.android.socialphonebook:id/digits</id>
+            <id name="Number_Keyboard_Icon">com.sonyericsson.android.socialphonebook:id/fab</id>
+            <id name="Merge_Calls_Icon">com.android.phone:id/mergeCallsIcon</id>
+            <id name="Second_Call_Button">com.android.phone:id/btn_dial</id>
+        </product>
+        
+        <product name="D6503">          
+            <id name="Call_Timer_Id">com.android.incallui:id/elapsedTime</id>
+            <id name="End_Call_Button_Id">com.android.incallui:id/endCallButton</id>
+            <id name="Call_Button_Id">com.sonyericsson.android.socialphonebook:id/call_button</id>
+            <id name="Dialer_Icon_Id">com.android.incallui:id/dialpadButton</id>
+            <id name="Loud_Speaker_Button">com.android.incallui:id/audioButton</id>
+        </product>
+        
+        <product name="D6603">
+            <id name="Dialer_Icon_Id">com.android.phone:id/icbp_btn_icon</id>
+        </product>
+        
+    </module>
+    
+    <module name="camera">
+        <product name="common">
+            <id name="Take_Photo_Main_Button_Id">com.sonyericsson.android.camera:id/main_button</id>
+            <id name="Record_Video_Main_Button_Id">com.sonymobile.android.addoncamera.supervideo:id/main_button</id>
+            <id name="Mode_Selector_Button_Id">com.sonyericsson.android.camera:id/mode_selector_button</id>
+            <id name="AR_Effect_Record_Button_Id">com.sonymobile.androidapp.cameraaddon.areffect:id/record_btn</id>
+            <id name="AR_Effect_Record_Stop_Button">com.sonymobile.androidapp.cameraaddon.areffect:id/record_stop_btn</id>"
+            <id name="Common_Record_Button_Id">com.sonyericsson.android.camera:id/sub_button</id>
+            <id name="Content_Thumbnail_Id">com.sonyericsson.android.camera:id/content_thumbnail</id>
+            <id name="Creative_Effect_Selector_Icon_Id">com.sonyericsson.android.addoncamera.artfilter:id/effect_selector_icon</id>
+            <id name="Other_Settings_Icon_Id">com.sonyericsson.android.camera:id/tab_right</id>
+            <id name="Zoombar_Id">com.sonyericsson.android.camera:id/zoombar</id>
+            <id name="Record_Time_Container_Id">com.sonyericsson.android.camera:id/time_container</id>
+            <id name="Preview_Text_Id">com.sonyericsson.android.addoncamera.artfilter:id/category</id>
+            <id name="Preview_Description_Id">com.sonyericsson.android.addoncamera.artfilter:id/background</id>
+            <id name="Recent_Shot_Icon_Id">com.sonyericsson.android.camera:id/contents_container</id>
+            <id name="Auto_Review_Icon_Id">com.sonyericsson.android.camera:id/auto_review_view</id>
+            <id name="Camera_Setting_Tab_Icon">com.sonyericsson.android.camera:id/icon</id>
+            <id name="Switch_Category">com.sonyericsson.android.camera:id/switch_category</id>
+            <id name="Geo_Tag_Indicator">com.sonyericsson.android.camera:id/geo_tag_indicator</id>
+            <id name="Face_In_Record_Button_Id">com.sonymobile.android.addoncamera.dual:id/sub_button</id>
+            <id name="Delete_Picture_Icon">com.sonyericsson.album:id/action_layer_action_delete</id>
+            <id name="Selftimer_Icon">com.sonyericsson.android.camera:id/camera_selftimer</id>
+        </product>
+        
+        <product name="D6603">
+            <id name="Take_Photo_Main_Button_Id">com.sonyericsson.android.camera:id/main_button</id>
+            <id name="Record_Video_Main_Button_Id">com.sonymobile.android.addoncamera.supervideo:id/main_button</id>
+            <id name="Mode_Selector_Button_Id">com.sonyericsson.android.camera:id/mode_selector_button</id>
+            <id name="Common_Record_Button_Id">com.sonyericsson.android.camera:id/sub_button</id>
+            <id name="Content_Thumbnail_Id">com.sonyericsson.android.camera:id/content_thumbnail</id>
+            <id name="Creative_Effect_Selector_Icon_Id">com.sonyericsson.android.addoncamera.artfilter:id/effect_selector_icon</id>
+            <id name="Other_Settings_Icon_Id">com.sonyericsson.android.camera:id/tab_right</id>
+            <id name="Zoombar_Id">com.sonyericsson.android.camera:id/zoombar</id>
+            <id name="Record_Time_Container_Id">com.sonyericsson.android.camera:id/time_container</id>
+            <id name="Preview_Text_Id">com.sonyericsson.android.addoncamera.artfilter:id/category</id>
+            <id name="Preview_Description_Id">com.sonyericsson.android.addoncamera.artfilter:id/background</id>
+        </product>
+    
+        <product name="D6503">            
+        </product> 
+    
+        <product name="SGP321">            
+        </product> 
+        
+        <product name="D2303">            
+        </product> 
+    </module>
+    <module name="walkman">
+        <product name="common">
+            <id name="Menu_Button_Id">android:id/up</id>
+            <id name="Mini_Player_Layout_Id">com.sonyericsson.music:id/info2</id>
+            <id name="Player_Play_Pause_Button_Id">com.sonyericsson.music:id/player_play_pause_button</id>
+            <id name="Pause_Button_Id">com.sonyericsson.music:id/pause</id>
+            <id name="Play_Button_Id">com.sonyericsson.music:id/play</id>
+            <id name="Player_Next_Button_Id">com.sonyericsson.music:id/player_next_button</id>
+            <id name="Player_Previous_Id">com.sonyericsson.music:id/player_previous_button</id>
+            <id name="Player_Repeat_Button_Id">com.sonyericsson.music:id/player_repeat_button</id>
+            <id name="Play_Shuffle_Button_Id">com.sonyericsson.music:id/player_shuffle_button</id>
+            <id name="Player_Track_Text_Id">com.sonyericsson.music:id/player_track_position</id>
+            <id name="Album_Flick_Component_Icon_Id">com.sonyericsson.music:id/album_flick_component</id>
+            <id name="Player_Add_To_Playlist_Button_Id">com.sonyericsson.music:id/player_add_to_playlist_button</id>
+            <id name="Player_Infinite_Button_Id">com.sonyericsson.music:id/player_infinite_button</id>
+            <id name="Player_Favourite_Button_Id">com.sonyericsson.music:id/player_favourite_button</id>
+            <id name="Player_Track_Title_Id">com.sonyericsson.music:id/player_track_title</id>
+            <id name="Player_Seek_Bar_Id">com.sonyericsson.music:id/player_seekbar</id>
+            <id name="Album_Cover_Id_In_Full_Screen">com.sonyericsson.music:id/album_flick_component</id>
+            <id name="Like_Music_Icon">com.sonyericsson.music:id/player_like_button</id>
+            <id name="Check_Box_Id">com.sonyericsson.music:id/checkbox</id>
+            <id name="Picture_Id_In_Front_Of_Friends_Music">com.sonyericsson.music:id/image_cover</id>
+            <id name="Friends_Music_Mini_Player_Layout_id">com.sonyericsson.music:id/miniplayer_only</id>
+            <id name="Friends_Music_context_id">com.sonyericsson.music:id/context_menu_touch_area</id>
+            <id name="Friends_Music_comment_editor_id">com.sonyericsson.music:id/post_viewer_edit</id>
+            <id name="Pause_PLay_Button_On_Lock_Screen_State">com.android.keyguard:id/somc_play_pause</id>
+            <id name="Pre_Button_On_Lock_Screen_State">com.android.keyguard:id/btn_prev</id>
+            <id name="Next_Button_On_Lock_Screen_State">com.android.keyguard:id/btn_next</id>
+            <id name="Song_Name_id_On_Lock_Screen_State">com.android.keyguard:id/title</id>
+            <id name="Search_Icon_Id">com.sonyericsson.music:id/menu_option_search</id>
+            <id name="Search_Editor">android:id/search_plate</id>
+            <id name="Create_Playlist_Icon_Id">com.sonyericsson.music:id/menu_option_create_playlist</id>
+            <id name="Save_Playlist_Icon">com.sonyericsson.music:id/menu_playlist_operation_save</id>
+        </product>
+        <product  name="D6503">          
+        </product>
+        
+        <product name="D6603">
+        </product>
+        
+        <product name="SGP321">            
+        </product>
+        
+        <product name="D2303">            
+        </product> 
+    </module>
+    <module name="email">
+        <product name="common">
+            <id name="Compose_Button_Id">com.android.email:id/compose</id>
+            <id name="Account_Email_EditText_Id">com.android.email:id/account_email</id>
+            <id name="Account_Password_EditText_Id">com.android.email:id/account_password</id>
+            <id name="Next_Button_Id">com.android.email:id/next</id>
+            <id name="Account_Port_EditText_Id">com.android.email:id/account_port</id>
+            <id name="Account_Security_Type_Spinner_Id">com.android.email:id/account_security_type</id>
+            <id name="Account_Ckeck_Frequency_Spinner_Id">com.android.email:id/account_check_frequency</id>
+            <id name="Account_Name_EditText_Id">com.android.email:id/account_name</id>
+            <id name="Send_Button_Id">com.android.email:id/send</id>
+            <id name="Email_To_EditText_Id">com.android.email:id/to</id>
+            <id name="Email_Subject_EditText_Id">com.android.email:id/subject</id>
+            <id name="Email_Content_EditText_Id">com.android.email:id/message_content</id>
+            <id name="Attachment_Delete_Button_Id">com.android.email:id/attachment_delete</id>
+            <id name="Accounts_Selector_Button_Id">com.android.email:id/accounts_selector</id>
+            <id name="Email_CC_Button_Id">com.android.email:id/cc_plus</id>
+            <id name="Check_Box_Id">com.sonyericsson.android.socialphonebook:id/checklist_check</id>
+            <id name="Email_Selector_Title_Id">android:id/alertTitle</id>
+            <id name="Dialog_Check_Box_Id">com.sonyericsson.android.socialphonebook:id/dialog_checklist_check</id>
+            <id name="Email_Bcc_Pluc_Button_Id">com.android.email:id/bcc_plus</id>
+            <id name="Search_Text_EditText_Id">android:id/search_src_text</id>
+            <id name="Search_close_button">android:id/search_close_btn</id>
+            <id name="Home_Button_Id">android:id/home</id>
+            <id name="Phonebook_Add_Account_Button_Id">com.sonyericsson.android.socialphonebook:id/btn_add</id>
+            <id name="Google_Next_Button">com.google.android.gsf.login:id/next_button</id>
+            <id name="Attachment_Icon_Id">com.android.email:id/attachment_thumbnail</id>
+            <id name="Delete_Mail_icon">com.android.email:id/delete</id>
+            <id name="Delete_Attachment_icon">com.android.email:id/attachment_delete</id>
+        </product>
+        <product name="D6503">
+        </product>
+        <product name="D6603">
+        </product>
+        <product name="D5803">
+            <id name="Accounts_Selector_Button_Id">com.android.email:id/message_compose_drop_down_selector</id>
+        </product>
+    </module>
+    <module name="movies">
+        <product name="common">
+            <id name="Open_Left_Panel_Id">android:id/up</id>
+        </product>
+        <product name="D6503">
+            
+        </product>
+        
+        <product name="D6603">
+            
+        </product>
+    </module>
+    
+    <module name="settings">
+        <product name="common">
+            <id name="Stamina_Switch_Button">com.android.settings:id/toggle</id>
+        </product>
+        <product name="D6503">            
+            <id name="Stamina_Switch_Button">com.android.settings:id/toggle</id>
+        </product>
+	    <product name="D6603">            
+        </product>
+    </module>
+    
+    <module name="calculator">
+        <product name="common">
+            <id name="Clear_Button_Id">com.android.calculator2:id/clear</id>
+            <id name="Menu_Button_Id">com.android.calculator2:id/overflow_menu</id>
+        </product>
+        <product name="D6503">            
+        </product>
+		
+	<product name="D6603">            
+        </product>
+        
+    </module>
+    
+    <module name="facebook">
+        <product name="common">
+            <id name="Login_Button">com.facebook.katana:id/login_login</id>
+            <id name="Username_Editor">com.facebook.katana:id/login_username</id>
+            <id name="Password_Editor">com.facebook.katana:id/login_password</id>
+            <id name="Login_FB_Logo">com.facebook.katana:id/login_fb_logo</id>
+            <id name="Create_Event_Button">com.facebook.katana:id/primary_action_button</id>
+            <id name="Event_Name_Editor">com.facebook.katana:id/event_name</id>
+            <id name="Start_Time">com.facebook.katana:id/event_start_time</id>
+            <id name="End_Date">com.facebook.katana:id/event_end_date</id>
+            <id name="Privacy_Picker">com.facebook.katana:id/event_privacy</id>
+            <id name="Photo_Like_Button_Id">com.sonyericsson.album:id/action_bar_like_button</id>
+            <id name="Photo_Comment_Button_Id">com.sonyericsson.album:id/action_bar_comment_button</id>
+            <id name="Photo_Like_Grid_Id">com.sonyericsson.album:id/likes_panel_grid</id>
+            <id name="Photo_Like_Profile_Image_Id">com.sonyericsson.album:id/like_profile_image</id>
+            <id name="Photo_Like_Username_Id">com.sonyericsson.album:id/like_username</id>
+            <id name="Comment_Editor_Text_Id">com.sonyericsson.album:id/online_comment_edit_text</id>
+            <id name="Photo_Like_Button_Id">com.sonyericsson.album:id/action_bar_like_button</id>
+            <id name="Photo_Comment_Button_Id">com.sonyericsson.album:id/action_bar_comment_button</id>
+            <id name="Photo_Like_Grid_Id">com.sonyericsson.album:id/likes_panel_grid</id>
+            <id name="Photo_Like_Profile_Image_Id">com.sonyericsson.album:id/like_profile_image</id>
+            <id name="Photo_Like_Username_Id">com.sonyericsson.album:id/like_username</id>
+            <id name="Comment_Editor_Text_Id">com.sonyericsson.album:id/online_comment_edit_text</id>
+            <id name="Album_Image_Id">com.facebook.katana:id/url_image_image</id>
+            <id name="Album_Name_Id">com.facebook.katana:id/album_name</id>
+            <id name="Album_Description_Id">com.facebook.katana:id/album_description</id>
+            <id name="Album_Location_Id">com.facebook.katana:id/album_location</id>
+            <id name="Open_Camera_Button_Id">com.facebook.katana:id/camera_or_grid_button</id>
+            <id name="Camera_Button_Id">com.facebook.katana:id/camera_button_activity_photo_capture</id>
+            <id name="Select_Photo_Icon_Id">com.facebook.katana:id/check_icon</id>
+            <id name="Add_Contact_Icon_Id">com.facebook.katana:id/tag_people</id>
+            <id name="Contact_Checkbox_Id">com.facebook.katana:id/is_picked_checkbox</id>
+            <id name="Album_Options_Id">com.facebook.katana:id/album_options</id>
+            <id name="Post_Photo_Button_Id">com.facebook.katana:id/button_post</id>
+            <id name="Status_Button_Id">com.facebook.katana:id/publisher_button0</id>
+	    </product>
+        <product name="D6503">            
+            <id name="Create_Event_Button">com.facebook.katana:id/primary_action_button</id>
+            <id name="Start_Time">com.facebook.katana:id/event_start_time</id>
+            <id name="End_Date">com.facebook.katana:id/event_end_date</id>
+            <id name="Privacy_Picker">com.facebook.katana:id/event_privacy</id>
+        </product>
+	    <product name="D6603">            
+            <id name="Create_Event_Button">com.facebook.katana:id/primary_action_button</id>
+            <id name="Start_Time">com.facebook.katana:id/event_start_time</id>
+            <id name="End_Date">com.facebook.katana:id/event_end_date</id>
+            <id name="Privacy_Picker">com.facebook.katana:id/event_privacy</id>
+        </product>
+    </module>
+    <module name="contact">
+        <product name="common">
+            <id name="Edit_Contact_Icon">com.sonyericsson.android.socialphonebook:id/menu_edit</id>
+            <id name="Create_Group_Icon">com.sonyericsson.android.socialphonebook:id/menu_create_group</id>
+            <id name="Add_contact_for_group_icon">com.sonyericsson.android.socialphonebook:id/add_group_member</id>
+            <id name="Checkbox_after_each_contact">com.sonyericsson.android.socialphonebook:id/checklist_check</id>
+     			   <id name="Header_Name_Container">com.sonyericsson.android.socialphonebook:id/header_name_container</id>
+     			   <id name="Link_Contact_Icon">com.sonyericsson.android.socialphonebook:id/link_icon</id>
+        </product>
+    </module>
+    <module name="gmail">
+        <product name="common">
+            <id name="Username_Edit">com.google.android.gsf.login:id/username_edit</id>
+            <id name="Password_Edit">com.google.android.gsf.login:id/password_edit</id>
+            <id name="Next_Button">com.google.android.gsf.login:id/next_button</id>
+        </product>
+    </module>
+    
+    <module name="playstore">
+        <product name="common">
+            <id name="Search_button_id">com.android.vending:id/search_button</id>
+            <id name="Install_button_id">com.android.vending:id/buy_button</id>
+        </product>
+    </module>
+    
+    <module name="filecommander">
+        <product name="common">
+            <id name="File_commander_app_icon">com.mobisystems.office:id/app_icon</id>
+            <id name="Install_button_id">com.android.vending:id/buy_button</id>
+        </product>
+    </module>
+    
+    <module name="voicesearch">
+        <product name="common">
+            <id name="Speech_Logo">com.google.android.googlequicksearchbox:id/speak_now_speech_logo</id>
+        </product>
+    </module>
+
+    <module name="officesuite">
+        <product name="common">
+            <id name="Wordeditor_save_icon">com.mobisystems.office:id/wordeditor_save_action</id>
+        </product>
+    </module>
+    
+    <module name="messaging">
+        <product name="common">
+            <id name="New_Conversation_Icon">com.sonyericsson.conversations:id/menu_new_conversation</id>
+        </product>
+    </module>
+</shinano-r2>

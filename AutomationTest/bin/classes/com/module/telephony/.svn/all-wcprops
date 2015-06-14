@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Automation/!svn/ver/405/AutomationTest/src/com/module/telephony
+END
+TelephoneCommonModule.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/Automation/!svn/ver/405/AutomationTest/src/com/module/telephony/TelephoneCommonModule.java
+END
+AbstractTelephonyFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/Automation/!svn/ver/238/AutomationTest/src/com/module/telephony/AbstractTelephonyFactory.java
+END
+TelephonyFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/Automation/!svn/ver/168/AutomationTest/src/com/module/telephony/TelephonyFactory.java
+END
+ITelephony.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/Automation/!svn/ver/387/AutomationTest/src/com/module/telephony/ITelephony.java
+END

@@ -1,0 +1,1491 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- modle is how many network status will be tested 1 means 2g only ,2 means 2g and 3g , 3 means test all  4 mean 3G only         network   1 means ete 2 mean cdma-->
+
+<Config mode="4" network= '1' loops = "1" varient="Gina" testtype="Reliability">
+	<common-data name="test0_Precondition">
+   
+        <!-- Server phone number (Listener Control Server)   -->
+		<partner_phonenumber>1341020996</partner_phonenumber> 
+		<!-- Server phone number (Music Resource Server) -->
+		<partner_phonenumber2>1341020998</partner_phonenumber2>       
+        <partner_phonenumber3>15699000758</partner_phonenumber3>
+        <sel_phonenumber>15699001134</sel_phonenumber>
+        <test_skypeaccount>test01980</test_skypeaccount>
+		<test_skypepassword>Beijing00</test_skypepassword>
+        
+		<test_emailaccount>agingtestnew001@gmail.com</test_emailaccount>
+		<test_emailpassword>Beijing00</test_emailpassword>
+        <test_email2account>agingtest005@gmail.com</test_email2account>
+        <test_email2password>Beijing00</test_email2password>
+        <test_gmailaccount>agingtestnew003@gmail.com</test_gmailaccount><!-- login use IMAP -->
+		<test_gmailpassword>Beijing00</test_gmailpassword>
+	    <test_facebookaccount>agingtestnew001@gmail.com</test_facebookaccount>
+		<test_facebookpassword>beijing123</test_facebookpassword>
+		<test_EASaccount>validation01@eas.cn.gte.nu</test_EASaccount>
+		<test_EASpassword>Beijing123</test_EASpassword>
+		<test_facebookname>Sevr Zhang</test_facebookname>
+		<test_partnerskypeaccount>test001748</test_partnerskypeaccount>
+			<test_sipaccount>9013</test_sipaccount>
+		 <test_sippassword>9013</test_sippassword>
+				<partner_sipaccount>9012</partner_sipaccount>
+		   <partner_sippassword>9012</partner_sippassword>
+		   
+		   <test_serveremail>agingtestserver@gmail.com</test_serveremail>
+		
+		<test_talkccount>gpvpower@gmail.com</test_talkccount>
+		<test_talkpassword>beijing1234</test_talkpassword>
+		
+		<!--      pbgwpla   icanseeit  -->
+		<wifi_name>GTE</wifi_name>
+		<wifi_password>power123</wifi_password>
+        <video_clip_number>3</video_clip_number>
+        <network_Type_2G>GSM only</network_Type_2G>
+        <network_Type_3G>WCDMA only</network_Type_3G>
+        <network_Type_4G>LTE only</network_Type_4G>
+        <network_Type_CDMA>CDMA only</network_Type_CDMA>
+        <network_Type_EVDO>EvDo only</network_Type_EVDO>
+        <network_Type_3G_PREFER>WCDMA (preferred)/GSM</network_Type_3G_PREFER>
+        <network_Type_4G_PREFER>LTE (preferred)/WCDMA/GSM</network_Type_4G_PREFER>
+
+	</common-data>
+		
+<!-- begin Test case  -->
+    
+    <!-- case id 1325355-2  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling_Under_RAM__incoming_messgae">
+        <type>Test</type>
+        <caseloops>0</caseloops>
+    </testcase>
+    
+   <!-- case id 1325355-4  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling_Under_RAM__background_download">
+        <type>Test</type> 
+        <caseloops>0</caseloops>
+    </testcase>
+    
+   <!-- case id 1325355-5  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling_Under_RAM__alarm">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+    </testcase>
+
+		
+    <testcase name="RELIA_Camera_Concurrent_Events_When_Using_Camera_ARfun_incoming_calling">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+        <testcase name="RELIA_Camera_Concurrent_Events_When_Using_Camera_ARfun_incoming_sms">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+        <testcase name="RELIA_Camera_Concurrent_Events_When_Using_Camera_ARfun_alarm">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+        <testcase name="RELIA_Camera_Concurrent_Events_When_Using_Camera_ARfun_video_playing">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RELIA_Camera_Concurrent_Events_When_Using_Camera_superiorAuto_video_playing">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RELIA_Camera_Concurrent_Events_When_Using_Camera_superiorAuto_alarm">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RELIA_Camera_Concurrent_Events_When_Using_Camera_superiorAuto_incoming_sms">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RELIA_Camera_Concurrent_Events_When_Using_Camera_superiorAuto_incoming_calling">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <testcase name="RELIA_Camera_Concurrent_Events_When_Using_Camera_take_picture_when_calling">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+    <!-- case id 1344171-1  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_SMS__incoming_call">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+   <!-- case id 1344171-2  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_SMS__incoming_messgae">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <concurrent_SMS>1</concurrent_SMS>
+        <concurrent_MMS>1</concurrent_MMS>
+    </testcase>
+    
+   <!-- case id 1344171-3  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_SMS__incoming_email">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+   <!-- case id 1344171-4  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_SMS__background_media">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <concurrent_music>1</concurrent_music>
+        <concurrent_radio>1</concurrent_radio>
+    </testcase>
+    
+   <!-- case id 1344171-5  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_SMS__alarm">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <concurrent_alarm>0</concurrent_alarm>
+        <concurrent_calendar>1</concurrent_calendar>
+    </testcase>
+    
+   <!-- case id 1344171-6  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_SMS__chat">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+        <concurrent_facebook>1</concurrent_facebook>
+        <concurrent_wechat>0</concurrent_wechat>
+        <concurrent_weibo>0</concurrent_weibo>
+    </testcase>
+    
+    <!-- case id 1344171-7  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_MMS__incoming_call">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+   <!-- case id 1344171-8  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_MMS__incoming_messgae">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <concurrent_SMS>1</concurrent_SMS>
+        <concurrent_MMS>1</concurrent_MMS>
+    </testcase>
+    
+   <!-- case id 1344171-9  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_MMS__incoming_email">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+   <!-- case id 1344171-10  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_MMS__background_media">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <concurrent_music>1</concurrent_music>
+        <concurrent_radio>1</concurrent_radio>
+    </testcase>
+    
+   <!-- case id 1344171-11  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_MMS__alarm">
+        <type>Test</type>
+	<snarioname>Messaging</snarioname>
+        <caseloops>1</caseloops>
+        <concurrent_alarm>0</concurrent_alarm>
+        <concurrent_calendar>1</concurrent_calendar>
+    </testcase>
+    
+   <!-- case id 1344171-12  --> 
+    <testcase name="RELIA_Messaging_Interaction_Events_When_Sending_MMS__chat">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+        <concurrent_facebook>1</concurrent_facebook>
+        <concurrent_wechat>0</concurrent_wechat>
+        <concurrent_weibo>0</concurrent_weibo>
+    </testcase>
+    
+   <!-- case id 1325355-2  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling_Under_RAM__incoming_messgae">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+   <!-- case id 1325355-4  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling_Under_RAM__background_download">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+   <!-- case id 1325355-5  --> 
+    <testcase name="RELIA_Telephony_Concurrent_Events_While_Calling_Under_RAM__alarm">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+    </testcase>
+    
+	<!-- case id 1325563  -->
+    
+    <!-- case id 1365748-1  -->  
+    <testcase name="RELIA_Music_Player_Concurrent_events_while_playing_music__Incoming_call">
+        <type>Test</type>
+        <snarioname>Music</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1365748-2  -->  
+    <testcase name="RELIA_Music_Player_Concurrent_events_while_playing_music__Incoming_MMS">
+        <type>Test</type>
+        <snarioname>Music</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1365748-3 -->  
+    <testcase name="RELIA_Music_Player_Concurrent_events_while_playing_music__Incoming_email">
+        <type>Test</type>
+        <snarioname>Music</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+        <!-- case id 1365748-4  -->  
+    <testcase name="RELIA_Music_Player_Concurrent_events_while_playing_music__FM_background">
+        <type>Test</type>
+        <snarioname>Music</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+        <!-- case id 1365748-5  -->  
+    <testcase name="RELIA_Music_Player_Concurrent_events_while_playing_music__Video_background">
+        <type>Test</type>
+        <snarioname>Music</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+        <!-- case id 1365748-6  -->  
+    <testcase name="RELIA_Music_Player_Concurrent_events_while_playing_music__alarm">
+        <type>Test</type>
+        <snarioname>Music</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+    <!-- case id 1369596-1  -->  
+    <testcase name="RELIA_MM_Concurrent_events_for_video_palying__incoming_call">
+        <type>Test</type>
+        <snarioname>MM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1369596-2  -->  
+    <testcase name="RELIA_MM_Concurrent_events_for_video_palying__incoming_MMS">
+        <type>Test</type>
+        <snarioname>MM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+    
+    <!-- case id 1369596-3  -->  
+    <testcase name="RELIA_MM_Concurrent_events_for_video_palying__incoming_email">
+        <type>Test</type>
+        <snarioname>MM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1369596-4  -->  
+    <testcase name="RELIA_MM_Concurrent_events_for_video_palying__Music_background">
+        <type>Test</type>
+        <snarioname>MM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1369596-5  -->  
+    <testcase name="RELIA_MM_Concurrent_events_for_video_palying__alarm">
+        <type>Test</type>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+
+    <!-- case id 1370040-1  -->  
+    <testcase name="RELIA_Teleohony_Concurrnent_events_when_ringing__incoming_MMS">
+        <type>Test</type>
+        <snarioname>Teleohony</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1370040-2  -->  
+    <testcase name="RELIA_Teleohony_Concurrnent_events_when_ringing__incoming_SMS">
+        <type>Test</type>
+        <snarioname>Teleohony</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+    
+    <!-- case id 1370040-3  -->  
+    <testcase name="RELIA_Teleohony_Concurrnent_events_when_ringing__incoming_email">
+        <type>Test</type>
+        <snarioname>Teleohony</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1370040-4  -->  
+    <testcase name="RELIA_Teleohony_Concurrnent_events_when_ringing__Music_background">
+        <type>Test</type>
+        <snarioname>Teleohony</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    <!-- case id 1370040-5  -->  
+    <testcase name="RELIA_Teleohony_Concurrnent_events_when_ringing__alarm">
+        <type>Test</type>
+        <snarioname>Teleohony</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+     <!-- case id 1365686-1  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_import_contacts__incoming_call">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+     <!-- case id 1365686-2  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_import_contacts__incoming_SMS">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+     <!-- case id 1365686-3  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_import_contacts__incoming_MMS">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365686-4  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_import_contacts__incoming_email">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365686-5  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_import_contacts__music_background">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365686-6  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_import_contacts__FM_background">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365686-7  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_import_contacts__alarm">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365686-8  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_import_contacts__calendar">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365686-9  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_import_contacts__facebook">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+     <!-- case id 1365692-1  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_export_contacts__incoming_call">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+     <!-- case id 1365692-2  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_export_contacts__incoming_SMS">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+     <!-- case id 1365692-3  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_export_contacts__incoming_MMS">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365692-4  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_export_contacts__incoming_email">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365692-5  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_export_contacts__music_background">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365692-6  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_export_contacts__FM_background">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365692-7  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_export_contacts__alarm">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365692-8  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_export_contacts__calendar">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+         <!-- case id 1365692-9  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_when_export_contacts__facebook">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    
+    <!-- case id 1364671-1  -->  
+    <testcase name="RELIA_FM_Concurrnent_While_playing_FM__incoming_call">
+        <type>Test</type>
+        <snarioname>FM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364671-2  -->  
+    <testcase name="RELIA_FM_Concurrnent_While_playing_FM__incoming_sms">
+        <type>Test</type>
+        <snarioname>FM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364671-3  -->  
+    <testcase name="RELIA_FM_Concurrnent_While_playing_FM__incoming_mms">
+        <type>Test</type>
+        <snarioname>FM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+    <!-- case id 1364671-4  -->  
+    <testcase name="RELIA_FM_Concurrnent_While_playing_FM__incoming_email">
+        <type>Test</type>
+        <snarioname>FM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364671-5  -->  
+    <testcase name="RELIA_FM_Concurrnent_While_playing_FM__download_file">
+        <type>Test</type>
+        <snarioname>FM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+    <!-- case id 1364671-5  -->  
+    <testcase name="RELIA_FM_Concurrnent_While_playing_FM__alarm">
+        <type>Test</type>
+        <snarioname>FM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+     <!-- case id 1364671-5  -->  
+    <testcase name="RELIA_FM_Concurrnent_While_playing_FM__calendar">
+        <type>Test</type>
+        <snarioname>FM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>  
+    
+     <!-- case id 1364671-6  -->  
+    <testcase name="RELIA_FM_Concurrnent_While_playing_FM__play_game">
+        <type>Test</type>
+        <snarioname>FM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+    
+     <!-- case id 1364671-7  -->  
+    <testcase name="RELIA_FM_Concurrnent_While_playing_FM__edit_message">
+        <type>Test</type>
+        <snarioname>FM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>  
+    
+     <!-- case id 1335117-1  -->  
+    <testcase name="RELIA_Album_Concurrnent_events_when_viewing_picture__incoming_call">
+        <type>Test</type>
+        <snarioname>Album</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+         
+      <!-- case id 1335117-2  -->  
+    <testcase name="RELIA_Album_Concurrnent_events_when_viewing_picture__incoming_sms">
+        <type>Test</type>
+        <snarioname>Album</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1335117-3  -->  
+    <testcase name="RELIA_Album_Concurrnent_events_when_viewing_picture__incoming_mms">
+        <type>Test</type>
+        <snarioname>Album</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1335117-4  -->  
+    <testcase name="RELIA_Album_Concurrnent_events_when_viewing_picture__music_background">
+        <type>Test</type>
+        <snarioname>Album</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1335117-5  -->  
+    <testcase name="RELIA_Album_Concurrnent_events_when_viewing_picture__alarm">
+        <type>Test</type>
+        <snarioname>Album</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1335117-6  -->  
+    <testcase name="RELIA_Album_Concurrnent_events_when_viewing_picture__calendar">
+        <type>Test</type>
+        <snarioname>Album</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1335117-7  -->  
+    <testcase name="RELIA_Album_Concurrnent_events_when_viewing_picture__email">
+        <type>Test</type>
+        <snarioname>Album</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+     <!-- case id 1368465-1  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Calculator___incoming_call">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1368465-2  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Calculator__incoming_sms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368465-3  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Calculator__incoming_mms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1368465-4  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Calculator__music_background">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368465-5  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Calculator__alarm">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368465-6  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Calculator__calendar">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368465-7  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Calculator__email">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+     <!-- case id 1368464-1  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Alarm___incoming_call">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1368464-2  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Alarm__incoming_sms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368464-3  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Alarm__incoming_mms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1368464-4  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Alarm__music_background">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+    <!-- case id 1368464-6  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Alarm__calendar">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368464-7  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Alarm__email">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+
+     <!-- case id 1368466-1  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Clocks___incoming_call">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1368466-2  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Clocks__incoming_sms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368466-3  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Clocks__incoming_mms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1368466-4  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Clocks__music_background">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368466-5  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Clocks__alarm">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368466-6  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Clocks__calendar">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368466-7  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Clocks__email">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    
+    
+     <!-- case id 1368469-1  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Stopwatch___incoming_call">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1368469-2  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Stopwatch__incoming_sms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368469-3  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Stopwatch__incoming_mms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1368469-4  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Stopwatch__music_background">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368469-5  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Stopwatch__alarm">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368469-6  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Stopwatch__calendar">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368469-7  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Stopwatch__email">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    
+     <!-- case id 1368470-1  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Timer___incoming_call">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1368470-2  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Timer__incoming_sms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368470-3  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Timer__incoming_mms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1368470-4  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Timer__music_background">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368470-5  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Timer__alarm">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368470-6  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Timer__calendar">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368470-7  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Timer__email">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+    
+     <!-- case id 1364696-1  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_view_edit_file___incoming_call">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1364696-2  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_view_edit_file_sms">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364696-3  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_view_edit_file__incoming_mms">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1364696-4  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_view_edit_file__music_background">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364696-5  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_view_edit_file__alarm">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364696-6  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_view_edit_file__calendar">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364696-7  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_view_edit_file__email">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_view_edit_file__download_file">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+     <!-- case id 1366026-1  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode___incoming_call">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1366026-2  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode__sms">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1366026-3  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode__incoming_mms">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1366026-4  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode__music_background">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1366026-5  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode__alarm">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1366026-6  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode__calendar">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1366026-7  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode__email">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1366026-8  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode__download_file">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1366026-9  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode__video_background">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+        <!-- case id 1366026-10  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode__FM_background">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+        <!-- case id 1366026-11  -->  
+    <testcase name="RELIA_Battery_Concurrnent_events_when_charging_USBmode__playing_game">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    
+     <!-- case id 1365396-1  -->  
+    <testcase name="RELIA_Calendar_Concurrnent_when_set_calendar_setting___incoming_call">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1365396-2  -->  
+    <testcase name="RELIA_Calendar_Concurrnent_when_set_calendar_setting__incoming_sms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1365396-3  -->  
+    <testcase name="RELIA_Calendar_Concurrnent_when_set_calendar_setting__incoming_mms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1365396-4  -->  
+    <testcase name="RELIA_Calendar_Concurrnent_when_set_calendar_setting__music_background">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1365396-5  -->  
+    <testcase name="RELIA_Calendar_Concurrnent_when_set_calendar_setting__alarm">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1365396-6  -->  
+    <testcase name="RELIA_Calendar_Concurrnent_when_set_calendar_setting__calendar">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1365396-7  -->  
+    <testcase name="RELIA_Calendar_Concurrnent_when_set_calendar_setting__email">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+    
+    
+     <!-- case id 1368468-1  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Sketch_share_from_email___incoming_call">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1368468-2  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Sketch_share_from_email__incoming_sms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368468-3  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Sketch_share_from_email__incoming_mms">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1368468-4  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Sketch_share_from_email__music_background">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1368468-5  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Sketch_share_from_email_setting__alarm">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368468-6  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Sketch_share_from_email__calendar">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1368468-7  -->  
+    <testcase name="RELIA_PIM_Concurrnent_for_Sketch_share_from_email_setting__email">
+        <type>Test</type>
+        <snarioname>PIM</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+    
+     <!-- case id 1364705-1  -->  
+    <testcase name="RELIA_TrackID_Concurrnent_events_when_searching_songs___incoming_call">
+        <type>Test</type>
+        <snarioname>TrackID</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1364705-2  -->  
+    <testcase name="RELIA_TrackID_Concurrnent_events_when_searching_songs__incoming_sms">
+        <type>Test</type>
+        <snarioname>TrackID</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364705-3  -->  
+    <testcase name="RELIA_TrackID_Concurrnent_events_when_searching_songs__incoming_mms">
+        <type>Test</type>
+        <snarioname>TrackID</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1364705-4  -->  
+    <testcase name="RELIA_TrackID_Concurrnent_events_when_searching_songs__flie_download">
+        <type>Test</type>
+        <snarioname>TrackID</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364705-5  -->  
+    <testcase name="RELIA_TrackID_Concurrnent_events_when_searching_songs__alarm">
+        <type>Test</type>
+        <snarioname>TrackID</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364705-6  -->  
+    <testcase name="RELIA_TrackID_Concurrnent_events_when_searching_songs__calendar">
+        <type>Test</type>
+        <snarioname>TrackID</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364705-7  -->  
+    <testcase name="RELIA_TrackID_Concurrnent_events_when_searching_songs__email">
+        <type>Test</type>
+        <snarioname>TrackID</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+    
+    
+      <!-- case id 1325407-2  -->  
+    <testcase name="RELIA_Camera_Concurrnent_events_during_recording_sequential_video__incoming_sms">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1325407-3  -->  
+    <testcase name="RELIA_Camera_Concurrnent_events_during_recording_sequential_video__incoming_mms">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1325407-4  -->  
+    <testcase name="RELIA_Camera_Concurrnent_events_during_recording_sequential_video__music_background">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1325407-6  -->  
+    <testcase name="RELIA_Camera_Concurrnent_events_during_recording_sequential_video__calendar">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1325407-7  -->  
+    <testcase name="RELIA_Camera_Concurrnent_events_during_recording_sequential_video__email">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+    <!-- case id 1325407-8  -->  
+    <testcase name="RELIA_Camera_Concurrnent_events_during_recording_sequential_video__FM_background">
+        <type>Test</type>
+        <snarioname>Camera</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+
+     <!-- case id 1365689-1  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_while_edit_contacts___incoming_call">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1365689-2  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_while_edit_contacts__incoming_sms">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1365689-3  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_while_edit_contacts__incoming_mms">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1365689-4  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_while_edit_contacts__music_background">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1365689-5  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_while_edit_contacts__alarm">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1365689-6  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_while_edit_contacts__calendar">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1365689-7  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_while_edit_contacts__email">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+    <!-- case id 1365689-8  -->  
+    <testcase name="RELIA_Phonebook_Concurrnent_events_while_edit_contacts__FM_background">
+        <type>Test</type>
+        <snarioname>Phonebook</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+    
+    
+     <!-- case id 1364694-1_1  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_copy___incoming_call">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1364694-1_2  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_copy__incoming_sms">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364694-1_3  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_copy__incoming_mms">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1364694-1_4  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_copy__music_background">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364694-1_5  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_copy__alarm">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364694-1_6  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_copy__calendar">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364694-1_7  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_copy__email">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+    <!-- case id 1364694-1_8  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_copy__file_download">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+     <!-- case id 1364694-2_1  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_cut___incoming_call">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1364694-2_2  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_cut__incoming_sms">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364694-2_3  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_cut__incoming_mms">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1364694-2_4  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_cut__music_background">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364694-2_5  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_cut__alarm">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364694-2_6  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_cut__calendar">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364694-2_7  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_cut__email">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+    <!-- case id 1364694-2_8  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_cut__file_download">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    
+     <!-- case id 1364694-3_1  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_delete___incoming_call">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1364694-3_2  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_delete__incoming_sms">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364694-3_3  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_delete__incoming_mms">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1364694-3_4  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_delete__music_background">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364694-3_5  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_delete__alarm">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364694-3_6  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_delete__calendar">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364694-3_7  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_delete__email">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+    <!-- case id 1364694-3_8  -->  
+    <testcase name="RELIA_OfficeSuite_Concurrnent_events_when_operate_multiple_files_delete__file_download">
+        <type>Test</type>
+        <snarioname>OfficeSuite</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    
+
+     <!-- case id 1364706-1  -->  
+    <testcase name="RELIA_Sync_Concurrnent_events_while_sync_EAS__incoming_call">
+        <type>Test</type>
+        <snarioname>Sync</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+      <!-- case id 1364706-2  -->  
+    <testcase name="RELIA_Sync_Concurrnent_events_while_sync_EAS__incoming_sms">
+        <type>Test</type>
+        <snarioname>Sync</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364706-3  -->  
+    <testcase name="RELIA_Sync_Concurrnent_events_while_sync_EAS__incoming_mms">
+        <type>Test</type>
+        <snarioname>Sync</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+      <!-- case id 1364706-4  -->  
+    <testcase name="RELIA_Sync_Concurrnent_events_while_sync_EAS__music_background">
+        <type>Test</type>
+        <snarioname>Sync</snarioname>
+        <caseloops>1</caseloops>
+        <times>1</times>
+    </testcase>    
+      <!-- case id 1364706-5  -->  
+    <testcase name="RELIA_Sync_Concurrnent_events_while_sync_EAS__alarm">
+        <type>Test</type>
+        <snarioname>Sync</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364706-6  -->  
+    <testcase name="RELIA_Sync_Concurrnent_events_while_sync_EAS__calendar">
+        <type>Test</type>
+        <snarioname>Sync</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+    <!-- case id 1364706-7  -->  
+    <testcase name="RELIA_Sync_Concurrnent_events_while_sync_EAS__email">
+        <type>Test</type>
+        <snarioname>Sync</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase> 
+    <!-- case id 1364706-8  -->  
+    <testcase name="RELIA_Sync_Concurrnent_events_while_sync_EAS__FM_background">
+        <type>Test</type>
+        <snarioname>Sync</snarioname>
+        <caseloops>0</caseloops>
+        <times>1</times>
+    </testcase>
+<!-- end Test Case  -->
+
+</Config>
+
+
+
+
+

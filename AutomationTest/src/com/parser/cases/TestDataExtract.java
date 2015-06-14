@@ -1,0 +1,312 @@
+
+package com.parser.cases;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.xmlpull.v1.XmlPullParserException;
+
+import android.app.Instrumentation;
+import android.util.Log;
+
+import com.parser.cases.ParseXMLinPull;
+import com.parser.cases.TestcaseCFG;
+import com.sonyericsson.test.acceptancetest.AcceptanceTestCase;
+
+public class TestDataExtract {
+
+    private static final String TAG = "AgingTest";
+
+    private static final String TYPE = "Test";
+
+    private static ParseXMLinPull xml = null;
+
+    public static String mode;
+
+    public static String phoneType;
+
+    public static String totalLoops;
+
+    public static String varient;
+
+    public static String testType;
+
+    public static String _2G_Mode;
+
+    public static String _3G_Mode;
+
+    public static String _4G_Mode;
+
+    public static String _CDMA_Mode;
+
+    public static String _EVDO_Mode;
+
+    public static String callNumber;
+
+    public static String callNumber2;
+
+    public static String callNumber3;
+    
+    public static String selNumber;
+
+    public static String callNumberPrefix = "";
+
+    public static String parterPhoneDeviceId = "XXXXX";
+
+    public static String testPhoneDeviceId;
+
+    public static String test_emailaccount;
+
+    public static String test_emailpassword;
+
+    public static String test_EASaccount;
+
+    public static String test_EASpassword;
+
+    public static String test_googleaccount;
+
+    public static String test_googlepassword;
+
+    public static String test_serveremail;
+
+    public static String test_wifi;
+
+    public static String test_wifipassword;
+
+    public static String test_facebookaccount;
+
+    public static String test_facebookpassword;
+    
+    public static String test_facebookname;
+
+    public static String test_talkccount;
+
+    public static String test_talkpassword;
+
+    public static String test_partnerskypeaccount;
+
+    public static String test_skypeaccount;
+
+    public static String test_skypepassword;
+
+    public static String test_sipaccount;
+
+    public static String test_sippassword;
+
+    public static String partner_sipaccount;
+    
+    public static String test_email2account;
+
+    public static String test_email2password;
+    
+    public static String test_gmailaccount;
+
+    public static String test_gmailpassword;
+    
+    public static String test_vpnusername;
+
+    public static String test_vpnpassword;
+
+    /**
+     *
+     * @param instr , Instrumentation object
+     * @return flag, whether load configure file successful
+     */
+    public static boolean loadConfigFile(Instrumentation instr, String fileName) {
+        boolean flag = false;
+        InputStream in = null;
+        FileReader fr = null;
+
+        try {
+            fr = new FileReader("//sdcard//" + fileName);
+            xml = new ParseXMLinPull(fr);
+            xml.paresXML();
+            getConfigDatas();
+            getCommonDatas();
+            flag = true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.e(TAG, "networktestconfig.xml has not found in SD Card");
+        } catch (XmlPullParserException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        try {
+            if (!flag) {
+                in = instr.getContext().getAssets().open(fileName);
+                xml = new ParseXMLinPull(in);
+                xml.paresXML();
+                getConfigDatas();
+                getCommonDatas();
+                flag = true;
+                Log.d(TAG, "flag is " + flag);
+            }
+        } catch (IOException e) {
+        } catch (XmlPullParserException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    public static boolean loadConfigFile(AcceptanceTestCase at, String fileName) {
+        boolean flag = false;
+        InputStream in = null;
+        FileReader fr = null;
+
+        try {
+            fr = new FileReader("//sdcard//"+fileName);
+            xml = new ParseXMLinPull(fr);
+            xml.paresXML();
+            getConfigDatas();
+            getCommonDatas();
+            flag = true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.e(TAG, "networktestconfig.xml has not found in SD Card");
+        } catch (XmlPullParserException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        try {
+            if (!flag) {
+                in = at.getInstrumentation().getContext().getAssets().open(fileName);
+                xml = new ParseXMLinPull(in);
+                xml.paresXML();
+                getConfigDatas();
+                getCommonDatas();
+                flag = true;
+            }
+        } catch (IOException e) {
+        } catch (XmlPullParserException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    public static List<TestcaseCFG> getRunTestCases() {
+        List<TestcaseCFG> testcases = new ArrayList<TestcaseCFG>();
+        ArrayList<TestcaseCFG> arrayList = xml.getArrayList();
+        for (TestcaseCFG tc : arrayList) {
+            if (TYPE.equals(tc.getParameter().get("type"))) {
+                int loops = Integer.parseInt(tc.getParameter().get("caseloops"));
+                if (loops != 0) {
+                    testcases.add(tc);
+                }
+            }
+        }
+
+        return testcases;
+    }
+
+    public static List<String> getRunCasesLoopsList() {
+        ArrayList<String> loopsList = new ArrayList<String>();
+        List<TestcaseCFG> arrayList = getRunTestCases();
+        for (TestcaseCFG tc : arrayList) {
+            loopsList.add(tc.getParameter().get("caseloops"));
+        }
+        return loopsList;
+    }
+
+    public static HashMap<String, String> getParameters(int index) {
+        List<TestcaseCFG> arrayList = getRunTestCases();
+        HashMap<String, String> paraMetersHashMap = arrayList.get(index).getParameter();
+        return paraMetersHashMap;
+    }
+
+    public static String getCasename(int index) {
+        List<TestcaseCFG> arrayList = getRunTestCases();
+        String casename = arrayList.get(index).getStrTCNameString();
+        return signReplace(casename);
+    }
+
+    public static String getSpecifiedAttributeForCase(String caseName, String specifiedAttr) {
+
+        ArrayList<TestcaseCFG> arrayList = xml.getArrayList();
+        for (TestcaseCFG tc : arrayList) {
+            String name = tc.getStrTCNameString();
+            if (caseName.equals(TestDataExtract.signReplace(name))) {
+                return tc.getParameter().get(specifiedAttr);
+
+            }
+        }
+
+        return null;
+    }
+
+    public static String getConfigValue(String key) {
+        HashMap<String, String> configParas = xml.getCfgWholeCfg().getParas();
+        return configParas.get(key);
+    }
+
+    public static void getCommonDatas() {
+        HashMap<String, String> commonDatas = xml.getCommonData().getParameter();
+        _2G_Mode = commonDatas.get("network_Type_2G");
+        _3G_Mode = commonDatas.get("network_Type_3G");
+        _4G_Mode = commonDatas.get("network_Type_4G");
+        _CDMA_Mode = commonDatas.get("network_Type_CDMA");
+        _EVDO_Mode = commonDatas.get("network_Type_EVDO");
+
+        callNumber = commonDatas.get("partner_phonenumber");
+        callNumber2 = commonDatas.get("partner_phonenumber2");
+        callNumber3 = commonDatas.get("partner_phonenumber3");
+
+        test_emailaccount = commonDatas.get("test_emailaccount");
+        test_emailpassword = commonDatas.get("test_emailpassword");
+        test_EASaccount = commonDatas.get("test_EASaccount");
+        test_EASpassword = commonDatas.get("test_EASpassword");
+        test_googleaccount = commonDatas.get("test_googleaccount");
+        test_googlepassword = commonDatas.get("test_googlepassword");
+        test_wifi = commonDatas.get("wifi_name");
+        test_wifipassword = commonDatas.get("wifi_password");
+        test_facebookaccount = commonDatas.get("test_facebookaccount");
+        test_facebookpassword = commonDatas.get("test_facebookpassword");
+        test_facebookname = commonDatas.get("test_facebookname");
+        test_serveremail = commonDatas.get("test_serveremail");
+        test_partnerskypeaccount = commonDatas.get("test_partnerskypeaccount");
+        test_skypeaccount = commonDatas.get("test_skypeaccount");
+        test_skypepassword = commonDatas.get("test_skypepassword");
+        test_sipaccount = commonDatas.get("test_sipaccount");
+        test_sippassword = commonDatas.get("test_sippassword");
+        partner_sipaccount = commonDatas.get("partner_sipaccount");
+        test_email2account = commonDatas.get("test_email2account");
+        test_email2password = commonDatas.get("test_email2password");
+        test_gmailaccount = commonDatas.get("test_gmailaccount");
+        test_gmailpassword = commonDatas.get("test_gmailpassword");
+        test_vpnusername = commonDatas.get("test_vpnusername");
+        test_vpnpassword = commonDatas.get("test_vpnpassword");
+        selNumber = commonDatas.get("sel_phonenumber");
+    }
+
+    public static void getConfigDatas() {
+        HashMap<String, String> configDatas = xml.getCfgWholeCfg().getParas();
+        mode = configDatas.get("mode");
+        phoneType = configDatas.get("network");
+        totalLoops = configDatas.get("loops");
+        varient = configDatas.get("varient");
+        testType = configDatas.get("testtype");
+
+    }
+
+    public static String signReplace(String str) {
+        str = str.replace(" ", "_");
+        str = str.replace("[", "_");
+        str = str.replace("]", "");
+        str = str.replace("+", "_");
+        return str;
+    }
+}

@@ -1,0 +1,59 @@
+package com.module.playStore;
+
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.module.common.CommonModule;
+import com.parser.data.ModuleDataParser;
+import com.sonyericsson.test.acceptancetest.AcceptanceTestCase;
+
+import android.view.KeyEvent;
+
+import java.util.HashMap;
+
+public class PlayStore implements IPlayStore{
+
+    public AcceptanceTestCase testCase;
+    public CommonModule commonModule;
+
+    public HashMap<String, String> moduleData;
+
+    public PlayStore(AcceptanceTestCase testCase){
+        this.testCase = testCase;
+        this.commonModule = new CommonModule(testCase);
+
+        moduleData = ModuleDataParser.getModuleData("playstore");
+    }
+
+    public void launchPlayStore(){
+        testCase.launchApp("com.android.vending", "com.android.vending.AssetBrowserActivity");
+
+        commonModule.wait(3);
+    }
+
+    public void searchAndInstallAppInPlayStore(String appName) throws UiObjectNotFoundException{
+        launchPlayStore();
+
+        commonModule.clickResourceId(moduleData.get("Search_button_id"));
+        commonModule.wait(1);
+
+        testCase.enterText(appName);
+        commonModule.pressKey(KeyEvent.KEYCODE_ENTER);
+
+        commonModule.waitForText(appName, 10*1000);
+        testCase.click(appName);
+
+        commonModule.waitForId(moduleData.get("Install_button_id"), 10*1000);
+        commonModule.clickResourceId(moduleData.get("Install_button_id"));
+
+        if(commonModule.waitForText("ACCEPT", 5*1000)){
+
+            commonModule.clickText("ACCEPT");
+        }
+
+        testCase.openStatusBar();
+
+        AcceptanceTestCase.assertTrue("The app should be download completed and installed automaticly, but ont",
+                commonModule.waitForText("Successfully installed." , 2*60*1000));
+
+
+    }
+}

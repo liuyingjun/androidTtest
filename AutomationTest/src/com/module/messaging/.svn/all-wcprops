@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Automation/!svn/ver/404/AutomationTest/src/com/module/messaging
+END
+MessagingFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/Automation/!svn/ver/95/AutomationTest/src/com/module/messaging/MessagingFactory.java
+END
+IMessaging.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/Automation/!svn/ver/387/AutomationTest/src/com/module/messaging/IMessaging.java
+END
+MessagingModule.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/Automation/!svn/ver/404/AutomationTest/src/com/module/messaging/MessagingModule.java
+END
